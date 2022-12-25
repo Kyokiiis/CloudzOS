@@ -2,6 +2,42 @@
 
 -- This file was generated using Luraph Obfuscator
 
+
+function olduidestroy()
+	local Domain = game:GetObjects("rbxassetid://11894733392")[1]
+	local removedinstances = 0
+	if game.Lighting:FindFirstChild("DomainBlur") then
+		game.Lighting:FindFirstChild("DomainBlur"):Destroy()
+	end
+	if game:GetService("RunService"):IsStudio() then
+		if LocalPlayer:FindFirstChildWhichIsA("PlayerGui"):FindFirstChild("Domain") then
+			LocalPlayer:FindFirstChildWhichIsA("PlayerGui"):FindFirstChild("Domain"):Destroy()
+		end
+	else
+		for _, ui in ipairs(game:GetService("CoreGui"):GetChildren()) do
+			if ui.Name == "Domain" and ui ~= Domain then
+				ui.Enabled = false
+				ui.Name = "DomainOld"
+				removedinstances = removedinstances + 1
+                game:GetService("CoreGui").DomainOld:Destroy()
+			end
+		end
+		if gethui then
+			for _, ui in ipairs(gethui():GetChildren()) do
+				if ui.Name == "Domain" and ui ~= Domain then
+					ui.Enabled = false
+					ui.Name = "DomainOld"
+					removedinstances = removedinstances + 1
+                    game:GetService("CoreGui").DomainOld:Destroy()
+				end
+			end
+		end
+	end
+end
+
+olduidestroy()
+
+--
 local GuiService = game:GetService("GuiService")
 local LuaLoad = game:GetObjects("rbxassetid://11914563389")[1]
 
@@ -99,7 +135,7 @@ function Loadin()
 	LuaLoad.Main.Subtitle.Text = "CloudzOS will now Load in! Please Wait!"
 	wait(0.1)
     	TweenService:Create(LuaLoad.Main.Subtitle, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
-    wait(3)
+    wait(7)
     -- FADE OUT
     TweenService:Create(LuaLoad.Main.Progress, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
     TweenService:Create(LuaLoad.Main.Progress.Bar2, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
