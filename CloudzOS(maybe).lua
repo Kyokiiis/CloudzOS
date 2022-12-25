@@ -99,7 +99,7 @@ function Loadin()
 	LuaLoad.Main.Subtitle.Text = "CloudzOS will now Load in! Please Wait!"
 	wait(0.1)
     	TweenService:Create(LuaLoad.Main.Subtitle, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
-    wait(1)
+    wait(3)
     -- FADE OUT
     TweenService:Create(LuaLoad.Main.Progress, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
     TweenService:Create(LuaLoad.Main.Progress.Bar2, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
@@ -125,7 +125,7 @@ function Loadin()
 	LuaLoad.Visible = false
 end
 
-wait(2)
+wait(5)
 
 Loadin()
 
