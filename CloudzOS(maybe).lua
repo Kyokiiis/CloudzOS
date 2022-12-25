@@ -40,7 +40,7 @@ olduidestroy()
 --
 local GuiService = game:GetService("GuiService")
 local LuaLoad = game:GetObjects("rbxassetid://11914563389")[1]
-
+LuaLoad.Main.Visible = false
 --
 syn.protect_gui(LuaLoad)
 parent = game:GetService("CoreGui")
@@ -55,7 +55,6 @@ LuaLoad.Main.AnchorPoint = Vector2.new(0.5, 1)
 local LoadTime = 6
 
 function Loadin()
-    LuaLoad.Main.Visible = false
     LuaLoad.Main.BackgroundTransparency = 1
     LuaLoad.Main.UIStroke.Transparency = 1
     --
@@ -135,7 +134,7 @@ function Loadin()
 	LuaLoad.Main.Subtitle.Text = "CloudzOS will now Load in! Please Wait!"
 	wait(0.1)
     	TweenService:Create(LuaLoad.Main.Subtitle, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
-    wait(7)
+    wait(3)
     -- FADE OUT
     TweenService:Create(LuaLoad.Main.Progress, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
     TweenService:Create(LuaLoad.Main.Progress.Bar2, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
@@ -161,7 +160,7 @@ function Loadin()
 	LuaLoad.Visible = false
 end
 
-wait(5)
+wait(2)
 
 Loadin()
 
