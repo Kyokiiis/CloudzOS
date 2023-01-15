@@ -1382,14 +1382,6 @@ local UniversalScripts = {
 	},
 }
 local DetectionScripts = {
-	QSERFSilentAim = {
-		Name = "RDR/SCR Silent Aim",
-		Description = "This Universal Silent aim has been descovered to work on this game! (Raycasting)",
-		Colour = Color3.fromRGB(53, 56, 241),
-		Games = {3039795291},
-		Premium = true,
-		Loadstring = "https://raw.githubusercontent.com/Averiias/Universal-SilentAim/main/main.lua",
-	},
 	spongebobguess = {
 		Name = "Teleport to finish",
 		Description = "This script will teleport to the finish of the game. ha mlemix",
@@ -1407,30 +1399,12 @@ local DetectionScripts = {
 		Loadstring = "https://raw.githubusercontent.com/Aidez/decaying_winter/main/GOODWILL_COMMAND_SCRIPT",
 	},
 	bedwars = {
-		Name = "Bedwars",
-		Description = "This script is a community submitted script, we have no info on it",
+		Name = "VapeV4",
+		Description = "This script is the very best script for bedwars that there will ever be. it is awesome basically",
 		Colour = Color3.fromRGB(252, 148, 3),
 		Games = {6872265039},
 		Premium = true,
 		Loadstring = "https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua",
-	},
-	Vision = {
-		Name = "Vision",
-		Description = "A script hub with a few high quality games",
-		Colour = Color3.fromRGB(252, 148, 3),
-		Games = {6769764667,6847090259,7305309231,8116417963},
-		Premium = true,
-		KeySys = true,
-		Loadstring = "https://visionhub.dev/script.lua",
-	},
-	DarkHub = {
-		Name = "Dark Hub",
-		Description = "One of the most popular script hubs to date, with little compromise.",
-		Colour = Color3.fromRGB(252, 148, 3),
-		Games = {2377868063,263761432,606849621,3527629287,2555870920,5081773298,2551991523,1962086868,3101667897,6483072762,6494529140,3297964905,5523314295,301549746,5041144419,370731277,142823291,621129760,6284583030,5104202731},
-		Premium = true,
-		KeySys = true,
-		Loadstring = "https://raw.githubusercontent.com/RandomAdamYT/DarkHub/master/Init",
 	},
 	CombatWarriors = {
 		Name = "Nova.XYZ",
@@ -1472,11 +1446,11 @@ local DetectionScripts = {
 		Premium = true,
 		Loadstring = "https://raw.githubusercontent.com/realvega/VegaRemover/main/source",
 	},
-	KaijuParadise = {
+	RealZzHub = {
 		Name = "RealZzHub",
-		Description = "Currently the best script right now for Kaiju Paradise. Some Features should not be used like Auto-Escape if you wish to stay discreet.",
+		Description = "Currently the best script right now for games like Kaiju Paradise or Arsenal. Some Features should not be used like Auto-Escape if you wish to stay discreet.",
 		Colour = Color3.fromRGB(252, 148, 3),
-		Games = {8318588114,6456351776},
+		Games = {8318588114,6456351776,286090429,286090429},
 		Premium = true,
 		Loadstring = "https://raw.githubusercontent.com/RealZzHub/MainV2/main/Games/KaijuPD.lua",
 	},
@@ -1594,7 +1568,6 @@ local DetectionScripts = {
 		Loadstring = "https://pastebin.com/raw/Ki7Y9Ssc",
 	},
 }
---https://pastebin.com/raw/EDwx3BPf
 local webhookcheckD =
    is_sirhurt_closure and "Sirhurt" or pebc_execute and "ProtoSmasher" or syn and "Synapse X" or
    secure_load and "Sentinel" or
@@ -10152,7 +10125,6 @@ function KPADMINDETECT()
 						return
 					else
 					end
-					postMessage(player, "CloudzOS Has Detected possible "..Role.." in "..LocalPlayer.DisplayName.."'s game!")
 					DomainLibrary:SkySecurity({
 						Title = "CloudzOS {SkySecurity}",
 						Content = "CloudzOS Has Detected that "..player.Name.." may be an Administrator and has prompted choices for this! (KP)",
@@ -10196,7 +10168,6 @@ function UNIADMINDETECT()
 						return
 					else
 					end
-					postMessage(player, "CloudzOS Has Detected possible "..Role.." in "..LocalPlayer.DisplayName.."'s game!")
 					DomainLibrary:SkySecurity({
 						Title = "CloudzOS {SkySecurity}",
 						Content = "CloudzOS Has Detected that "..player.Name.." may be an Administrator/"..Role.." and has prompted choices for this!",
@@ -10239,7 +10210,6 @@ function KPADMINDETECT2()
 						return
 					else
 					end
-					postMessage(player, "CloudzOS Has Detected possible "..Role.." in "..LocalPlayer.DisplayName.."'s game!")
 					DomainLibrary:SkySecurity({
 						Title = "CloudzOS {SkySecurity}",
 						Content = "CloudzOS Has Detected that "..player.Name.." may be an Administrator and has prompted choices for this! (KP)",
@@ -10281,7 +10251,6 @@ function UNIADMINDETECT2()
 						return
 					else
 					end
-					postMessage(player, "CloudzOS Has Detected possible "..Role.." in "..LocalPlayer.DisplayName.."'s game!")
 					DomainLibrary:SkySecurity({
 						Title = "CloudzOS {SkySecurity}",
 						Content = "CloudzOS Has Detected that "..player.Name.." may be an Administrator and has prompted choices for this!",
@@ -10322,7 +10291,6 @@ for _, Player in next, game.Players:GetPlayers() do
 			return
 		else
 		end
-        postMessage(Player, "CloudzOS Has Detected possible Admin in "..LocalPlayer.DisplayName.."'s game!")
 DomainLibrary:SkySecurity({
     Title = "CloudzOS {SkySecurity}",
     Content = "CloudzOS Has Detected that "..Player.Name.." may be an Administrator and has prompted choices for this!",
@@ -10357,7 +10325,6 @@ game.Players.PlayerAdded:Connect(function(Player)
 			return
 		else
 		end
-        postMessage(Player, "CloudzOS Has Detected possible Admin in "..LocalPlayer.DisplayName.."'s game!")
         DomainLibrary:SkySecurity({
             Title = "CloudzOS {SkySecurity}",
             Content = "CloudzOS Has Detected that "..Player.Name.." may be an Administrator and has prompted choices for this!",
@@ -11303,7 +11270,6 @@ Toast("Configuration Found and Loaded : BAPN","GothamSemibold",Color3.fromRGB(18
 Toast("Press x/z for a small hitbox / Must hit bind everytime somebody dies (WILL BE FIXED)","GothamBlack",Color3.fromRGB(181, 136, 31),10)
 end
 
-
 -- The Beach Cave
 if(game.PlaceId == 10368225630) then
 	--
@@ -11618,12 +11584,12 @@ for _, GameID in pairs(KaijuParadise) do
 			wait(0.2)
 		until blackout.Value == true or poweroutage.Value == true
 		if blackout.Value == true then
-			BlackoutEnabled()
+			--BlackoutEnabled()
 			blackouttoggle = true
 			coroutine.wrap(function()
 				wait(755)
 				if blackout.Value == true then
-					GUIwarn("Facility Blackout","rbxassetid://11668712830",Color3.fromRGB(166, 41, 41),300)
+					--GUIwarn("Facility Blackout","rbxassetid://11668712830",Color3.fromRGB(166, 41, 41),300)
 					local sound = Instance.new("Sound")
 					sound.Parent = Domain
 					sound.SoundId = "rbxassetid://"..1247750855
@@ -11634,12 +11600,12 @@ for _, GameID in pairs(KaijuParadise) do
 				end
 			end)()
 		elseif poweroutage.Value == true then
-			PoweroutageEnabled()
+			--PoweroutageEnabled()
 			loops = false
 			coroutine.wrap(function()
 				wait(755)
 				if poweroutage.Value == true then
-					GUIwarn("Facility Power Outage","rbxassetid://11668719379",Color3.fromRGB(181, 126, 31),300)
+					--GUIwarn("Facility Power Outage","rbxassetid://11668719379",Color3.fromRGB(181, 126, 31),300)
 					local sound = Instance.new("Sound")
 					sound.Parent = Domain
 					sound.SoundId = "rbxassetid://"..1247750855
@@ -11888,13 +11854,4 @@ UserInputService.InputBegan:Connect(function(input)
 		end
 	end
 end)
-end)()
-
-scriptblox = false
-coroutine.wrap(function()
-	if scriptblox then
-getgenv().username = "8134518655";
-loadstring(game:HttpGet("https://scriptblox.com/raw/ScriptBlox-Direct-Execute-Feature_645", true))()
-	else
-	end
 end)()
