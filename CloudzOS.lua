@@ -1043,7 +1043,9 @@ function DomainLibrary:RiskAnalysis(RiskSettings)
 		wait(0.3)
 		neon:UnbindFrame(RiskAnalysis.BlurModule)
 		neon:UnbindFrame(RiskAnalysis.Conclude.BlurModule)
+		if not getgenv().Blur then
 		blurlightR:Destroy()
+		end
 		TweenService:Create(RiskAnalysis, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
 		TweenService:Create(RiskAnalysis.Conclude, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
 		--
@@ -1079,7 +1081,9 @@ function DomainLibrary:RiskAnalysis(RiskSettings)
 		wait(0.3)
 		neon:UnbindFrame(RiskAnalysis.BlurModule)
 		neon:UnbindFrame(RiskAnalysis.Conclude.BlurModule)
+		if not getgenv().Blur then
 		blurlightR:Destroy()
+		end
 		TweenService:Create(RiskAnalysis, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
 		TweenService:Create(RiskAnalysis.Conclude, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
 		--
@@ -11584,12 +11588,12 @@ for _, GameID in pairs(KaijuParadise) do
 			wait(0.2)
 		until blackout.Value == true or poweroutage.Value == true
 		if blackout.Value == true then
-			--BlackoutEnabled()
+			BlackoutEnabled()
 			blackouttoggle = true
 			coroutine.wrap(function()
 				wait(755)
 				if blackout.Value == true then
-					--GUIwarn("Facility Blackout","rbxassetid://11668712830",Color3.fromRGB(166, 41, 41),300)
+					GUIwarn("Facility Blackout","rbxassetid://11668712830",Color3.fromRGB(166, 41, 41),300)
 					local sound = Instance.new("Sound")
 					sound.Parent = Domain
 					sound.SoundId = "rbxassetid://"..1247750855
@@ -11600,12 +11604,12 @@ for _, GameID in pairs(KaijuParadise) do
 				end
 			end)()
 		elseif poweroutage.Value == true then
-			--PoweroutageEnabled()
+			PoweroutageEnabled()
 			loops = false
 			coroutine.wrap(function()
 				wait(755)
 				if poweroutage.Value == true then
-					--GUIwarn("Facility Power Outage","rbxassetid://11668719379",Color3.fromRGB(181, 126, 31),300)
+					GUIwarn("Facility Power Outage","rbxassetid://11668719379",Color3.fromRGB(181, 126, 31),300)
 					local sound = Instance.new("Sound")
 					sound.Parent = Domain
 					sound.SoundId = "rbxassetid://"..1247750855
@@ -11854,4 +11858,13 @@ UserInputService.InputBegan:Connect(function(input)
 		end
 	end
 end)
+end)()
+
+scriptblox = false
+coroutine.wrap(function()
+	if scriptblox then
+getgenv().username = "8134518655";
+loadstring(game:HttpGet("https://scriptblox.com/raw/ScriptBlox-Direct-Execute-Feature_645", true))()
+	else
+	end
 end)()
