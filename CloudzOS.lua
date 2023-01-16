@@ -120,7 +120,7 @@ local KeyWaitTime = 60
 
 local MlemixMode = false
 
-local Release = 4.7
+local Release = 4.65
 local KeySystemEnabled = false
 local ReleaseType = "CLDZ"
 local Public = false
@@ -1454,7 +1454,7 @@ local DetectionScripts = {
 		Name = "RealZzHub",
 		Description = "Currently the best script right now for games like Kaiju Paradise or Arsenal. Some Features should not be used like Auto-Escape if you wish to stay discreet.",
 		Colour = Color3.fromRGB(252, 148, 3),
-		Games = {8318588114,6456351776,286090429,286090429},
+		Games = {8318588114,6456351776},
 		Premium = true,
 		Loadstring = "https://raw.githubusercontent.com/RealZzHub/MainV2/main/Games/KaijuPD.lua",
 	},
@@ -1481,14 +1481,6 @@ local DetectionScripts = {
 		Games = {7082539621},
 		Premium = true,
 		Loadstring = "https://raw.githubusercontent.com/DevPolarhub/ScriptPacks/main/Anime%20Destroyers%20Simulator",
-	},
-	towerdefensesim = {
-		Name = "Tower Defense Simulator",
-		Description = "This script is a community submitted script, we have no info on it",
-		Colour = Color3.fromRGB(252, 148, 3),
-		Games = {3260590327},
-		Premium = true,
-		Loadstring = "https://pastebin.com/raw/Mjryt8Mm",
 	},
 	DemonSlayer = {
 		Name = "Demon Slayer RPG 2",
@@ -11595,49 +11587,6 @@ for _, GameID in pairs(KaijuParadise) do
 		Conclusion = "<b>"..GameName.."'s</b> anti-cheat systems seems to have been rushed at the beginning although is being heavily worked on and its not much of a threat right now. The easiest way right now to be banned is by a player reporting you and or possible moderators being in the game. watch out.",
  	})
 	--
-	local poweroutage = game:GetService("Workspace").Events.PowerOutage
-	local blackout = game:GetService("Workspace").Events.Blackout
-	local blackouttoggle = false
-	local power
-	coroutine.wrap(function()
-		repeat
-			wait(0.2)
-		until blackout.Value == true or poweroutage.Value == true
-		if blackout.Value == true then
-			BlackoutEnabled()
-			blackouttoggle = true
-			coroutine.wrap(function()
-				wait(755)
-				if blackout.Value == true then
-					GUIwarn("Facility Blackout","rbxassetid://11668712830",Color3.fromRGB(166, 41, 41),300)
-					local sound = Instance.new("Sound")
-					sound.Parent = Domain
-					sound.SoundId = "rbxassetid://"..1247750855
-					sound.Name = "notify4"
-					sound.Volume = 2
-					sound.PlayOnRemove = true
-					sound:Destroy()
-				end
-			end)()
-		elseif poweroutage.Value == true then
-			PoweroutageEnabled()
-			loops = false
-			coroutine.wrap(function()
-				wait(755)
-				if poweroutage.Value == true then
-					GUIwarn("Facility Power Outage","rbxassetid://11668719379",Color3.fromRGB(181, 126, 31),300)
-					local sound = Instance.new("Sound")
-					sound.Parent = Domain
-					sound.SoundId = "rbxassetid://"..1247750855
-					sound.Name = "notify5"
-					sound.Volume = 2
-					sound.PlayOnRemove = true
-					sound:Destroy()
-				end
-			end)()
-		end
-	end)()
-
 	coroutine.wrap(function()
 	function gogglecheck()
 	local check = true
@@ -11677,7 +11626,7 @@ for _, GameID in pairs(KaijuParadise) do
 		   if goggles and x then
 			   if transfur then
 			else
-				Toast("CloudzOS has found the NightCrawler Goggles and has Prompted Choices for it","GothamBold",Color3.fromRGB(112, 28, 140),7)
+				Toast("CloudzOS has found the Nightcrawler Goggles and has Prompted Choices for it.","GothamBold",Color3.fromRGB(112, 28, 140),7)
 				DomainLibrary:Notify({
 					Title = "CloudzOS {AI}",
 					Content = "Goggles : What would you like to do with them?",
@@ -11735,6 +11684,22 @@ for _, GameID in pairs(KaijuParadise) do
 	   	end
 	end
 	end
+	local poweroutage = game:GetService("Workspace").Events.PowerOutage
+	local blackout = game:GetService("Workspace").Events.Blackout
+	local blackouttoggle = false
+	local power
+	coroutine.wrap(function()
+		repeat
+			wait(0.2)
+		until blackout.Value == true or poweroutage.Value == true
+		if blackout.Value == true then
+			GUIwarn("Facility Blackout","rbxassetid://11668712830",Color3.fromRGB(166, 41, 41),20)
+			blackouttoggle = true
+		elseif poweroutage.Value == true then
+			GUIwarn("Facility Power Outage","rbxassetid://11668719379",Color3.fromRGB(181, 126, 31),20)
+			loops = false
+		end
+	end)()
 	gogglecheck()
 	end)()
 	Toast("Configuration Found and Loaded : KP ","GothamSemibold",Color3.fromRGB(181, 136, 31),2)
