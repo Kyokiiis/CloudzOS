@@ -1424,7 +1424,7 @@ local DetectionScripts = {
 		Colour = Color3.fromRGB(70, 52, 235),
 		Games = {9872472334},
 		Premium = true,
-		Loadstring = "https://raw.githubusercontent.com/SussyImposterRed/Scripts/main/NOVA_HUB_SOURCE",
+		Loadstring = "https://raw.githubusercontent.com/9Strew/roblox/main/gamescripts/evade.lua",
 	},
 	IdentityFraud = {
 		Name = "Identity Fraud",
@@ -11695,7 +11695,7 @@ for _, GameID in pairs(KaijuParadise) do
 	   		end
 	   	end
 	end
-	end
+end
 	local poweroutage = game:GetService("Workspace").Events.PowerOutage
 	local blackout = game:GetService("Workspace").Events.Blackout
 	local blackouttoggle = false
