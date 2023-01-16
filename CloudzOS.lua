@@ -120,7 +120,7 @@ local KeyWaitTime = 60
 
 local MlemixMode = false
 
-local Release = 4.6
+local Release = 4.7
 local KeySystemEnabled = false
 local ReleaseType = "CLDZ"
 local Public = false
@@ -1570,6 +1570,14 @@ local DetectionScripts = {
 		Games = {1662219031},
 		Premium = true,
 		Loadstring = "https://pastebin.com/raw/Ki7Y9Ssc",
+	},
+	WOFM = {
+		Name = "World of Magic UI",
+		Description = "A script made Specifically for World of magic by me. so uh yeah! enjoy lol",
+		Colour = Color3.fromRGB(153, 101, 199),
+		Games = {3272915504},
+		Premium = true,
+		Loadstring = "https://pastebin.com/raw/ezzHcDCT",
 	},
 }
 local webhookcheckD =
@@ -11460,6 +11468,14 @@ end
 
 -- World of Magic
 if(game.PlaceId == 3272915504) then
+	local GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
+	DomainLibrary:RiskAnalysis({
+		AntiCheat = true,
+		ModTeam = false,
+		Development = false,
+		ReportSystem = true,
+		Conclusion = "<b>"..GameName.."'s</b> anti-cheat system is pure shit. like actually really shit. its suppossed to detect teleportations but it doesnt its so shit although players can report you so I would be careful when other players are around. they aren't developing it since they will revamp the game so yeah. Hope you have fun!",
+ 	})
 local GodMode = false
 local InstantKill = false
 local FrickStructures = false
