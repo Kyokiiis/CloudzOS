@@ -120,7 +120,7 @@ local KeyWaitTime = 60
 
 local MlemixMode = false
 
-local Release = 4.65
+local Release = 4.66
 local KeySystemEnabled = false
 local ReleaseType = "CLDZ"
 local Public = false
@@ -1418,6 +1418,14 @@ local DetectionScripts = {
 		Premium = true,
 		Loadstring = "https://raw.githubusercontent.com/SussyImposterRed/Scripts/main/NOVA_HUB_SOURCE",
 	},
+	Evade = {
+		Name = "Batusda",
+		Description = "This script is pretty good for the game evade with it having things like BOT ESP and Downed Players ESP and an autofarm!",
+		Colour = Color3.fromRGB(70, 52, 235),
+		Games = {9872472334},
+		Premium = true,
+		Loadstring = "https://raw.githubusercontent.com/SussyImposterRed/Scripts/main/NOVA_HUB_SOURCE",
+	},
 	IdentityFraud = {
 		Name = "Identity Fraud",
 		Description = "This script is a community submitted script, we have no info on it",
@@ -1450,13 +1458,21 @@ local DetectionScripts = {
 		Premium = true,
 		Loadstring = "https://raw.githubusercontent.com/realvega/VegaRemover/main/source",
 	},
-	RealZzHub = {
-		Name = "RealZzHub",
-		Description = "Currently the best script right now for games like Kaiju Paradise or Arsenal. Some Features should not be used like Auto-Escape if you wish to stay discreet.",
+	RealZzHubKP = {
+		Name = "RealZzHub (KP)",
+		Description = "Currently the best script right now for Kaiju Paradise + KP Experimental. Some Features should not be used like Auto-Escape if you wish to stay discreet.",
 		Colour = Color3.fromRGB(252, 148, 3),
 		Games = {8318588114,6456351776},
 		Premium = true,
 		Loadstring = "https://raw.githubusercontent.com/RealZzHub/MainV2/main/Games/KaijuPD.lua",
+	},
+	RealZzHubKP = {
+		Name = "RealZzHub",
+		Description = "Currently the best script right now for games like Kaiju Paradise or Arsenal.",
+		Colour = Color3.fromRGB(252, 148, 3),
+		Games = {286090429,662417684,2413927524,5987922834},
+		Premium = true,
+		Loadstring = "https://raw.githubusercontent.com/RealZzHub/MainV2/main/Main.lua",
 	},
 	FNF = {
 		Name = "Friday Night Funkin'",
@@ -3075,7 +3091,6 @@ function AddPlayer(Player)
 				else
 				end
 			end
-			
 			if game.CreatorType == Enum.CreatorType.Group then
 				local Rank = Player:GetRankInGroup(game.CreatorId)
 				local Role = Player:GetRoleInGroup(game.CreatorId)
@@ -8821,9 +8836,12 @@ function ContinueBoot()
 		end
 		for _, GameID in pairs(custscript.Games) do
 			if GameID == game.PlaceId then
+				if GameID == 286090429 then
+				else
 				CustomScriptEnabled = true
 				PromptDetection(custscript)
 				Prompted = true
+				end
 			end
 		end
 	end
@@ -10444,9 +10462,6 @@ game.Players.PlayerAdded:Connect(function(Player)
 	end)()
 	--
 	Domain.Home.Data.data.Players.Text = "Players: <b>"..tostring(#game.Players:GetChildren()).."/"..tostring(game.Players.MaxPlayers).."</b>"
-	if Player.Name == "shlexius" then
-		Toast("The developer of DomainX, shlex, has joined your server")
-	end
 	if LocalPlayer:IsFriendsWith(Player.UserId) then
 		DomainLibrary:Notify({
 			Title = "CloudzOS {FRN}",
