@@ -8976,7 +8976,7 @@ function BootCloudzOS()
 	Domain.Main.Visible = true
 	Domain.Main.Position = UDim2.new(0.5, 0, 1.05, 0)
 	Domain.Main.KeybindNote.Position = UDim2.new(0.5,0,-1.303,0)
-	Domain.Main.KeybindNote.Text = "Loading CloudzOS"
+	Domain.Main.KeybindNote.Text = "☁️"
 	Domain.Main.Buttons.ModulesButton.Visible = false
 	Domain.Main.KeybindNote.TextTransparency = 0.4
 	if Beta then
@@ -8988,7 +8988,6 @@ function BootCloudzOS()
 		Connected = false
 	end
 	UpdateExecutor()
-
 	if not DomainEnabled then
 		DomainLibrary:Notify({
 			Title = "CloudzOS {AI}",
@@ -9000,12 +8999,10 @@ function BootCloudzOS()
 		Domain:Destroy()
 		return
 	end
-
 	if DebugMode then
 		warn("DomainX - Continuing Boot Process")
 	end
 	ContinueBoot()
-
 	CloudzOSLoaded = true
 end
 
