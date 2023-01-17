@@ -71,7 +71,7 @@ local GuiService = game:GetService("GuiService")
 local Domain = game:GetObjects("rbxassetid://12179230436")[1]
 Domain.Main.Time.Seconds.BackgroundTransparency = 1
 Domain.Scripts.Main.Buttons.SiriusGameDetection.Title.Text = "DMRInt"
-local GameFOV = game:GetService("Workspace").Camera.FieldOfView
+local GameFOV = game:GetService("Workspace"):FindFirstChild("Camera")
 
 if DebugMode then
 	warn("DomainX - Loaded Main UI")
@@ -120,10 +120,10 @@ local KeyWaitTime = 60
 
 local MlemixMode = false
 
-local Release = 4.75
+local Release = 4.76
 local KeySystemEnabled = false
 local ReleaseType = "CLDZ"
-local UpdateDetail = "Changes to Game Detection + Home Page | Fixes to Music System + Muffle System"
+local UpdateDetail = "Attempt #1 to fixing Custom script bug"
 local Public = false
 local Beta = false
 
@@ -188,7 +188,7 @@ local cachedcoreguis = {}
 local NotificationsEnabled = true
 local coreguis = {"PlayerList","Chat","EmotesMenu","Health","Backpack"}
 local LocalPlayer = game:GetService("Players").LocalPlayer
--- 
+--
 local DomainLibrary = {
 	Flags = {},
 	Theme = {
@@ -3387,9 +3387,9 @@ function CloseMain()
 		end
 	else
 	end
-	if not homeopen and not homedb and not ExecutorAutomatic and workspace.CurrentCamera.FieldOfView ~= GameFOV then
+	if not homeopen and not homedb and not ExecutorAutomatic and workspace.CurrentCamera.FieldOfView ~= 70 then
 		local transitionInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quint)
-		local tween = TweenService:Create(workspace.CurrentCamera, transitionInfo, {FieldOfView = GameFOV})
+		local tween = TweenService:Create(workspace.CurrentCamera, transitionInfo, {FieldOfView = 70})
 		tween:Play()
 	end
 	local transitionInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quint)
@@ -8914,7 +8914,6 @@ function ContinueBoot()
 		warn("Do.baX - Booted, ready!")
 	end
 end
-
 function CheckLatest()
 	if DebugMode then
 		warn("DomainX - Checking version")
@@ -8962,8 +8961,6 @@ function olduidestroy()
 			if BToggleSettings == "True" then
 				blurlightM = nil
 			end
-				UnMuffleSound()
-				UnWindowMuffle()
 				--OUTOFWINDOW:Disconnect()
 				--INWINDOW:Disconnect()
 				--ROBLOXMENU:Disconnect()
@@ -11451,6 +11448,11 @@ if(game.PlaceId == 189707) then
 	FastToast("Tap <b>"..[[<font color="]]..MKeybindRGB..[[">]]..Key..[[</font>]].."</b> to open Map Vote!","GothamBlack",Color3.fromRGB(181, 136, 31),10)
 end
 
+-- Evade 
+if(game.PlaceId == 9872472334) then
+	--
+end
+
 -- Twisted 
 if(game.PlaceId == 6161235818) then
 	local GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
@@ -11931,24 +11933,8 @@ function runloop()
 		--
 	end
 end
-runloop()
+--runloop()
 end
-end)()
-
-coroutine.wrap(function() 
-UserInputService.InputBegan:Connect(function(input)
-	if input.KeyCode == Enum.KeyCode.RightAlt then
-		for _, GameID in pairs(KaijuParadise) do
-			if GameID == game.PlaceId then
-				KPADMINDETECT()
-				KPADMINDETECT2()
-			else
-				UNIADMINDETECT()
-				UNIADMINDETECT2()
-			end
-		end
-	end
-end)
 end)()
 
 scriptblox = false
