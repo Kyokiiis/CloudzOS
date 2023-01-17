@@ -1598,6 +1598,22 @@ local DetectionScripts = {
 		Premium = true,
 		Loadstring = "https://pastebin.com/raw/ezzHcDCT",
 	},
+	MurderParty = {
+		Name = "Murder Party (ESP RealZzHub)",
+		Description = "ESP is really only the useful thing in this. Just Enable Box and Names in the Visual Tab!",
+		Colour = Color3.fromRGB(245, 66, 147),
+		Games = {5611648039},
+		Premium = true,
+		Loadstring = "https://raw.githubusercontent.com/RealZzHub/MainV2/main/Games/Universal.lua",
+	},
+	Parv = {
+		Name = "Parvus",
+		Description = "a pretty good script hub with a mildly big list of games including one of the only good TWR scripts left out there that is being updated.",
+		Colour = Color3.fromRGB(176, 243, 247),
+		Games = {8287862132, 1168263273, 1586272220, 807930589, 580765040, 187796008, 358276974, 3495983524, 1054526971, 3233893879},
+		Premium = true,
+		Loadstring = "https://raw.githubusercontent.com/AlexR32/Parvus/main/Loader.lua",
+	},
 }
 
 local LibraryCount = 0
@@ -8869,7 +8885,7 @@ function ContinueBoot()
 		end
 		for _, GameID in pairs(custscript.Games) do
 			if GameID == game.PlaceId then
-				if GameID == 286090429 then
+				if GameID == 286090429 or 3233893879 then
 					print("no")
 				else
 				CustomScriptEnabled = true
@@ -9158,7 +9174,7 @@ local function onActivatedOS()
 		end
 		for _, GameID in pairs(custscript.Games) do
 			if GameID == game.PlaceId then
-				if GameID == 286090429 then
+				if GameID == 286090429 or 3233893879 then
 					print("no")
 				else
 				CustomScriptEnabled = true
@@ -10076,7 +10092,7 @@ end)()
 coroutine.wrap(function()
 	for _, players in ipairs(game:GetService("Players"):GetChildren()) do
 		local char = players.Character or players.CharacterAppearanceLoaded:Wait()
-		local limit = char.Humanoid.WalkSpeed
+		local limit = char:WaitForChild("Humanoid").WalkSpeed
 		local hardlimit = 50
 		local TimeTouched = 0
 		local E = true
@@ -10155,7 +10171,7 @@ coroutine.wrap(function()
 			end
 		end)
 	end
-			end)()
+end)()
 --CHAT SPAM
 
 coroutine.wrap(function()
