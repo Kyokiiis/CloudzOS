@@ -68,7 +68,7 @@ end
 -- DMNX
 
 local GuiService = game:GetService("GuiService")
-local Domain = game:GetObjects("rbxassetid://12102394194")[1]
+local Domain = game:GetObjects("rbxassetid://12179230436")[1]
 Domain.Main.Time.Seconds.BackgroundTransparency = 1
 Domain.Scripts.Main.Buttons.SiriusGameDetection.Title.Text = "DMRInt"
 local GameFOV = game:GetService("Workspace").Camera.FieldOfView
@@ -104,7 +104,7 @@ Domain.Parent = parent
 Domain.Main.Visible = true
 Domain.Main.Position = UDim2.new(0.5, 0, 1.20, 0)
 Domain.Main.KeybindNote.Position = UDim2.new(0.5,0,-1.303,0)
-Domain.Main.KeybindNote.Text = "☁️"
+Domain.Main.KeybindNote.Text = "Loading CloudzOS"
 Domain.Main.KeybindNote.Visible = true
 Domain.Main.KeybindNote.TextTransparency = 0.4
 wait(0.2)
@@ -120,9 +120,10 @@ local KeyWaitTime = 60
 
 local MlemixMode = false
 
-local Release = 4.66
+local Release = 4.75
 local KeySystemEnabled = false
 local ReleaseType = "CLDZ"
+local UpdateDetail = "Changes to Game Detection + Home Page | Fixes to Music System + Muffle System"
 local Public = false
 local Beta = false
 
@@ -471,7 +472,7 @@ function DomainLibrary:Notify(NotificationSettings)
 		if NotificationSettings.Location == nil then
 			Notifications.UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Top
 			if homeopen == true then
-				Notifications.Position = UDim2.new(1, -25, 0.6, -25)
+				Notifications.Position = UDim2.new(1, -25, 0.69, -25)
 				elseif homeopen == false then
 				Notifications.Position = UDim2.new(1, -25, 0.55, -25)
 			end
@@ -485,7 +486,7 @@ function DomainLibrary:Notify(NotificationSettings)
 		elseif NotificationSettings.Location == "Top" then
 			Notifications.UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Top
 			if homeopen == true then
-				Notifications.Position = UDim2.new(1, -25, 0.6, -25)
+				Notifications.Position = UDim2.new(1, -25, 0.69, -25)
 				elseif homeopen == false then
 				Notifications.Position = UDim2.new(1, -25, 0.55, -25)
 			end
@@ -805,11 +806,18 @@ function DomainLibrary:SkySecurity(NotificationSettings)
 end
 
 -- Muffle system
+
 function MuffleSound()
 	for __,v in pairs(game:GetDescendants()) do
 		if v.ClassName == "Sound" then
 			if v.IsPlaying == true then
+				if v:FindFirstChild("Muffle") then
+					return
+				end
 				coroutine.wrap(function()
+					if v.Parent == Domain then
+						return
+					end
 					local muffle = Instance.new("EqualizerSoundEffect")
 					muffle.Name = "Muffle"
 					muffle.Parent = v
@@ -818,6 +826,9 @@ function MuffleSound()
 					TweenService:Create(muffle, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {MidGain = -15}):Play()
 				end)()
 				coroutine.wrap(function()
+					if v.Parent == Domain then
+						return
+					end
 				local Reverb = Instance.new("ReverbSoundEffect")
 				Reverb.DecayTime = 2
 				Reverb.DryLevel = -10
@@ -1588,6 +1599,14 @@ local DetectionScripts = {
 		Loadstring = "https://pastebin.com/raw/ezzHcDCT",
 	},
 }
+
+local LibraryCount = 0
+for i, v in pairs(DetectionScripts) do
+	LibraryCount += 1
+end
+local TotalLCount = LibraryCount
+
+----
 local webhookcheckD =
    is_sirhurt_closure and "Sirhurt" or pebc_execute and "ProtoSmasher" or syn and "Synapse X" or
    secure_load and "Sentinel" or
@@ -2184,6 +2203,9 @@ function PreviousElegance(check)
 	local transitionInfo = TweenInfo.new(1, Enum.EasingStyle.Back)
 	local tween = TweenService:Create(Domain.Main, transitionInfo, {Size = UDim2.new(0, 300,0, 55)})
 	tween:Play()
+	local transitionInfo = TweenInfo.new(1, Enum.EasingStyle.Quint)
+	local tween = TweenService:Create(Domain.Main.Shadow, transitionInfo, {ImageTransparency = 0.8})
+	tween:Play()
 	local transitionInfo = TweenInfo.new(0.7, Enum.EasingStyle.Quint)
 	local tween = TweenService:Create(Domain.Main.Time.Seconds, transitionInfo, {BackgroundTransparency = 0})
 	tween:Play()
@@ -2265,6 +2287,9 @@ function elegance(check)
 	local tween = TweenService:Create(Domain.Main, transitionInfo, {Size = UDim2.new(0, 250,0, 44)})
 	tween:Play()
 	local transitionInfo = TweenInfo.new(1, Enum.EasingStyle.Quint)
+	local tween = TweenService:Create(Domain.Main.Shadow, transitionInfo, {ImageTransparency = 1})
+	tween:Play()
+	local transitionInfo = TweenInfo.new(1, Enum.EasingStyle.Quint)
 	local tween = TweenService:Create(Domain.Main, transitionInfo, {BackgroundTransparency = 0.75})
 	tween:Play()
 	local transitionInfo = TweenInfo.new(1, Enum.EasingStyle.Quint)
@@ -2319,6 +2344,9 @@ function menumuffle()
 		if v.ClassName == "Sound" then
 			if v.IsPlaying == true then
 				coroutine.wrap(function()
+					if v:FindFirstChild("MuffleMenu") then
+						return
+					end
 					local muffle = Instance.new("EqualizerSoundEffect")
 					muffle.Name = "MuffleMenu"
 					muffle.Parent = v
@@ -2603,8 +2631,11 @@ end]]
 function Windowmuffle()
 	for __,v in pairs(game:GetDescendants()) do
 		if v.ClassName == "Sound" then
-			if v.IsPlaying == true then
+			if v.IsPlaying == true or v.Playing == true then
 				coroutine.wrap(function()
+					if v:FindFirstChild("MuffleW") then
+						return
+					end
 					local muffle = Instance.new("EqualizerSoundEffect")
 					muffle.Name = "MuffleW"
 					muffle.Parent = v
@@ -2659,23 +2690,23 @@ idle.Title.TextTransparency = 1
 ----
 idle.Visible = true
 
-TweenService:Create(idle, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.1}):Play()
+TweenService:Create(idle, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.1}):Play()
 local blur = Instance.new("BlurEffect")
 blur.Size = 56
 blur.Name = "DomainBlurE"
 blur.Parent = game.Lighting
 wait(0.1)
-TweenService:Create(idle.Wall, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
-TweenService:Create(idle.Wall, TweenInfo.new(1, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 2, 0, 36)}):Play()
+TweenService:Create(idle.Wall, TweenInfo.new(0.1, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+TweenService:Create(idle.Wall, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 2, 0, 36)}):Play()
 wait(0.5)
-TweenService:Create(idle.Time, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 0.4}):Play()
-TweenService:Create(idle.Info, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+TweenService:Create(idle.Time, TweenInfo.new(0.1, Enum.EasingStyle.Quint), {TextTransparency = 0.4}):Play()
+TweenService:Create(idle.Info, TweenInfo.new(0.1, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
 --
-TweenService:Create(idle.Time, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Position = UDim2.new(0.73, 0, 0.953, 0)}):Play()
-TweenService:Create(idle.Info, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Position = UDim2.new(0.73, 0, 0.929, 0)}):Play()
+TweenService:Create(idle.Time, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {Position = UDim2.new(0.73, 0, 0.953, 0)}):Play()
+TweenService:Create(idle.Info, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {Position = UDim2.new(0.73, 0, 0.929, 0)}):Play()
 wait(0.1)
-TweenService:Create(idle.Title, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 0.3}):Play()
-TweenService:Create(idle.LoadImage, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
+TweenService:Create(idle.Title, TweenInfo.new(0.1, Enum.EasingStyle.Quint), {TextTransparency = 0.3}):Play()
+TweenService:Create(idle.LoadImage, TweenInfo.new(0.1, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
 Windowmuffle()
 end
 
@@ -2698,7 +2729,7 @@ function IdleOff()
 			end)()
 		end
 	end
-	TweenService:Create(idle, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+	TweenService:Create(idle, TweenInfo.new(0.1, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
 	wait(0.2)
 	idle.Visible = false
 	UnWindowMuffle()
@@ -2731,6 +2762,7 @@ function FocusedW()
     if gamemenuopened == true then
 	elseif gamemenuopened == false then
 		left = false
+		UnWindowMuffle()
 		--IdleOff()
 		setfpscap(1000)
 		PreviousElegance("b")
@@ -2753,12 +2785,13 @@ function UnfocusedW()
 	if not left then
 		return
 	end
-	wait(20)
+	wait(25)
 	if not left then
 		return
 	end
+	Windowmuffle()
 	--IdleOn()
-	setfpscap(30)
+	setfpscap(20)
 	elegance()
     INWINDOW:Disconnect()
     INWINDOW = UserInputService.WindowFocused:Connect(FocusedW)
@@ -6162,6 +6195,7 @@ function OpenHome()
 		Domain.Home.Shadow.ImageTransparency = 1
 		Domain.Home.Welcome.TextTransparency = 1
 		Domain.Home.WelcomeSub.TextTransparency = 1
+		Domain.Home.Avatar.Image = game.Players:GetUserThumbnailAsync(LocalPlayer.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size60x60)
 		-- CAMERA
 		local transitionInfo = TweenInfo.new(1.1, Enum.EasingStyle.Quint)
 		local tween = TweenService:Create(game.Lighting:FindFirstChild("DomainBlur"), transitionInfo, {Size = 24})
@@ -6200,7 +6234,7 @@ function OpenHome()
 		if NotifSettings == nil then
 			Notifications.UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Top
 			local transitionInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quint)
-			local tween = TweenService:Create(Notifications, transitionInfo, {Position = UDim2.new(1, -25, 0.6, -25)})
+			local tween = TweenService:Create(Notifications, transitionInfo, {Position = UDim2.new(1, -25, 0.69, -25)})
 			tween:Play()
 		elseif NotifSettings == "Bottom" then
 			Notifications.UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
@@ -6210,7 +6244,7 @@ function OpenHome()
 		elseif NotifSettings == "Top" then
 			Notifications.UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Top
 			local transitionInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quint)
-			local tween = TweenService:Create(Notifications, transitionInfo, {Position = UDim2.new(1, -25, 0.6, -25)})
+			local tween = TweenService:Create(Notifications, transitionInfo, {Position = UDim2.new(1, -25, 0.69, -25)})
 			tween:Play()
 		end
 
@@ -6218,7 +6252,6 @@ function OpenHome()
 		Domain.Home.Discord.BackgroundTransparency = 1
 		Domain.Home.Discord.Title.TextTransparency = 1
 		Domain.Home.Discord.Info.TextTransparency = 1
-		Domain.Home.Discord.Icon.ImageTransparency = 1
 		Domain.Home.Discord.Copyframe.BackgroundTransparency = 1
 		Domain.Home.Discord.Copyframe.Copy.ImageTransparency = 1
 		Domain.Home.Discord.Size = UDim2.new(0.157, 0, 0.137, 0)
@@ -6314,10 +6347,17 @@ function OpenHome()
 				img.ImageTransparency = 1
 			end
 		end
+		for _, U in ipairs(Domain.Home:GetDescendants()) do
+			if U.ClassName == "UIStroke" then
+				U.Transparency = 1
+			end
+		end
 
 		Domain.Home.Visible = true
 		wait(0.01)
-
+		TweenService:Create(Domain.Home.Avatar, TweenInfo.new(1, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
+		TweenService:Create(Domain.Home.Avatar, TweenInfo.new(1, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.5}):Play()
+		TweenService:Create(Domain.Home.Title, TweenInfo.new(1, Enum.EasingStyle.Quint), {TextTransparency = 0.7}):Play()
 		local transitionInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quint)
 		local tween = TweenService:Create(Domain.Home.Shadow, transitionInfo, {ImageTransparency = 0.25})
 		tween:Play()
@@ -6379,7 +6419,7 @@ function OpenHome()
 				tween:Play()
 			end
 		end
-
+		TweenService:Create(Domain.Home.Music.BackgroundImg, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {ImageTransparency = 0.4}):Play()
 		-- Discord Animate
 		local transitionInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quint)
 		local tween = TweenService:Create(Domain.Home.Discord, transitionInfo, {BackgroundTransparency = 0})
@@ -6398,9 +6438,6 @@ function OpenHome()
 		wait(0.01)
 		local transitionInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quint)
 		local tween = TweenService:Create(Domain.Home.Discord.Info, transitionInfo, {TextTransparency = 0})
-		tween:Play()
-		local transitionInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quint)
-		local tween = TweenService:Create(Domain.Home.Discord.Icon, transitionInfo, {ImageTransparency = 0.95})
 		tween:Play()
 		wait(0.05)
 		local transitionInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quint)
@@ -6626,6 +6663,13 @@ function OpenHome()
 		local transitionInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quint)
 		local tween = TweenService:Create(Domain.Home.WallpaperManage.WBG.WBox, transitionInfo, {TextTransparency = 0})
 		tween:Play()
+		for _, U in ipairs(Domain.Home:GetDescendants()) do
+			if U.ClassName == "UIStroke" then
+				local transitionInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quint)
+				local tween = TweenService:Create(U, transitionInfo, {Transparency = 0})
+				tween:Play()
+			end
+		end
 		wait(0.65)
 
 		homedb = false
@@ -6748,8 +6792,8 @@ function PromptDetection(Script)
 		Domain.Detection.Banner.Amount.TextColor3 = Color3.fromRGB(18, 138, 40)
 		Domain.Detection.Banner.CusTitle.TextColor3 = Color3.fromRGB(18, 138, 40)
 	end
-	Domain.Detection.Bottom.Executes.Execute.BackgroundTransparency = 1
-	Domain.Detection.Bottom.Executes.Execute.TextTransparency = 1
+	Domain.Detection.Bottom.Execute.Execute.BackgroundTransparency = 1
+	Domain.Detection.Bottom.Execute.Execute.TextTransparency = 1
 	Domain.Detection.BackgroundTransparency = 1
 	Domain.Detection.Banner.BackgroundTransparency = 1
 	Domain.Detection.Banner.Amount.TextTransparency = 1
@@ -6787,7 +6831,6 @@ function PromptDetection(Script)
 	TweenService:Create(Domain.Detection.Banner, TweenInfo.new(1, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
 	TweenService:Create(Domain.Detection.Banner.Icon, TweenInfo.new(1, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
 	wait(0.5)
-	TweenService:Create(Domain.Detection.Banner.UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
 	wait(1)
 	TweenService:Create(Domain.Detection.Banner.Icon, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {ImageTransparency = 0.6}):Play()
 	TweenService:Create(Domain.Detection.Banner.Amount, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
@@ -6827,7 +6870,7 @@ function PromptDetection(Script)
 	end
 	TweenService:Create(Domain.Detection, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {Position = UDim2.new(0.5, 0,0.194, 0)}):Play()
 	TweenService:Create(Domain.Detection, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 348,0, 190)}):Play()
-	TweenService:Create(Domain.Detection.Thumbnail, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {ImageTransparency = 0.8}):Play()
+	TweenService:Create(Domain.Detection.Thumbnail, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {ImageTransparency = 0.4}):Play()
 	TweenService:Create(Domain.Detection.UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
 	TweenService:Create(Domain.Detection.Top.Icon, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
 	TweenService:Create(Domain.Detection.Top.MinimalTitle, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
@@ -6835,12 +6878,12 @@ function PromptDetection(Script)
 	TweenService:Create(Domain.Detection.Top.Title, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
 	TweenService:Create(Domain.Detection.Bottom.ScriptSubtitle, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0.3}):Play()
 	wait(0.3)
-	TweenService:Create(Domain.Detection.Bottom.Executes, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
-	TweenService:Create(Domain.Detection.Bottom.Executes.ExecutesFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
-	TweenService:Create(Domain.Detection.Bottom.Executes.Execute, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.8}):Play()
-	TweenService:Create(Domain.Detection.Bottom.Executes.Execute.UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Transparency = 0.2}):Play()
-	TweenService:Create(Domain.Detection.Bottom.Executes.Execute, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
-	TweenService:Create(Domain.Detection.Bottom.Executes.ScriptSubtitle, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+	TweenService:Create(Domain.Detection.Bottom.Execute, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+	TweenService:Create(Domain.Detection.Bottom.Execute.ExecutesFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+	TweenService:Create(Domain.Detection.Bottom.Execute.Execute, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.8}):Play()
+	TweenService:Create(Domain.Detection.Bottom.Execute.Execute.UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Transparency = 0.2}):Play()
+	TweenService:Create(Domain.Detection.Bottom.Execute.Execute, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+	TweenService:Create(Domain.Detection.Bottom.Execute.ScriptSubtitle, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
 	wait(1)
 	TweenService:Create(Domain.Detection.Top.Close, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
 
@@ -6869,8 +6912,9 @@ function PromptDetection(Script)
 		local transitionInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quint)
 		local tween = TweenService:Create(Domain.Detection, transitionInfo, {BackgroundTransparency = 1})
 		tween:Play()
+
+		neon:UnbindFrame(Domain.Detection.BlurModule)
 		if not getgenv().Blur then
-			neon:UnbindFrame(Domain.Detection.BlurModule)
 			blurlightD:Destroy()
 		end
 		local transitionInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quint)
@@ -6879,15 +6923,15 @@ function PromptDetection(Script)
 		local transitionInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quint)
 		local tween = TweenService:Create(Domain.Detection, transitionInfo, {Position = UDim2.new(0.5, 0,0.235, 0)})
 		tween:Play()
-		TweenService:Create(Domain.Detection.Bottom.Executes.Execute, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
-		TweenService:Create(Domain.Detection.Bottom.Executes.Execute.UIStroke, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
-		TweenService:Create(Domain.Detection.Bottom.Executes.Execute, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+		TweenService:Create(Domain.Detection.Bottom.Execute.Execute, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+		TweenService:Create(Domain.Detection.Bottom.Execute.Execute.UIStroke, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+		TweenService:Create(Domain.Detection.Bottom.Execute.Execute, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
 		wait(0.81)
 		Domain.Detection.Visible = false
 		DetectionFired = false
 	end)
 	--
-	Domain.Detection.Bottom.Executes.Execute.MouseButton1Click:Connect(function()
+	Domain.Detection.Bottom.Execute.Execute.MouseButton1Click:Connect(function()
 			for _, obj in ipairs(Domain.Detection:GetDescendants()) do
 				if obj.ClassName == "TextLabel" then
 					local transitionInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quint)
@@ -6915,20 +6959,19 @@ function PromptDetection(Script)
 			local transitionInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quint)
 			local tween = TweenService:Create(Domain.Detection, transitionInfo, {BackgroundTransparency = 1})
 			tween:Play()
+			neon:UnbindFrame(Domain.Detection.BlurModule)
 			if not getgenv().Blur then
-				neon:UnbindFrame(Domain.Detection.BlurModule)
 				blurlightD:Destroy()
 			end
 			local transitionInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quint)
 			local tween = TweenService:Create(Domain.Detection.Thumbnail, transitionInfo, {ImageTransparency = 1})
 			tween:Play()
-			TweenService:Create(Domain.Detection.Bottom.Executes.Execute, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
-			TweenService:Create(Domain.Detection.Bottom.Executes.Execute.UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
-			TweenService:Create(Domain.Detection.Bottom.Executes.Execute, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+			TweenService:Create(Domain.Detection.Bottom.Execute.Execute, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+			TweenService:Create(Domain.Detection.Bottom.Execute.Execute.UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+			TweenService:Create(Domain.Detection.Bottom.Execute.Execute, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
 			wait(0.81)
 			Domain.Detection.Visible = false
 			Toast("Starting "..Script.Name)
-			Toast("If Script does not begin then reprompt")
 
 			if Script.KeySys == true then
 				wait(1)
@@ -6973,21 +7016,19 @@ function PromptDetection(Script)
 			local tween = TweenService:Create(Domain.Detection, transitionInfo, {BackgroundTransparency = 1})
 			tween:Play()
 
+			neon:UnbindFrame(Domain.Detection.BlurModule)
 			if not getgenv().Blur then
-				neon:UnbindFrame(Domain.Detection.BlurModule)
 				blurlightD:Destroy()
 			end
 			local transitionInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quint)
 			local tween = TweenService:Create(Domain.Detection.Thumbnail, transitionInfo, {ImageTransparency = 1})
 			tween:Play()
-			TweenService:Create(Domain.Detection.Bottom.Executes.Execute, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
-			TweenService:Create(Domain.Detection.Bottom.Executes.Execute.UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
-			TweenService:Create(Domain.Detection.Bottom.Executes.Execute, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+			TweenService:Create(Domain.Detection.Bottom.Execute.Execute, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+			TweenService:Create(Domain.Detection.Bottom.Execute.Execute.UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+			TweenService:Create(Domain.Detection.Bottom.Execute.Execute, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
 			wait(0.81)
 			Domain.Detection.Visible = false
 			Toast("Starting "..Script.Name)
-			Toast("If Script does not begin then reprompt")
-
 			if Script.KeySys == true then
 				wait(1)
 				DomainLibrary:Notify({
@@ -7076,6 +7117,13 @@ function CloseHome()
 			tween:Play()
 		end	
 
+		for _, U in ipairs(Domain.Home:GetDescendants()) do
+			if U.ClassName == "UIStroke" then
+				local transitionInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quint)
+				local tween = TweenService:Create(U, transitionInfo, {Transparency = 1})
+				tween:Play()
+			end
+		end
 		local transitionInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quint)
 		local tween = TweenService:Create(Domain.Home.FPS, transitionInfo, {BackgroundTransparency = 1})
 		tween:Play()	
@@ -7141,9 +7189,6 @@ function CloseHome()
 		tween:Play()
 		local transitionInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quint)
 		local tween = TweenService:Create(Domain.Home.Discord.Info, transitionInfo, {TextTransparency = 1})
-		tween:Play()
-		local transitionInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quint)
-		local tween = TweenService:Create(Domain.Home.Discord.Icon, transitionInfo, {ImageTransparency = 1})
 		tween:Play()
 		local transitionInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quint)
 		local tween = TweenService:Create(Domain.Home.Discord.Copyframe, transitionInfo, {BackgroundTransparency = 1})
@@ -7314,7 +7359,9 @@ function CloseHome()
 		local transitionInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quint)
 		local tween = TweenService:Create(Domain.Home.Shadow, transitionInfo, {ImageTransparency = 1})
 		tween:Play()
-		UnMuffleSound()
+		TweenService:Create(Domain.Home.Avatar, TweenInfo.new(1, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+		TweenService:Create(Domain.Home.Avatar, TweenInfo.new(1, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+		TweenService:Create(Domain.Home.Title, TweenInfo.new(1, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
 		for _, gui in pairs(CachedUI) do
 			for _, pgui in ipairs(LocalPlayer:FindFirstChildWhichIsA("PlayerGui"):GetChildren()) do
 				if table.find(CachedUI,pgui.Name) then
@@ -7322,23 +7369,7 @@ function CloseHome()
 				end 
 			end
 		end
-		for _, audio in ipairs(workspace:GetChildren()) do
-			if audio.ClassName == "Sound" then
-				if audio:FindFirstChild("DomainEditorialEffect") then
-					local transitionInfo = TweenInfo.new(0.35, Enum.EasingStyle.Quint)
-					local tween = game:GetService("TweenService"):Create(audio:FindFirstChild("DomainEditorialEffect"), transitionInfo, {HighGain = -15})
-					tween:Play()
-					local transitionInfo = TweenInfo.new(0.35, Enum.EasingStyle.Quint)
-					local tween = game:GetService("TweenService"):Create(audio:FindFirstChild("DomainEditorialEffect"), transitionInfo, {LowGain = -15})
-					tween:Play()
-					local transitionInfo = TweenInfo.new(0.35, Enum.EasingStyle.Quint)
-					local tween = game:GetService("TweenService"):Create(audio:FindFirstChild("DomainEditorialEffect"), transitionInfo, {MidGain = 5})
-					tween:Play()
-					wait(0.35)
-					audio:FindFirstChild("DomainEditorialEffect"):Destroy()
-				end
-			end
-		end
+		UnMuffleSound()
 		for _, coregui in pairs(cachedcoreguis) do
 			game:GetService("StarterGui"):SetCoreGuiEnabled(coregui,true)
 		end
@@ -8435,7 +8466,8 @@ function VersionCheck()
 				Content = "CloudzOS Has Been Updated! "..ReleaseType.." (v."..Release..")",
 				Duration = 6.5,
 				Image = 7734052335,
-			 })   
+			 })
+			 Toast("v"..Release.."/"..ReleaseType.." - "..UpdateDetail,"GothamBlack",Color3.fromRGB(202, 172, 242),6)
 			local num = math.random(1,5)
 			if num == 2 then
 				PromptPremium()
@@ -8480,7 +8512,8 @@ function VersionCheck()
 				Content = "CloudzOS Has Been Updated! "..ReleaseType.." (v."..Release..")",
 				Duration = 6.5,
 				Image = 7734052335,
-			 })  
+			 })
+			 Toast("v"..Release.."/"..ReleaseType.." - "..UpdateDetail,"GothamBlack",Color3.fromRGB(202, 172, 242),6)
 			local num = math.random(1,5)
 			if num == 2 then
 				PromptPremium()
@@ -8808,7 +8841,7 @@ function ContinueBoot()
 					Duration = 6.5,
 					Image = 3944680095,
 				 })
-				 Domain.Detection.Banner.Amount.Text = LoadedCustomScripts
+				 Domain.Detection.Banner.Amount.Text = TotalLCount
 			elseif LoadedCustomScripts > 1 then
 				DomainLibrary:Notify({
 					Title = "CloudzOS {Game Engine}",
@@ -8816,7 +8849,7 @@ function ContinueBoot()
 					Duration = 6.5,
 					Image = 3944680095,
 				 })
-				 Domain.Detection.Banner.Amount.Text = LoadedCustomScripts
+				 Domain.Detection.Banner.Amount.Text = TotalLCount
 			end
 			if not UserIsPremium and LoadedCustomScripts > 0 then
 				DomainLibrary:Notify({
@@ -8837,6 +8870,7 @@ function ContinueBoot()
 		for _, GameID in pairs(custscript.Games) do
 			if GameID == game.PlaceId then
 				if GameID == 286090429 then
+					print("no")
 				else
 				CustomScriptEnabled = true
 				PromptDetection(custscript)
@@ -8885,6 +8919,27 @@ function olduidestroy()
 	local removedinstances = 0
 	if game.Lighting:FindFirstChild("DomainBlur") then
 		game.Lighting:FindFirstChild("DomainBlur"):Destroy()
+	end
+	for _, coregui in pairs(cachedcoreguis) do
+		game:GetService("StarterGui"):SetCoreGuiEnabled(coregui,true)
+	end
+	for __,v in pairs(game:GetDescendants()) do
+		if v.ClassName == "Sound" then
+		coroutine.wrap(function()
+	if v:FindFirstChild("MuffleW") then
+		v:FindFirstChild("MuffleW"):Destroy()
+	end
+	if v:FindFirstChild("Muffle") then
+		v:FindFirstChild("Muffle"):Destroy()
+	end
+	if v:FindFirstChild("Reverb") then
+		v:FindFirstChild("Reverb"):Destroy()
+	end
+	if v:FindFirstChild("MuffleMenu") then
+		v:FindFirstChild("MuffleMenu"):Destroy()
+	end
+	end)()
+	end
 	end
 	for _, ui in ipairs(game:GetService("CoreGui"):GetChildren()) do
 		if ui.Name == "Domain" and ui ~= Domain then
@@ -8976,7 +9031,7 @@ function BootCloudzOS()
 	Domain.Main.Visible = true
 	Domain.Main.Position = UDim2.new(0.5, 0, 1.05, 0)
 	Domain.Main.KeybindNote.Position = UDim2.new(0.5,0,-1.303,0)
-	Domain.Main.KeybindNote.Text = "☁️"
+	Domain.Main.KeybindNote.Text = "Loading CloudzOS"
 	Domain.Main.Buttons.ModulesButton.Visible = false
 	Domain.Main.KeybindNote.TextTransparency = 0.4
 	if Beta then
@@ -9097,33 +9152,37 @@ end)
 
 local function onActivatedOS()
 	local Prompted = false
-        for _, custscript in pairs(CustomScripts) do
-            if Prompted then
-                return
-            end
-            for _, GameID in pairs(custscript.Games) do
-                if GameID == game.PlaceId then
-                    CustomScriptEnabled = true
-                    PromptDetection(custscript)
-                    Prompted = true
-                end
-            end
-        end
-        if Prompted == false then
-            for _, Script in pairs(DetectionScripts) do
-                for _, GameID in pairs(Script.Games) do
-                    if GameID == game.PlaceId then
-                        if Script.Premium then
-                            if UserIsPremium then
-                                PromptDetection(Script)
-                            end
-                        else
-                            PromptDetection(Script)
-                        end
-                    end
-                end
-            end
-        end
+	for _, custscript in pairs(CustomScripts) do
+		if Prompted then
+			return
+		end
+		for _, GameID in pairs(custscript.Games) do
+			if GameID == game.PlaceId then
+				if GameID == 286090429 then
+					print("no")
+				else
+				CustomScriptEnabled = true
+				PromptDetection(custscript)
+				Prompted = true
+				end
+			end
+		end
+	end
+	if Prompted == false then
+		for _, Script in pairs(DetectionScripts) do
+			for _, GameID in pairs(Script.Games) do
+				if GameID == game.PlaceId then
+					if Script.Premium then
+						if UserIsPremium then
+							PromptDetection(Script)
+						end
+					else
+						PromptDetection(Script)
+					end
+				end
+			end
+		end
+	end
 end
 
 Domain.Scripts.Main.Buttons.SiriusGameDetection.Interact.Activated:Connect(function()
@@ -9386,11 +9445,20 @@ Domain.Player.Fly.Interact.MouseButton1Click:Connect(function()
 	end
 end)
 
+Domain.Home.Music.PlayingTitle.Text = "Standing By"
+Domain.Home.Music.Playing.Text = "Waiting for Input."
 function PlaySound()
 	if Domain:FindFirstChildWhichIsA("Sound") then
 		Domain:FindFirstChildWhichIsA("Sound"):Destroy()
 	end
+	if Domain.Home.Music.PlayingTitle.Text == "Now Playing" then
+
+	else
+	TweenService:Create(Domain.Home.Music.PlayingTitle, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+	wait(0.4)
 	Domain.Home.Music.PlayingTitle.Text = "Now Playing"
+	TweenService:Create(Domain.Home.Music.PlayingTitle, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+	end
 	MusicPlaying = true
 	local MusicSound = Instance.new("Sound",Domain)
 	MusicSound.Volume = 2.5
@@ -9405,16 +9473,19 @@ function PlaySound()
 		Seconds = Seconds - Minutes*60
 		return Format(Minutes)..":"..Format(Seconds)
 	end
-
-	Domain.Home.Music.Current.Text = SecondsToMMSS(MusicSound.TimePosition)
-	Domain.Home.Music.Total.Text = SecondsToMMSS(MusicSound.TimeLength)
 	MusicSound.TimePosition = 0
 	MusicSound.Looped = true
 	MusicSound:Play()
 	if CurrentMusicInfo then
+		TweenService:Create(Domain.Home.Music.Playing, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+		wait(0.4)
 		Domain.Home.Music.Playing.Text = CurrentMusicInfo.Name
+		TweenService:Create(Domain.Home.Music.Playing, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
 	else
+		TweenService:Create(Domain.Home.Music.Playing, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+		wait(0.4)
 		Domain.Home.Music.Playing.Text = "Unknown"
+		TweenService:Create(Domain.Home.Music.Playing, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
 	end
 	Domain.Home.Music.Toggle.ImageRectOffset = Vector2.new(804,124)
 end
@@ -9428,7 +9499,10 @@ Domain.Home.Music.Toggle.MouseButton1Click:Connect(function()
 		else
 			Domain.Home.Music.Toggle.ImageRectOffset = Vector2.new(764,244)
 			Domain:FindFirstChildWhichIsA("Sound"):Pause()
-			Toast("Stopped Sound")
+			TweenService:Create(Domain.Home.Music.PlayingTitle, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+			wait(0.4)
+			Domain.Home.Music.PlayingTitle.Text = "Paused"
+			TweenService:Create(Domain.Home.Music.PlayingTitle, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
 		end
 	elseif not MusicPlaying then
 		if not Domain:FindFirstChildWhichIsA("Sound") then
@@ -9437,7 +9511,15 @@ Domain.Home.Music.Toggle.MouseButton1Click:Connect(function()
 			MusicPlaying = true
 			Domain.Home.Music.Toggle.ImageRectOffset = Vector2.new(804,124)
 			Domain:FindFirstChildWhichIsA("Sound"):Resume()
-			Toast("Resumed sound")
+			TweenService:Create(Domain.Home.Music.PlayingTitle, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+			wait(0.4)
+			Domain.Home.Music.PlayingTitle.Text = "Resumed"
+			TweenService:Create(Domain.Home.Music.PlayingTitle, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+			wait(1)
+			TweenService:Create(Domain.Home.Music.PlayingTitle, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+			wait(0.4)
+			Domain.Home.Music.PlayingTitle.Text = "Now Playing"
+			TweenService:Create(Domain.Home.Music.PlayingTitle, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
 		end
 	end
 end)
@@ -11094,18 +11176,18 @@ end
 --KP CONFIG
 
 function CheckTime()
-	if tonumber(GetDate():format("#H")) > 12 then
-		Domain.Home.Welcome.Text = "Good Evening, "..LocalPlayer.DisplayName.."!"
+	if tonumber(GetDate():format("#h")) > 12 and not 15 then
+		Domain.Home.Welcome.Text = "Afternoon, "..LocalPlayer.DisplayName.."!"
+		Domain.Home.WelcomeSub.Text = "Remember to smile!"
+	elseif tonumber(GetDate():format("#h")) > 15 then
+		Domain.Home.Welcome.Text = "Evening, "..LocalPlayer.DisplayName.."!"
+		Domain.Home.WelcomeSub.Text = "Woah. is it getting dark out?"
 	else
-		Domain.Home.Welcome.Text = "Good Morning, "..LocalPlayer.DisplayName.."!"
+		Domain.Home.Welcome.Text = "Morning, "..LocalPlayer.DisplayName.."!"
+		Domain.Home.WelcomeSub.Text = "Up bright and early!"
 	end
-	if tonumber(GetDate():format("#h")) == 0 then
-		Domain.Home.WelcomeSub.Text = "Remember to smile! you look better when you smile!"
-	elseif tonumber(GetDate():format("#h")) >= 1 then
-		Domain.Home.WelcomeSub.Text = "Not sure if you should be up but hey! you're up so lets do this!"
-	end
-	if tonumber(GetDate():format("#h")) > 19 then
-		Domain.Home.WelcomeSub.Text = "Hey! Its getting late.. go to bed soon"
+	if tonumber(GetDate():format("#h")) > 23 then
+		Domain.Home.WelcomeSub.Text = "Its getting late.. You should go to bed soon."
 	end
 end
 
