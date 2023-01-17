@@ -120,10 +120,10 @@ local KeyWaitTime = 60
 
 local MlemixMode = false
 
-local Release = 4.76
+local Release = 4.77
 local KeySystemEnabled = false
 local ReleaseType = "CLDZ"
-local UpdateDetail = "Attempt #1 to fixing Custom script bug"
+local UpdateDetail = "Updated Custom Script Bug / Could be because of Synapse X"
 local Public = false
 local Beta = false
 
@@ -8885,13 +8885,9 @@ function ContinueBoot()
 		end
 		for _, GameID in pairs(custscript.Games) do
 			if GameID == game.PlaceId then
-				if GameID == 286090429 or 3233893879 then
-					print("no")
-				else
 				CustomScriptEnabled = true
 				PromptDetection(custscript)
 				Prompted = true
-				end
 			end
 		end
 	end
@@ -9171,13 +9167,13 @@ local function onActivatedOS()
 		end
 		for _, GameID in pairs(custscript.Games) do
 			if GameID == game.PlaceId then
-				if GameID == 286090429 or 3233893879 then
-					print("no")
-				else
+				--if game.PlaceId == 286090429 or 3233893879 then
+					--print("no")
+				--else
 				CustomScriptEnabled = true
 				PromptDetection(custscript)
 				Prompted = true
-				end
+				--end
 			end
 		end
 	end
@@ -11260,24 +11256,6 @@ coroutine.wrap(function()
 	end
 	pcall(CheckFriends)
 end)()
-
-        local LoadedCustomScripts = 0
-        for _, file in ipairs(listfiles(CustomFolderName)) do -- check files
-            local NewCustomScript = game:GetService("HttpService"):JSONDecode(readfile(file))
-            local NewTable = {
-                Name = NewCustomScript.Name,
-                Description =  NewCustomScript.Description,
-                Games = NewCustomScript.Games,
-                Loadstring = NewCustomScript.Loadstring,
-            }
-            table.insert(CustomScripts,NewTable)
-            LoadedCustomScripts = LoadedCustomScripts + 1
-        end
-        if LoadedCustomScripts == 1 then
-            --Toast("Successfully loaded "..LoadedCustomScripts.." custom script")
-        elseif LoadedCustomScripts > 1 then
-            --Toast("Successfully loaded "..LoadedCustomScripts.." custom scripts")
-        end
 
 -- NO --
 coroutine.wrap(function()
