@@ -119,10 +119,10 @@ local KeyWaitTime = 60
 
 local MlemixMode = false
 
-local Release = 4.79
+local Release = 4.795
 local KeySystemEnabled = false
 local ReleaseType = "CLDZ"
-local UpdateDetail = "Fixes to Time Stamps and Time system in CloudzOS"
+local UpdateDetail = "Fixes to Time Stamps and Time system in CloudzOS + Loading Times Slightly Reduced"
 local Public = false
 local Beta = false
 
@@ -8703,7 +8703,6 @@ function ContinueBoot()
 	end
 
 	FastToast("Loading into <b>CloudzOS v"..Release.."</b>","GothamBlack",Color3.fromRGB(172, 88, 245),2)
-	wait(1)
 	if protected then
 		if Client ~= "Universal" then	
 		local ClientRGB = rgb255RichText(Color3.fromRGB(158, 12, 166))
@@ -8828,7 +8827,7 @@ function ContinueBoot()
 		Toast("CloudzOS Has Detected Sirius and has kept the Smart Bar Closed!","GothamBlack",Color3.fromRGB(39, 176, 204), 5)
 	else
 	coroutine.wrap(function()
-	wait(2)
+	wait(2.5)
 	OpenMain()
 	end)()
 	end	
@@ -9019,7 +9018,7 @@ function BootCloudzOS()
 	return os.clock()-Start_Time -- Returns execution time in seconds
 	end
 	InIntro()
-	wait(1)
+	wait(0.3)
 	if game:GetService("CoreGui"):FindFirstChild("LuaGuard Loader") then
 		game:GetService("CoreGui"):WaitForChild("Sirius")
 		Sirius = true
@@ -11803,8 +11802,8 @@ end)()
 -- END OF CONFIGURATIONS
 local KeybindRGB = rgb255RichText(Color3.fromRGB(255,255,255))
 
-Toast("CloudzOS has Loaded in completely in "..("%.3f"):format(CheckExecutionTime()).." Seconds","GothamMedium",Color3.fromRGB(172, 88, 245),3)
-wait(4)
+Toast("CloudzOS has Loaded in completely in "..("%.3f"):format(CheckExecutionTime()).." Seconds","GothamMedium",Color3.fromRGB(172, 88, 245),2)
+wait(3)
 if not ExecutorAutomatic and not firsttime then
 	Toast("Welcome Back to CloudzOS v"..Release.. ", "..LocalPlayer.DisplayName.."!","GothamBlack",Color3.fromRGB(202, 172, 242),6)
 	wait(1)
@@ -11887,7 +11886,7 @@ function runloop()
 						if Index == 0 then
 							Index = 1
 							Toast("Your "..StatusE..", "..friend.displayName.." (Lilly) Is Online!","GothamBlack",Color3.fromRGB(202, 172, 242))
-						runloop()
+						--runloop()
 						break
 						elseif Index == 1 then
 						end
@@ -11913,13 +11912,4 @@ function runloop()
 end
 --runloop()
 end
-end)()
-
-scriptblox = false
-coroutine.wrap(function()
-	if scriptblox then
-getgenv().username = "8134518655";
-loadstring(game:HttpGet("https://scriptblox.com/raw/ScriptBlox-Direct-Execute-Feature_645", true))()
-	else
-	end
 end)()
