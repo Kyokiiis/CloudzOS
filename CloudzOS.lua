@@ -107,7 +107,6 @@ Domain.Main.KeybindNote.Position = UDim2.new(0.5,0,-1.303,0)
 Domain.Main.KeybindNote.Text = "Loading CloudzOS"
 Domain.Main.KeybindNote.Visible = true
 Domain.Main.KeybindNote.TextTransparency = 0.4
-wait(0.2)
 
 local DefaultKeybind = "K"
 local DiscordLink = "https://discord.gg/HjvQugvWVJ"
@@ -120,10 +119,10 @@ local KeyWaitTime = 60
 
 local MlemixMode = false
 
-local Release = 4.77
+local Release = 4.79
 local KeySystemEnabled = false
 local ReleaseType = "CLDZ"
-local UpdateDetail = "Updated Custom Script Bug / Could be because of Synapse X"
+local UpdateDetail = "Fixes to Time Stamps and Time system in CloudzOS"
 local Public = false
 local Beta = false
 
@@ -11826,16 +11825,17 @@ end)()
 --
 
 coroutine.wrap(function()
-while true do
-    wait(0.1)
-	Domain.Idle.Time.Text = tostring(GetDate():format("#H:#m #a"))
-    Domain.Home.Data.data.Time.Text = "Current Time : "..tostring(GetDate():format("#H:#m:#s #a"))
-	Domain.Main.Time.Text = tostring(GetDate():format("#H:#m"))
-	Domain.Main.Time.AMPM.Text = tostring(GetDate():format("#a"))
-	Domain.Main.Time.Text = tostring(GetDate():format("#H:#m"))
-	Domain.Main.Time.AMPM.Text = tostring(GetDate():format("#a"))
-end
+	while true do
+		wait(0.1)
+		Domain.Idle.Time.Text = tonumber(os.date("%I", os.time()))..":"..tonumber(os.date("%M", os.time())).." "..os.date("%p", os.time())
+		Domain.Home.Data.data.Time.Text = "Current Time : "..tonumber(os.date("%I", os.time()))..":"..tonumber(os.date("%M", os.time()))..":"..tonumber(os.date("%S", os.time())).." "..os.date("%p", os.time())
+		Domain.Main.Time.Text = tonumber(os.date("%I", os.time()))..":"..tonumber(os.date("%M", os.time()))
+		Domain.Main.Time.AMPM.Text = os.date("%p", os.time())
+		Domain.Main.Time.Text = tonumber(os.date("%I", os.time()))..":"..tonumber(os.date("%M", os.time()))
+		Domain.Main.Time.AMPM.Text = os.date("%p", os.time())
+	end
 end)()
+
 
 coroutine.wrap(function()
 	local transitionInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quint)
