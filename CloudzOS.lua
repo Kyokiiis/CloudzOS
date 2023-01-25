@@ -119,10 +119,10 @@ local KeyWaitTime = 60
 
 local MlemixMode = false
 
-local Release = 4.795
+local Release = 4.8
 local KeySystemEnabled = false
 local ReleaseType = "CLDZ"
-local UpdateDetail = "Fixes to Time Stamps and Time system in CloudzOS + Loading Times Slightly Reduced"
+local UpdateDetail = "Fixed Time System Bugs + Added CloudzOS AI (I made her rude to me and I regret it -. -) + She lets you know what day it is and her thoughts on certain things."
 local Public = false
 local Beta = false
 
@@ -131,6 +131,8 @@ local Connected = true
 local homedb = false
 local db = false
 local Keybind = DefaultKeybind
+
+--
 if writefile and isfile and readfile and delfile then
 	if isfile("DomainX Keybind.txt") then
 		if readfile("DomainX Keybind.txt") then
@@ -861,6 +863,18 @@ function UnMuffleSound()
 		end
 	end
 end
+--
+coroutine.wrap(function()
+local maxLoudness = 75
+while true do
+	wait(0.1)
+    for _, audioSource in pairs(game:GetService("Workspace"):GetChildren()) do
+        if audioSource:IsA("Sound") and audioSource.PlaybackLoudness > maxLoudness then
+			audioSource.Volume = 0.01
+        end
+    end
+end
+end)()
 --[[
 
 DomainLibrary:RiskAnalysis({
@@ -8465,6 +8479,22 @@ function FirstCheck()
 	end
 end
 
+function metcloud()
+coroutine.wrap(function()
+	local metCloudy = false
+	if isfile("FirstAI.txt") then
+	else
+		writefile("FirstAI.txt", "0")
+	end
+		
+	if readfile("FirstAI.txt") == "0" then
+		writefile("FirstAI.txt", "1")
+		metCloudy = true
+		Toast("Hiiiiii My name is Cloudy! Milo came up with my name last minute so if you have any better names PLEASE TELL HIM! ｡･ﾟﾟ･(>д<)･ﾟﾟ･｡ Anyway, Hope we can get along well! and I hope you're enjoying CloudzOS ヾ(≧∇≦)ゞ","GothamBlack",Color3.fromRGB(202, 172, 242),7)
+	end
+end)()
+end
+
 function VersionCheck()
 	if DebugMode then
 		warn("DomainX - Starting Version Check")
@@ -8482,7 +8512,19 @@ function VersionCheck()
 				Duration = 6.5,
 				Image = 7734052335,
 			 })
+			 if LocalPlayer.UserId == 263152704 then
+				local updatesq = {"God! why can't you stop updating my code >:C ... I'm having Lilly slap you for me!","Alright I guess I can thank you for updating me and keeping me modern.. DONT GET ANY IDEAS >:I","Cmonnnn I hate updating sometimes because its exhausting!", "Hey would you look at that! My version is now v."..Release.."... Better not have been a bug update!! Tell me if its a bug update!","I really dislike bugs they're small and scary (/;◇;)/"}
+				local randomqq = updatesq[math.random(#updatesq)]
+			else
+				local updatesq = {"God! Milo can't stop updating my code >:C ... Slap him for me!","Hey hey! Guess what! I've been updated and that meansss new stuff!! probably..","*Sigh* Sometimes having to update my code because Milo did wrote something new is exhausting!", "Hey! do you read this?? Well Milo makes me say things so I tend to hate him somtimes -. -", "Hey would you look at that! My version is now v."..Release.."... Better not have been a bug update!! Tell me if its a bug update!","I really dislike bugs they're small and scary (/;◇;)/"}
+				local randomqq = updatesq[math.random(#updatesq)]
+			end
 			 Toast("v"..Release.."/"..ReleaseType.." - "..UpdateDetail,"GothamBlack",Color3.fromRGB(202, 172, 242),6)
+			 wait(2)
+			 metcloud()
+			 wait(3)
+			 Toast(randomqq,"GothamBlack",Color3.fromRGB(202, 172, 242),7)
+			 wait(7.5)
 			local num = math.random(1,5)
 			if num == 2 then
 				PromptPremium()
@@ -8528,7 +8570,18 @@ function VersionCheck()
 				Duration = 6.5,
 				Image = 7734052335,
 			 })
-			 Toast("v"..Release.."/"..ReleaseType.." - "..UpdateDetail,"GothamBlack",Color3.fromRGB(202, 172, 242),6)
+			 if LocalPlayer.UserId == 263152704 then
+				local updatesq = {"God! why can't you stop updating my code >:C ... I'm having Lilly slap you for me!","Alright I guess I can thank you for updating me and keeping me modern.. DONT GET ANY IDEAS >:I","Cmonnnn I hate updating sometimes because its exhausting!", "Hey would you look at that! My version is now v."..Release.."... Better not have been a bug update!! Tell me if its a bug update!","I really dislike bugs they're small and scary (/;◇;)/"}
+				local randomqq = updatesq[math.random(#updatesq)]
+			else
+				local updatesq = {"God! Milo can't stop updating my code >:C ... Slap him for me!","Hey hey! Guess what! I've been updated and that meansss new stuff!! probably..","*Sigh* Sometimes having to update my code because Milo did wrote something new is exhausting!", "Hey! do you read this?? Well Milo makes me say things so I tend to hate him somtimes -. -", "Hey would you look at that! My version is now v."..Release.."... Better not have been a bug update!! Tell me if its a bug update!","I really dislike bugs they're small and scary (/;◇;)/"}
+				local randomqq = updatesq[math.random(#updatesq)]
+			end
+			Toast("v"..Release.."/"..ReleaseType.." - "..UpdateDetail,"GothamBlack",Color3.fromRGB(202, 172, 242),6)
+			 wait(2)
+			 metcloud()
+			 wait(3)
+			 Toast(randomqq,"GothamBlack",Color3.fromRGB(202, 172, 242),7)
 			local num = math.random(1,5)
 			if num == 2 then
 				PromptPremium()
@@ -8619,8 +8672,8 @@ function ContinueBoot()
 	Domain.Home.Data.data.Players.Text = "Players: <b>"..tostring(#game.Players:GetChildren()).."/"..tostring(game.Players.MaxPlayers).."</b>"
 	Domain.Main.Position = UDim2.new(0.5, 0, 1.15, 0)
 	Domain.Home.Discord.Info.RichText = true
-	Domain.Main.Time.Text = tostring(GetDate():format("#H:#m"))
-	Domain.Main.Time.AMPM.Text = tostring(GetDate():format("#a"))
+	Domain.Main.Time.Text = tonumber(os.date("%I"))..":"..os.date("%M")
+	Domain.Main.Time.AMPM.Text = os.date("%p")
 	Domain.Home.Music.Toggle.ImageRectOffset = Vector2.new(764,244)
 	Domain.Playerlist.Main.List.Template.Visible = false
 	Domain.Home.Music.RecentlyPlayed.Visible = false
@@ -8849,20 +8902,23 @@ function ContinueBoot()
 				LoadedCustomScripts = LoadedCustomScripts + 1
 			end
 			if LoadedCustomScripts == 1 then
+				--[[
 				DomainLibrary:Notify({
 					Title = "CloudzOS {Game Engine}",
 					Content = "Successfully loaded "..LoadedCustomScripts.." custom script",
-					Duration = 6.5,
+					Duration = 3,
 					Image = 3944680095,
-				 })
+				 })]]
 				 Domain.Detection.Banner.Amount.Text = TotalLCount
 			elseif LoadedCustomScripts > 1 then
+				--[[
 				DomainLibrary:Notify({
 					Title = "CloudzOS {Game Engine}",
 					Content = "Successfully loaded "..LoadedCustomScripts.." custom scripts",
-					Duration = 6.5,
+					Duration = 3,
 					Image = 3944680095,
 				 })
+				 ]]
 				 Domain.Detection.Banner.Amount.Text = TotalLCount
 			end
 			if not UserIsPremium and LoadedCustomScripts > 0 then
@@ -8977,37 +9033,42 @@ function InIntro()
 	Domain.EnterTitle.Visible = true
 	Domain.EnterTitle.LoadTitle.Text = "Loading"
 	--
-	TweenService:Create(Domain.EnterTitle.LoadImage, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
-	wait(1)
-	TweenService:Create(Domain.EnterTitle.LoadImage, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Position = UDim2.new(0.44,0,0,0)}):Play()
-	TweenService:Create(Domain.EnterTitle.LoadTitle, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
-	TweenService:Create(Domain.EnterTitle.Progress, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
-	TweenService:Create(Domain.EnterTitle.Progress, TweenInfo.new(0.3, Enum.EasingStyle.Linear), {Size = UDim2.new(0,73,0,2)}):Play()
-	loop = true
 	if readfile("CloudzOS Wait.txt") > "0" then
-		wait(0.5)
+	TweenService:Create(Domain.EnterTitle.LoadImage, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
+	wait(0.4)
+	TweenService:Create(Domain.EnterTitle.LoadImage, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Position = UDim2.new(0.44,0,0,0)}):Play()
+	TweenService:Create(Domain.EnterTitle.LoadTitle, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+	TweenService:Create(Domain.EnterTitle.Progress, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+	TweenService:Create(Domain.EnterTitle.Progress, TweenInfo.new(0.3, Enum.EasingStyle.Linear), {Size = UDim2.new(0,73,0,2)}):Play()
+	wait(0.5)
 	TweenService:Create(Domain.EnterTitle.LoadTitle, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
 	wait(0.3)
 	Domain.EnterTitle.LoadTitle.Text = "Waiting "..readfile("CloudzOS Wait.txt").."s"
 	TweenService:Create(Domain.EnterTitle.LoadTitle, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+	else
+		TweenService:Create(Domain.EnterTitle.LoadImage, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
+		wait(0.5)
+		TweenService:Create(Domain.EnterTitle.LoadImage, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {Position = UDim2.new(0.44,0,0,0)}):Play()
+		TweenService:Create(Domain.EnterTitle.LoadTitle, TweenInfo.new(0.1, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+		TweenService:Create(Domain.EnterTitle.Progress, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+		TweenService:Create(Domain.EnterTitle.Progress, TweenInfo.new(0.2, Enum.EasingStyle.Linear), {Size = UDim2.new(0,73,0,2)}):Play()
 	end
 end
 
 function OutIntro()
-	loop = false
-	TweenService:Create(Domain.EnterTitle.LoadTitle, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
-	wait(0.3)
+	TweenService:Create(Domain.EnterTitle.LoadTitle, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+	wait(0.2)
 	Domain.EnterTitle.LoadTitle.Text = "CloudzOS"
 	TweenService:Create(Domain.EnterTitle.LoadTitle, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
-	wait(0.8)
+	wait(0.3)
 	TweenService:Create(Domain.EnterTitle.Progress, TweenInfo.new(0.3, Enum.EasingStyle.Linear), {Size = UDim2.new(0,0,0,2)}):Play()
-	wait(0.5)
-	TweenService:Create(Domain.EnterTitle.LoadTitle, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
-	TweenService:Create(Domain.EnterTitle.Progress, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
-	TweenService:Create(Domain.EnterTitle.LoadImage, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Position = UDim2.new(0.44,0,0.445,0)}):Play()
-	wait(0.8)
-	TweenService:Create(Domain.EnterTitle.LoadImage, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
-	wait(0.5)
+	wait(0.2)
+	TweenService:Create(Domain.EnterTitle.LoadTitle, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+	TweenService:Create(Domain.EnterTitle.Progress, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+	TweenService:Create(Domain.EnterTitle.LoadImage, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Position = UDim2.new(0.44,0,0.445,0)}):Play()
+	wait(0.1)
+	TweenService:Create(Domain.EnterTitle.LoadImage, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+	wait(0.3)
 	Domain.EnterTitle.Visible = false
 end
 
@@ -9018,7 +9079,6 @@ function BootCloudzOS()
 	return os.clock()-Start_Time -- Returns execution time in seconds
 	end
 	InIntro()
-	wait(0.3)
 	if game:GetService("CoreGui"):FindFirstChild("LuaGuard Loader") then
 		game:GetService("CoreGui"):WaitForChild("Sirius")
 		Sirius = true
@@ -9026,12 +9086,6 @@ function BootCloudzOS()
 	end
 	wait(readfile("CloudzOS Wait.txt"))
 	OutIntro()
-	if Domain.EnterTitle.Visible == true then
-		repeat 
-			wait(0.1) 
-		until Domain.EnterTitle.Visible == false
-	else
-	end
 	if DebugMode then
 		warn("DomainX - Beginning Boot Process")
 	end
@@ -9053,7 +9107,7 @@ function BootCloudzOS()
 	if not DomainEnabled then
 		DomainLibrary:Notify({
 			Title = "CloudzOS {AI}",
-			Content = "CloudzOS Is not Enabled!",
+			Content = "CloudzOS is not Enabled!",
 			Duration = 6.5,
 			Image = 3944680095,
 		 })  
@@ -10176,11 +10230,11 @@ coroutine.wrap(function()
 		msgs[3] = msgs[2]; msgs[2] = msgs[1]; msgs[1] = msg --sorting order
 		
 		local duplicateMsgs = 0
+		local constant = 0
 		for _, i in pairs(msgs) do
 			if i == msg then duplicateMsgs += 1 end --if duplicate then adds 1
 		end
 		if duplicateMsgs == 3 then --if all 3 are duplicates then
-			print(msgs[3])
 			DomainLibrary:SkySecurity({
 				Title = "CloudzOS {SkySecurity}",
 				Content = "CloudzOS possibly detected <b><i><u>"..Player.Name.."</u></i></b> to be spamming <b><i><u>('"..msgs[3].."')</u></i></b> in chat and have prompted choices based on this Information.",
@@ -10197,16 +10251,43 @@ coroutine.wrap(function()
 					Name = "Block",
 					Callback = function()
 						game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/mute "..Player.Name,"All")
-						DomainLibrary:SkySecurity({
-							Title = "CloudzOS {SkySecurity}",
-							Content = "Based on Information that CloudzOS has detected, CloudzOS has muted <b><i><u>"..Player.Name.."</u></i></b> for 2 minutes.",
-							Duration = 10,
-							Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
-						})
-						coroutine.wrap(function()
-							wait(120)
-							game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..Player.Name,"All")
-						end)()
+						if constant == 0 then
+							constant +=1
+							DomainLibrary:SkySecurity({
+								Title = "CloudzOS {SkySecurity}",
+								Content = "Based on Information that CloudzOS has detected, CloudzOS has muted <b><i><u>"..Player.Name.."</u></i></b> for 2 minutes.",
+								Duration = 10,
+								Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
+							})
+							coroutine.wrap(function()
+								wait(120)
+								game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..Player.Name,"All")
+							end)()
+						elseif constant == 1 then
+							constant +=1
+							DomainLibrary:SkySecurity({
+								Title = "CloudzOS {SkySecurity}",
+								Content = "Based on Information that CloudzOS has detected, CloudzOS has muted <b><i><u>"..Player.Name.."</u></i></b> for 5 minutes.",
+								Duration = 10,
+								Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
+							})
+							coroutine.wrap(function()
+								wait(300)
+								game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..Player.Name,"All")
+							end)()
+						elseif constant > 2 then
+							constant +=1
+							DomainLibrary:SkySecurity({
+								Title = "CloudzOS {SkySecurity}",
+								Content = "Based on Information that CloudzOS has detected, CloudzOS has muted <b><i><u>"..Player.Name.."</u></i></b> for 10 minutes.",
+								Duration = 10,
+								Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
+							})
+							coroutine.wrap(function()
+								wait(600)
+								game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..Player.Name,"All")
+							end)()
+						end
 				 end
 			  },
 			 },
@@ -10391,14 +10472,14 @@ function UNIADMINDETECT2()
 end
 --
 
-	function singleadmin()
+function singleadmin()
 local CreatorId = game.CreatorId
 for _, Player in next, game.Players:GetPlayers() do
     if Player.UserId == CreatorId then
 		if Player.UserId == LocalPlayer.UserId then
 			return
 		else
-		end
+	end
 DomainLibrary:SkySecurity({
     Title = "CloudzOS {SkySecurity}",
     Content = "CloudzOS Has Detected that "..Player.Name.." may be an Administrator and has prompted choices for this!",
@@ -11199,8 +11280,8 @@ function CheckTime()
 end
 
 coroutine.wrap(function()
-	Domain.Main.Time.Text = tostring(GetDate():format("#H:#m"))
-	Domain.Main.Time.AMPM.Text = tostring(GetDate():format("#a"))
+	Domain.Main.Time.Text = tonumber(os.date("%I"))..":"..os.date("%M")
+	Domain.Main.Time.AMPM.Text = os.date("%p")
 	wait(1)
 	if Domain then
 		CheckTime()
@@ -11802,17 +11883,83 @@ end)()
 -- END OF CONFIGURATIONS
 local KeybindRGB = rgb255RichText(Color3.fromRGB(255,255,255))
 
-Toast("CloudzOS has Loaded in completely in "..("%.3f"):format(CheckExecutionTime()).." Seconds","GothamMedium",Color3.fromRGB(172, 88, 245),2)
-wait(3)
+Toast("CloudzOS has Loaded in completely in "..("%.3f"):format(CheckExecutionTime()).." Seconds","GothamMedium",Color3.fromRGB(172, 88, 245),5)
+
+loadtimetotal = CheckExecutionTime()
+coroutine.wrap(function()
+	wait(1)
+	if LocalPlayer.UserId == 263152704 then
+		if loadtimetotal > 20 then
+			local reactiontoload = {"I blame You for me loading in so slowly!! >:C I would hit you him but I'm in a screen!","God dammit that was slower than usual! Might have been the stupid game's fault!", "Alright that might have been my fault! Im terribly sorry!!!","Bro this time I dont even know how I loaded so slowly!! this sucks!","Hey, sorry for loading slow YOU ARE STUPID THATS WHY I LOADED SO SLOWLY!","Hiiiiiiiii this wasnt my faulttt :3"}
+			local Response = reactiontoload[math.random(#reactiontoload)]
+		Toast(Response,"GothamBlack",Color3.fromRGB(202, 172, 242),3)
+		elseif loadtimetotal < 5 then
+			local reactiontoload = {"Hell yeah! I was fast loading in!","WOOOOOOOOOOO is that a new record? no? oh..","Yeah! that loading time is a win in my book!","Loading in fast is actually really nice!","I bet ya Error is wishing he had me to hack >:D","Fuck Error, From what I've heard from the unreliable source that is You.. YES YOU, He sucks","Punch me! that loadtime was nuts! wait.. you can't punch me..... wait please don't punch me!"}
+			local Response = reactiontoload[math.random(#reactiontoload)]
+		Toast(Response,"GothamBlack",Color3.fromRGB(202, 172, 242),3)
+		end
+	else
+		if loadtimetotal > 20 then
+			local reactiontoload = {"I blame Milo for me loading in so slowly!! >:C I would hit him but I'm in a screen!","God dammit that was slower than usual! Might have been the stupid game's fault!", "Alright that might have been my fault! Im terribly sorry!!!","Bro this time I dont even know how I loaded so slowly!! this sucks!","Hey, sorry for loading slow MILO IS STUPID THATS WHY I LOADED SO SLOWLY!","Hiiiiiiiii this wasnt my faulttt :3"}
+			local Response = reactiontoload[math.random(#reactiontoload)]
+		Toast(Response,"GothamBlack",Color3.fromRGB(202, 172, 242),3)
+		elseif loadtimetotal < 5 then
+			local reactiontoload = {"Hell yeah! I was fast loading in! thank Milo for it!","WOOOOOOOOOOO is that a new record? no? oh..","Yeah! that loading time is a win in my book!","Loading in fast is actually really nice!","I bet ya Error is wishing he had me to hack >:D","Fuck Error, From what I've heard from the unreliable source that is Milo, He sucks","Punch me! that loadtime was nuts! wait.. you can't punch me..... wait please don't punch me!"}
+			local Response = reactiontoload[math.random(#reactiontoload)]
+		Toast(Response,"GothamBlack",Color3.fromRGB(202, 172, 242),3)
+		end
+	end
+	end)()
+wait(5.5)
 if not ExecutorAutomatic and not firsttime then
 	Toast("Welcome Back to CloudzOS v"..Release.. ", "..LocalPlayer.DisplayName.."!","GothamBlack",Color3.fromRGB(202, 172, 242),6)
 	wait(1)
 	if Sirius then
-		FastToast("Tap <u><b>"..[[<font color="]]..KeybindRGB..[[">]]..Keybind..[[</font>]].."</b></u> to open the SmartBar","GothamBold",Color3.fromRGB(202, 172, 242),10)
+		FastToast("Tap <u><b>"..[[<font color="]]..KeybindRGB..[[">]]..Keybind..[[</font>]].."</b></u> to open the SmartBar","GothamBold",Color3.fromRGB(202, 172, 242),6)
 	else
 	FastToast("Tap <u><b>"..[[<font color="]]..KeybindRGB..[[">]]..Keybind..[[</font>]].."</b></u> to hide the SmartBar","GothamBold",Color3.fromRGB(202, 172, 242),5)
 	end
 end
+--
+coroutine.wrap(function()
+wait(6.5)
+local day = os.date("%d")
+local month = os.date("%B")
+--
+if isfile("CloudzOS DayCount.txt") then
+else
+writefile("CloudzOS DayCount.txt", "0")
+end
+if isfile("CloudzOS MonthCount.txt") then
+else
+writefile("CloudzOS MonthCount.txt", month)
+end
+--
+if day == "1" then
+writefile("CloudzOS DayCount.txt", "0")
+end
+if readfile("CloudzOS DayCount.txt") < day then
+writefile("CloudzOS DayCount.txt", day)
+writefile("CloudzOS MonthCount.txt", month)
+if LocalPlayer.UserId == 263152704 then
+	local quotes = {"A new day already? Lets begin then!", "I see we're playing this game to start the day!! Good Choice!", "Today better not be exhausting!", "Lets try not to get banned today!", "Would you like to hear a cat fact? Well im not programmed to tell one... yet :3", "Woah! It's "..os.date("%A").." Already!?", "Man I'm tired but I'll stay awake for as long as you do!"}
+	local quotes2 = {"By the way!","If you didn't know!","Hope today is going well!","What a day this will be!","..I almost forgot to say the day actually!","I never ask as much as I want to but how are you?"}		
+	local randomq = quotes[math.random(#quotes)]
+	local randomq2 = quotes2[math.random(#quotes2)]
+	Toast(randomq,"GothamBlack",Color3.fromRGB(202, 172, 242),10)
+	wait(3)
+	Toast("Today is "..os.date("%A, %B %d!").." "..randomq2,"GothamBlack",Color3.fromRGB(202, 172, 242),10)
+else
+	local quotes = {"A new day already? Lets begin then!", "I see we're playing this game to start the day!! Good Choice!", "Today better not be exhausting!", "Lets try not to get banned today!", "Would you like to hear a cat fact? Well im not programmed to tell one... yet :3", "Woah! It's "..os.date("%A").." Already!?", "Man I'm tired but I'll stay awake for as long as you do!"}
+	local quotes2 = {"By the way!","If you didn't know!","Hope today is going well!","What a day this will be!","..I almost forgot to say the day actually!","I never ask as much as I want to but how are you?"}
+	local randomq = quotes[math.random(#quotes)]
+	local randomq2 = quotes2[math.random(#quotes2)]
+	Toast(randomq,"GothamBlack",Color3.fromRGB(202, 172, 242),10)
+	wait(3)
+	Toast("Today is "..os.date("%A, %B %d!").." "..randomq2,"GothamBlack",Color3.fromRGB(202, 172, 242),10)
+end
+end
+end)()
 
 coroutine.wrap(function()
 	while true do
@@ -11820,18 +11967,16 @@ coroutine.wrap(function()
 		FpsLabel.Text = tostring(UpdatedFPS)
 	end
 end)()
-
 --
-
 coroutine.wrap(function()
 	while true do
 		wait(0.1)
-		Domain.Idle.Time.Text = tonumber(os.date("%I", os.time()))..":"..tonumber(os.date("%M", os.time())).." "..os.date("%p", os.time())
-		Domain.Home.Data.data.Time.Text = "Current Time : "..tonumber(os.date("%I", os.time()))..":"..tonumber(os.date("%M", os.time()))..":"..tonumber(os.date("%S", os.time())).." "..os.date("%p", os.time())
-		Domain.Main.Time.Text = tonumber(os.date("%I", os.time()))..":"..tonumber(os.date("%M", os.time()))
-		Domain.Main.Time.AMPM.Text = os.date("%p", os.time())
-		Domain.Main.Time.Text = tonumber(os.date("%I", os.time()))..":"..tonumber(os.date("%M", os.time()))
-		Domain.Main.Time.AMPM.Text = os.date("%p", os.time())
+		Domain.Idle.Time.Text = tonumber(os.date("%I"))..":"..os.date("%M %p")
+		Domain.Home.Data.data.Time.Text = "Current Time : "..tonumber(os.date("%I"))..":"..os.date("%M")..":"..os.date("%S %p")
+		Domain.Main.Time.Text = tonumber(os.date("%I"))..":"..os.date("%M")
+		Domain.Main.Time.AMPM.Text = os.date("%p")
+		Domain.Main.Time.Text = tonumber(os.date("%I"))..":"..os.date("%M")
+		Domain.Main.Time.AMPM.Text = os.date("%p")
 	end
 end)()
 
