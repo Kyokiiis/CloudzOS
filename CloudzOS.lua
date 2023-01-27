@@ -102,7 +102,7 @@ end
 
 Domain.Parent = parent
 Domain.Main.Visible = true
-Domain.Main.Position = UDim2.new(0.5, 0, 1.20, 0)
+Domain.Main.Position = UDim2.new(0.5, 0, 1.25, 0)
 Domain.Main.KeybindNote.Position = UDim2.new(0.5,0,-1.303,0)
 Domain.Main.KeybindNote.Text = "Loading CloudzOS"
 Domain.Main.KeybindNote.Visible = true
@@ -119,10 +119,10 @@ local KeyWaitTime = 60
 
 local MlemixMode = false
 
-local Release = 4.8
+local Release = 4.87
 local KeySystemEnabled = false
-local ReleaseType = "CLDZ"
-local UpdateDetail = "Fixed Time System Bugs + Added CloudzOS AI (I made her rude to me and I regret it -. -) + She lets you know what day it is and her thoughts on certain things."
+local ReleaseType = "CLDYZ"
+local UpdateDetail = "Lowered CloudzOS Load Time to near instant load times (at times it is +1 second but not over 3 seconds) (Noticable after CloudzOS Updates!) + Fixed Natural Disaster's Configuration and other UI Bugs!"
 local Public = false
 local Beta = false
 
@@ -8505,7 +8505,7 @@ function VersionCheck()
 		end
 		if tostring(readfile("DomainX Version.txt")) ~= tostring(Release) then
 			GUIwarn("New Update Available ","rbxassetid://7734052335",Color3.fromRGB(197, 128, 255),5)
-			wait(5)
+			wait(7)
 			DomainLibrary:Notify({
 				Title = "CloudzOS {UPD}",
 				Content = "CloudzOS Has Been Updated! "..ReleaseType.." (v."..Release..")",
@@ -8521,6 +8521,7 @@ function VersionCheck()
 			end
 			 Toast("v"..Release.."/"..ReleaseType.." - "..UpdateDetail,"GothamBlack",Color3.fromRGB(202, 172, 242),6)
 			 wait(2)
+			 Toast("CloudzOS will now Continue to load in! Please Wait...","GothamBlack",Color3.fromRGB(202, 172, 242),6)
 			 metcloud()
 			 wait(3)
 			 Toast(randomqq,"GothamBlack",Color3.fromRGB(202, 172, 242),7)
@@ -8563,7 +8564,7 @@ function VersionCheck()
 				warn("DomainX - Not First Time, notifying")
 			end
 			GUIwarn("New Update Available ","rbxassetid://7734052335",Color3.fromRGB(197, 128, 255),5)
-			wait(5)
+			wait(7)
 			DomainLibrary:Notify({
 				Title = "CloudzOS {UPD}",
 				Content = "CloudzOS Has Been Updated! "..ReleaseType.." (v."..Release..")",
@@ -8579,6 +8580,7 @@ function VersionCheck()
 			end
 			Toast("v"..Release.."/"..ReleaseType.." - "..UpdateDetail,"GothamBlack",Color3.fromRGB(202, 172, 242),6)
 			 wait(2)
+			 Toast("CloudzOS will now Continue to load in! Please Wait...","GothamBlack",Color3.fromRGB(202, 172, 242),6)
 			 metcloud()
 			 wait(3)
 			 Toast(randomqq,"GothamBlack",Color3.fromRGB(202, 172, 242),7)
@@ -8624,18 +8626,21 @@ function VersionCheck()
 end
 
 function ContinueBoot()
+	local randomloadtimes = {3,0.1,0.5,0.8,0.4,1,0.3,0.7,0.1,1.4,2,1.5,1.1}
+	local WaitTimes = randomloadtimes[math.random(#randomloadtimes)]
+	Wait(WaitTimes)
 	DMNReady = true
 	Domain.Toasts.Position = UDim2.new(0.5, 0, 0.87, 0)
 	if DebugMode then
 		warn("DomainX - Continuing Boot Process (begun)")
 	end
 	Domain.Premium.Robux.Text = "or 2899 Robux"
-	FirstCheck()
 	VersionCheck()
+	FirstCheck()
+	coroutine.wrap(function()
 	if DebugMode then
 		warn("DomainX - Checked Version success")
 	end
-
 	if getconnections then
 		for i,v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
 			v:Disable()
@@ -8670,7 +8675,7 @@ function ContinueBoot()
 	StartAntiKick()
 	StartAntiIdle()
 	Domain.Home.Data.data.Players.Text = "Players: <b>"..tostring(#game.Players:GetChildren()).."/"..tostring(game.Players.MaxPlayers).."</b>"
-	Domain.Main.Position = UDim2.new(0.5, 0, 1.15, 0)
+	Domain.Main.Position = UDim2.new(0.5, 0, 1.25, 0)
 	Domain.Home.Discord.Info.RichText = true
 	Domain.Main.Time.Text = tonumber(os.date("%I"))..":"..os.date("%M")
 	Domain.Main.Time.AMPM.Text = os.date("%p")
@@ -8748,14 +8753,12 @@ function ContinueBoot()
 			warn("DomainX - Autoexec")
 		end
 		Domain.Main.KeybindNote.Text = "tap "..Keybind.." to start"
-		Domain.Main.Position = UDim2.new(0.5,0,1.05,0)
+		Domain.Main.Position = UDim2.new(0.5,0,1.25,0)
 		Domain.Main.Visible = true
 	end
 	if PremiumToastRequired == true then
 		Toast("Successfully upgraded license","GothamBlack")
 	end
-
-	FastToast("Loading into <b>CloudzOS v"..Release.."</b>","GothamBlack",Color3.fromRGB(172, 88, 245),2)
 	if protected then
 		if Client ~= "Universal" then	
 		local ClientRGB = rgb255RichText(Color3.fromRGB(158, 12, 166))
@@ -8880,7 +8883,7 @@ function ContinueBoot()
 		Toast("CloudzOS Has Detected Sirius and has kept the Smart Bar Closed!","GothamBlack",Color3.fromRGB(39, 176, 204), 5)
 	else
 	coroutine.wrap(function()
-	wait(2.5)
+	wait(0.5)
 	OpenMain()
 	end)()
 	end	
@@ -8963,6 +8966,7 @@ function ContinueBoot()
 	if DebugMode then
 		warn("Do.baX - Booted, ready!")
 	end
+end)()
 end
 function CheckLatest()
 	if DebugMode then
@@ -9046,30 +9050,50 @@ function InIntro()
 	Domain.EnterTitle.LoadTitle.Text = "Waiting "..readfile("CloudzOS Wait.txt").."s"
 	TweenService:Create(Domain.EnterTitle.LoadTitle, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
 	else
-		TweenService:Create(Domain.EnterTitle.LoadImage, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
-		wait(0.5)
-		TweenService:Create(Domain.EnterTitle.LoadImage, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {Position = UDim2.new(0.44,0,0,0)}):Play()
+		--[[
+		TweenService:Create(Domain.EnterTitle.LoadImage, TweenInfo.new(0.1, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
+		wait(0.2)
+		TweenService:Create(Domain.EnterTitle.LoadImage, TweenInfo.new(0.1, Enum.EasingStyle.Quint), {Position = UDim2.new(0.44,0,0,0)}):Play()
 		TweenService:Create(Domain.EnterTitle.LoadTitle, TweenInfo.new(0.1, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
-		TweenService:Create(Domain.EnterTitle.Progress, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
-		TweenService:Create(Domain.EnterTitle.Progress, TweenInfo.new(0.2, Enum.EasingStyle.Linear), {Size = UDim2.new(0,73,0,2)}):Play()
+		TweenService:Create(Domain.EnterTitle.Progress, TweenInfo.new(0.1, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+		TweenService:Create(Domain.EnterTitle.Progress, TweenInfo.new(0.1, Enum.EasingStyle.Linear), {Size = UDim2.new(0,73,0,2)}):Play()
+		]]
 	end
 end
 
 function OutIntro()
-	TweenService:Create(Domain.EnterTitle.LoadTitle, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
-	wait(0.2)
-	Domain.EnterTitle.LoadTitle.Text = "CloudzOS"
-	TweenService:Create(Domain.EnterTitle.LoadTitle, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
-	wait(0.3)
-	TweenService:Create(Domain.EnterTitle.Progress, TweenInfo.new(0.3, Enum.EasingStyle.Linear), {Size = UDim2.new(0,0,0,2)}):Play()
-	wait(0.2)
+	if readfile("CloudzOS Wait.txt") > "0" then
 	TweenService:Create(Domain.EnterTitle.LoadTitle, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
-	TweenService:Create(Domain.EnterTitle.Progress, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
-	TweenService:Create(Domain.EnterTitle.LoadImage, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Position = UDim2.new(0.44,0,0.445,0)}):Play()
-	wait(0.1)
-	TweenService:Create(Domain.EnterTitle.LoadImage, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+	wait(0.4)
+	Domain.EnterTitle.LoadTitle.Text = "CloudzOS"
+	TweenService:Create(Domain.EnterTitle.LoadTitle, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+	wait(0.4)
+	TweenService:Create(Domain.EnterTitle.Progress, TweenInfo.new(0.4, Enum.EasingStyle.Linear), {Size = UDim2.new(0,0,0,2)}):Play()
 	wait(0.3)
+	TweenService:Create(Domain.EnterTitle.LoadTitle, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+	TweenService:Create(Domain.EnterTitle.Progress, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+	TweenService:Create(Domain.EnterTitle.LoadImage, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Position = UDim2.new(0.44,0,0.445,0)}):Play()
+	wait(0.2)
+	TweenService:Create(Domain.EnterTitle.LoadImage, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+	wait(0.4)
 	Domain.EnterTitle.Visible = false
+	else
+		--[[
+		TweenService:Create(Domain.EnterTitle.LoadTitle, TweenInfo.new(0.1, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+	wait(0.1)
+	Domain.EnterTitle.LoadTitle.Text = "CloudzOS"
+	TweenService:Create(Domain.EnterTitle.LoadTitle, TweenInfo.new(0.1, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+	wait(0.2)
+	TweenService:Create(Domain.EnterTitle.Progress, TweenInfo.new(0.1, Enum.EasingStyle.Linear), {Size = UDim2.new(0,0,0,2)}):Play()
+	wait(0.2)
+	TweenService:Create(Domain.EnterTitle.LoadTitle, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+	TweenService:Create(Domain.EnterTitle.Progress, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+	TweenService:Create(Domain.EnterTitle.LoadImage, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {Position = UDim2.new(0.44,0,0.445,0)}):Play()
+	wait(0.1)
+	TweenService:Create(Domain.EnterTitle.LoadImage, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+	wait(0.2)
+	Domain.EnterTitle.Visible = false]]
+	end
 end
 
 function BootCloudzOS()
@@ -9082,7 +9106,7 @@ function BootCloudzOS()
 	if game:GetService("CoreGui"):FindFirstChild("LuaGuard Loader") then
 		game:GetService("CoreGui"):WaitForChild("Sirius")
 		Sirius = true
-		wait(2)
+		wait(5)
 	end
 	wait(readfile("CloudzOS Wait.txt"))
 	OutIntro()
@@ -9090,7 +9114,7 @@ function BootCloudzOS()
 		warn("DomainX - Beginning Boot Process")
 	end
 	Domain.Main.Visible = true
-	Domain.Main.Position = UDim2.new(0.5, 0, 1.05, 0)
+	Domain.Main.Position = UDim2.new(0.5, 0, 1.25, 0)
 	Domain.Main.KeybindNote.Position = UDim2.new(0.5,0,-1.303,0)
 	Domain.Main.KeybindNote.Text = "Loading CloudzOS"
 	Domain.Main.Buttons.ModulesButton.Visible = false
@@ -9800,6 +9824,7 @@ game:GetService("UserInputService").InputBegan:Connect(function(input, processed
 	end
 end)
 
+--
 local RunService = game:GetService("RunService")
 local FpsLabel = Domain.Home.FPS.FPSText
 
@@ -10218,7 +10243,6 @@ coroutine.wrap(function()
 	end
 end)()
 --CHAT SPAM
-
 coroutine.wrap(function()
 	for _, Player in ipairs(game:GetService("Players"):GetChildren()) do
 	local msgs = {}
@@ -10235,6 +10259,10 @@ coroutine.wrap(function()
 			if i == msg then duplicateMsgs += 1 end --if duplicate then adds 1
 		end
 		if duplicateMsgs == 3 then --if all 3 are duplicates then
+			if PlayerMuted then
+				return
+			else
+			end
 			DomainLibrary:SkySecurity({
 				Title = "CloudzOS {SkySecurity}",
 				Content = "CloudzOS possibly detected <b><i><u>"..Player.Name.."</u></i></b> to be spamming <b><i><u>('"..msgs[3].."')</u></i></b> in chat and have prompted choices based on this Information.",
@@ -10250,6 +10278,7 @@ coroutine.wrap(function()
 				Block = {
 					Name = "Block",
 					Callback = function()
+						PlayerMuted = true
 						game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/mute "..Player.Name,"All")
 						if constant == 0 then
 							constant +=1
@@ -10261,7 +10290,9 @@ coroutine.wrap(function()
 							})
 							coroutine.wrap(function()
 								wait(120)
+								PlayerMuted = false
 								game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..Player.Name,"All")
+								FastToast("Unmuted "..Player.Name.." After they've been muted for 2 minutes!","GothamMedium",Color3.fromRGB(125, 28, 21))
 							end)()
 						elseif constant == 1 then
 							constant +=1
@@ -10273,7 +10304,9 @@ coroutine.wrap(function()
 							})
 							coroutine.wrap(function()
 								wait(300)
+								PlayerMuted = false
 								game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..Player.Name,"All")
+								FastToast("Unmuted "..Player.Name.." After they've been muted for 5 minutes!","GothamMedium",Color3.fromRGB(125, 28, 21))
 							end)()
 						elseif constant > 2 then
 							constant +=1
@@ -10285,7 +10318,9 @@ coroutine.wrap(function()
 							})
 							coroutine.wrap(function()
 								wait(600)
+								PlayerMuted = false
 								game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..Player.Name,"All")
+								FastToast("Unmuted "..Player.Name.." After they've been muted for 10 minutes!","GothamMedium",Color3.fromRGB(125, 28, 21))
 							end)()
 						end
 				 end
@@ -10573,59 +10608,98 @@ game.Players.PlayerAdded:Connect(function(Player)
 	end
 	--
 	coroutine.wrap(function()
-	local msgs = {}
-	Player.Chatted:Connect(function(msg)
-		if Player.Name == LocalPlayer.Name then
-			return
-		else
-		end
-		msgs[3] = msgs[2]; msgs[2] = msgs[1]; msgs[1] = msg --sorting order
-		
-		local duplicateMsgs = 0
-		for _, i in pairs(msgs) do
-			if i == msg then duplicateMsgs += 1 end --if duplicate then adds 1
-		end
-		if duplicateMsgs == 3 then --if all 3 are duplicates then
-			print(msgs[3])
-			DomainLibrary:SkySecurity({
-				Title = "CloudzOS {SkySecurity}",
-				Content = "CloudzOS possibly detected <b><i><u>"..Player.Name.."</u></i></b> to be spamming <b><i><u>('"..msgs[3].."')</u></i></b> in chat and have prompted choices based on this Information.",
-				Duration = 6.5,
-				Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
-				Actions = { -- Notification Buttons
-				   Ignore = {
-					  Name = "Ignore",
-					  Callback = function()
-					  return
-				   end
-				},
-				Block = {
-					Name = "Block",
-					Callback = function()
-						game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/mute "..Player.Name,"All")
-						DomainLibrary:SkySecurity({
-							Title = "CloudzOS {SkySecurity}",
-							Content = "Based on Information that CloudzOS has detected, CloudzOS has muted <b><i><u>"..Player.Name.."</u></i></b> for 2 minutes.",
-							Duration = 10,
-							Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
-						})
-						coroutine.wrap(function()
-							wait(120)
-							game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..Player.Name,"All")
-						end)()
-				 end
-			  },
-			 },
-			})
-			msgs = {} --resets
-		end
-		coroutine.wrap(function() --so wait() doesn't interfere by yielding
-			wait(3) --amount of time until message resets
-			for pos, i in pairs(msgs) do
-				if i == msg then msgs[pos] = nil; break end
+		local msgs = {}
+		Player.Chatted:Connect(function(msg)
+			if Player.Name == LocalPlayer.Name then
+				return
+			else
 			end
-		end)()
-	end)
+			msgs[3] = msgs[2]; msgs[2] = msgs[1]; msgs[1] = msg --sorting order
+			
+			local PlayerMuted = false
+			local duplicateMsgs = 0
+			local constant = 0
+			for _, i in pairs(msgs) do
+				if i == msg then duplicateMsgs += 1 end --if duplicate then adds 1
+			end
+			if duplicateMsgs == 3 then --if all 3 are duplicates then
+				if PlayerMuted then
+					return
+				else
+				end
+				DomainLibrary:SkySecurity({
+					Title = "CloudzOS {SkySecurity}",
+					Content = "CloudzOS possibly detected <b><i><u>"..Player.Name.."</u></i></b> to be spamming <b><i><u>('"..msgs[3].."')</u></i></b> in chat and have prompted choices based on this Information.",
+					Duration = 6.5,
+					Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
+					Actions = { -- Notification Buttons
+					   Ignore = {
+						  Name = "Ignore",
+						  Callback = function()
+						  return
+					   end
+					},
+					Block = {
+						Name = "Block",
+						Callback = function()
+							PlayerMuted = true
+							game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/mute "..Player.Name,"All")
+							if constant == 0 then
+								constant +=1
+								DomainLibrary:SkySecurity({
+									Title = "CloudzOS {SkySecurity}",
+									Content = "Based on Information that CloudzOS has detected, CloudzOS has muted <b><i><u>"..Player.Name.."</u></i></b> for 2 minutes.",
+									Duration = 10,
+									Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
+								})
+								coroutine.wrap(function()
+									wait(120)
+									PlayerMuted = false
+									game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..Player.Name,"All")
+									FastToast("Unmuted "..Player.Name.." After they've been muted for 2 minutes!","GothamMedium",Color3.fromRGB(125, 28, 21))
+								end)()
+							elseif constant == 1 then
+								constant +=1
+								DomainLibrary:SkySecurity({
+									Title = "CloudzOS {SkySecurity}",
+									Content = "Based on Information that CloudzOS has detected, CloudzOS has muted <b><i><u>"..Player.Name.."</u></i></b> for 5 minutes.",
+									Duration = 10,
+									Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
+								})
+								coroutine.wrap(function()
+									wait(300)
+									PlayerMuted = false
+									game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..Player.Name,"All")
+									FastToast("Unmuted "..Player.Name.." After they've been muted for 5 minutes!","GothamMedium",Color3.fromRGB(125, 28, 21))
+								end)()
+							elseif constant > 2 then
+								constant +=1
+								DomainLibrary:SkySecurity({
+									Title = "CloudzOS {SkySecurity}",
+									Content = "Based on Information that CloudzOS has detected, CloudzOS has muted <b><i><u>"..Player.Name.."</u></i></b> for 10 minutes.",
+									Duration = 10,
+									Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
+								})
+								coroutine.wrap(function()
+									wait(600)
+									PlayerMuted = false
+									game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..Player.Name,"All")
+									FastToast("Unmuted "..Player.Name.." After they've been muted for 10 minutes!","GothamMedium",Color3.fromRGB(125, 28, 21))
+								end)()
+							end
+					 end
+				  },
+				 },
+				})
+				msgs = {} --resets
+			end
+			coroutine.wrap(function() --so wait() doesn't interfere by yielding
+				wait(3) --amount of time until message resets
+				for pos, i in pairs(msgs) do
+					if i == msg then msgs[pos] = nil; break end
+				end
+			end)()
+		end)
 	end)()
 	--
 	Domain.Home.Data.data.Players.Text = "Players: <b>"..tostring(#game.Players:GetChildren()).."/"..tostring(game.Players.MaxPlayers).."</b>"
@@ -11249,6 +11323,8 @@ end
 
 BootCloudzOS()
 
+coroutine.wrap(function()
+
 --KP CONFIG
 function BlackoutEnabled()
 	GUIwarn("Facility Blackout","rbxassetid://11668712830",Color3.fromRGB(166, 41, 41),750)
@@ -11476,38 +11552,22 @@ if(game.PlaceId == 189707) then
 		Conclusion = "<b>"..GameName.."'s</b> anti-cheat systems are there although not too great. They seem to be enforcing rules as of 12/05/2022. although none found about exploits (though we all know those are not permitted anywhere) and they seem to not have any report system.",
  	})
 	--
-	LocalPlayer.Character:FindFirstChild("SurvivalTag")
-	Toast("CloudzOS Has Detected that the Current Disaster is " ..LocalPlayer.Character.SurvivalTag.Value.."!","GothamBlack",Color3.fromRGB(125, 28, 21),10)
-	--
-	LocalPlayer.CharacterAdded:Connect(function()
-		LocalPlayer.Character.FallDamageScript:Destroy()
-		LocalPlayer.Character:WaitForChild("SurvivalTag")
-		Toast("CloudzOS Has Detected that the next Disaster is " ..LocalPlayer.Character.SurvivalTag.Value.."!","GothamBlack",Color3.fromRGB(125, 28, 21),10)
-	end)
-	local open = false
-	UserInputService.InputBegan:Connect(function(input)
-		if input.KeyCode == Enum.KeyCode.Minus then
-			if open == false then
-				open = true
-			game:GetService("Players").LocalPlayer.PlayerGui.MainGui.MapVotePage.Visible = true
-			elseif open == true then
-				open = false
-				game:GetService("Players").LocalPlayer.PlayerGui.MainGui.MapVotePage.Visible = false
-			end
-		end	
-	end)
 	Toast("Configuration Found and Loaded : Disaster Detections","GothamSemibold",Color3.fromRGB(181, 136, 31),4)
-	wait(0.5)
-	Toast("Configuration : Disaster Detections has also disabled fall damage!","GothamSemibold",Color3.fromRGB(181, 136, 31),2)
-	wait(1)
-	local MKeybindRGB = rgb255RichText(Color3.fromRGB(255, 166, 0))
-	local Key = "- (Minus)"
-	FastToast("Tap <b>"..[[<font color="]]..MKeybindRGB..[[">]]..Key..[[</font>]].."</b> to open Map Vote!","GothamBlack",Color3.fromRGB(181, 136, 31),10)
-end
+	coroutine.wrap(function()
+	function findstorm()
+    	LocalPlayer.Character:WaitForChild("SurvivalTag")
 
--- Evade 
-if(game.PlaceId == 9872472334) then
-	--
+		local warns = {"Be Ready! I found that the next disaster will be ","You got this! The next disaster is ","Hey, Don't ask how I know this but the next disaster is ","I'm just gonna leave this here.. Next Disaster -> ","Make sure you don't die! The Next Disaster will beeee "}
+		local randomq = warns[math.random(#warns)]
+    	Toast(randomq..""..LocalPlayer.Character.SurvivalTag.Value,"GothamBlack",Color3.fromRGB(181, 136, 31),4)
+    	repeat 
+       		wait(0.1)
+    		STag = LocalPlayer.Character:FindFirstChild("SurvivalTag")
+   		 until STag == nil
+    	findstorm()
+	end
+	findstorm()
+	end)()
 end
 
 -- Twisted 
@@ -11880,11 +11940,11 @@ end
 coroutine.wrap(function()
 Configurations()
 end)()
+end)() --
+
 -- END OF CONFIGURATIONS
 local KeybindRGB = rgb255RichText(Color3.fromRGB(255,255,255))
-
-Toast("CloudzOS has Loaded in completely in "..("%.3f"):format(CheckExecutionTime()).." Seconds","GothamMedium",Color3.fromRGB(172, 88, 245),5)
-
+FastToast("CloudzOS has Loaded in completely in "..("%.3f"):format(CheckExecutionTime()).." Seconds","GothamMedium",Color3.fromRGB(172, 88, 245),5)
 loadtimetotal = CheckExecutionTime()
 coroutine.wrap(function()
 	wait(1)
@@ -11893,7 +11953,7 @@ coroutine.wrap(function()
 			local reactiontoload = {"I blame You for me loading in so slowly!! >:C I would hit you him but I'm in a screen!","God dammit that was slower than usual! Might have been the stupid game's fault!", "Alright that might have been my fault! Im terribly sorry!!!","Bro this time I dont even know how I loaded so slowly!! this sucks!","Hey, sorry for loading slow YOU ARE STUPID THATS WHY I LOADED SO SLOWLY!","Hiiiiiiiii this wasnt my faulttt :3"}
 			local Response = reactiontoload[math.random(#reactiontoload)]
 		Toast(Response,"GothamBlack",Color3.fromRGB(202, 172, 242),3)
-		elseif loadtimetotal < 5 then
+		elseif loadtimetotal < 3 then
 			local reactiontoload = {"Hell yeah! I was fast loading in!","WOOOOOOOOOOO is that a new record? no? oh..","Yeah! that loading time is a win in my book!","Loading in fast is actually really nice!","I bet ya Error is wishing he had me to hack >:D","Fuck Error, From what I've heard from the unreliable source that is You.. YES YOU, He sucks","Punch me! that loadtime was nuts! wait.. you can't punch me..... wait please don't punch me!"}
 			local Response = reactiontoload[math.random(#reactiontoload)]
 		Toast(Response,"GothamBlack",Color3.fromRGB(202, 172, 242),3)
@@ -11903,7 +11963,7 @@ coroutine.wrap(function()
 			local reactiontoload = {"I blame Milo for me loading in so slowly!! >:C I would hit him but I'm in a screen!","God dammit that was slower than usual! Might have been the stupid game's fault!", "Alright that might have been my fault! Im terribly sorry!!!","Bro this time I dont even know how I loaded so slowly!! this sucks!","Hey, sorry for loading slow MILO IS STUPID THATS WHY I LOADED SO SLOWLY!","Hiiiiiiiii this wasnt my faulttt :3"}
 			local Response = reactiontoload[math.random(#reactiontoload)]
 		Toast(Response,"GothamBlack",Color3.fromRGB(202, 172, 242),3)
-		elseif loadtimetotal < 5 then
+		elseif loadtimetotal < 3 then
 			local reactiontoload = {"Hell yeah! I was fast loading in! thank Milo for it!","WOOOOOOOOOOO is that a new record? no? oh..","Yeah! that loading time is a win in my book!","Loading in fast is actually really nice!","I bet ya Error is wishing he had me to hack >:D","Fuck Error, From what I've heard from the unreliable source that is Milo, He sucks","Punch me! that loadtime was nuts! wait.. you can't punch me..... wait please don't punch me!"}
 			local Response = reactiontoload[math.random(#reactiontoload)]
 		Toast(Response,"GothamBlack",Color3.fromRGB(202, 172, 242),3)
