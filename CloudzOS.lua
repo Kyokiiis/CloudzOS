@@ -119,10 +119,10 @@ local KeyWaitTime = 60
 
 local MlemixMode = false
 
-local Release = 4.87
+local Release = 4.89
 local KeySystemEnabled = false
-local ReleaseType = "CLDYZ"
-local UpdateDetail = "Lowered CloudzOS Load Time to near instant load times (at times it is +1 second but not over 3 seconds) (Noticable after CloudzOS Updates!) + Fixed Natural Disaster's Configuration and other UI Bugs!"
+local ReleaseType = "CLDZ"
+local UpdateDetail = "Added Custom Tower Defense Script!"
 local Public = false
 local Beta = false
 
@@ -1410,6 +1410,14 @@ local UniversalScripts = {
 	},
 }
 local DetectionScripts = {
+	TDSMash = {
+		Name = "Tower Defense Simulator",
+		Description = "A mash of scripts and writen code made by Cloudy Studios! Hope you enjoy! we spent a minimal amount of time on it yet still pretty good.",
+		Colour = Color3.fromRGB(141, 174, 227),
+		Games = {3260590327,5591597781},
+		Premium = true,
+		Loadstring = "https://raw.githubusercontent.com/Kyokiiis/CloudzOS/main/Games./Tower%20Defense%20Simulator",
+	},
 	spongebobguess = {
 		Name = "Teleport to finish",
 		Description = "This script will teleport to the finish of the game. ha mlemix",
