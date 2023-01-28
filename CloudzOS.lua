@@ -122,7 +122,7 @@ local MlemixMode = false
 local Release = 4.89
 local KeySystemEnabled = false
 local ReleaseType = "CLDZ"
-local UpdateDetail = "Added Custom Tower Defense Script!"
+local UpdateDetail = "Added Custom Tower Defense Script! + Bug Fixes"
 local Public = false
 local Beta = false
 
