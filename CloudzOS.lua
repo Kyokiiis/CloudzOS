@@ -8,7 +8,6 @@ local ROBLOXMENU = nil
 local ROBLOXMENUC = nil
 local SiriusFind = nil
 --
-
 if readfile("CloudzOS Risk.txt") == true then
 	getgenv().Blur = nil
 else
@@ -457,6 +456,8 @@ end)()
 		--Duration = 6.5,
 		--Image = 4335476290,
 	 --}) 
+
+-- WOAH
 
 local NotifSettings = nil
 
