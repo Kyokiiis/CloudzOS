@@ -1,3 +1,5 @@
+local LocalPlayer = game:GetService("Players").LocalPlayer;
+function GUI()
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
 
 local Window = Rayfield:CreateWindow({
@@ -141,6 +143,9 @@ local Section = TabL:CreateSection("----")
     end,
  })
 
+
+ local Paragraph = TabG:CreateParagraph({Title = "Auto-Chain Info", Content = "Auto-Chain Allows the player to automatically Chain certain towers such as Commanders (Chaining is basically turning on another towers ability as soon as one is turned off) "})
+
  local Button = TabG:CreateButton({
     Name = "Medic",
     Callback = function()
@@ -153,8 +158,6 @@ local Section = TabL:CreateSection("----")
      })
     end,
  })
-
- local Paragraph = TabG:CreateParagraph({Title = "Auto-Chain Info", Content = "Auto-Chain Allows the player to automatically Chain certain towers such as Commanders (Chaining is basically turning on another towers ability as soon as one is turned off) "})
 
  local Section = TabG:CreateSection("-- Auto Skip --")
 
@@ -230,10 +233,8 @@ local Section = TabL:CreateSection("----")
                 game:GetService("ReplicatedStorage").RemoteFunction:InvokeServer("Troops","Abilities","Activate",{["Troop"] = v,["Name"] = "Swarm"})
             elseif v.Owner.Value == game.Players.LocalPlayer.UserId and v.Replicator:GetAttribute("Type") == "Gladiator" then
                 game:GetService("ReplicatedStorage").RemoteFunction:InvokeServer("Troops","Abilities","Activate",{["Troop"] = v,["Name"] = "Warrior's Call"})
-            elseif v.Owner.Value == game.Players.LocalPlayer.UserId and v.Replicator:GetAttribute("Type") == "Medic" then
-                --game:GetService("ReplicatedStorage").RemoteFunction:InvokeServer("Troops","Abilities","Activate",{["Troop"] = v,["Name"] = "Cleansing"})
             end
-            end
+        end
         end
     end,
  })
@@ -321,19 +322,44 @@ coroutine.wrap(function()
         wait(0.1)
         while ToggleA.CurrentValue do
             wait(1)
-            for i,v in pairs(game:GetService("Workspace").Towers:GetChildren()) do 
-                if v:FindFirstChild("Owner") then 
-                if v.Owner.Value == game.Players.LocalPlayer.UserId and v.Replicator:GetAttribute("Type") == "Commander" then
+            for _, v in ipairs(game:GetService("Workspace").Towers:GetChildren()) do
+	            if v.Owner.Value == game.Players.LocalPlayer.UserId and v.Replicator:GetAttribute("Type") == "Commander" then
+                --
+	            if v.Target.Value == nil then
+                else
                     game:GetService("ReplicatedStorage").RemoteFunction:InvokeServer("Troops","Abilities","Activate",{["Troop"] = v,["Name"] = "Call Of Arms"})
-                elseif v.Owner.Value == game.Players.LocalPlayer.UserId and v.Replicator:GetAttribute("Type") == "Swarmer" then
-                    game:GetService("ReplicatedStorage").RemoteFunction:InvokeServer("Troops","Abilities","Activate",{["Troop"] = v,["Name"] = "Swarm"})
-                elseif v.Owner.Value == game.Players.LocalPlayer.UserId and v.Replicator:GetAttribute("Type") == "Gladiator" then
-                    game:GetService("ReplicatedStorage").RemoteFunction:InvokeServer("Troops","Abilities","Activate",{["Troop"] = v,["Name"] = "Warrior's Call"})
-                elseif v.Owner.Value == game.Players.LocalPlayer.UserId and v.Replicator:GetAttribute("Type") == "Medic" then
-                    --game:GetService("ReplicatedStorage").RemoteFunction:InvokeServer("Troops","Abilities","Activate",{["Troop"] = v,["Name"] = "Cleansing"})
                 end
+                --
+                elseif v.Owner.Value == game.Players.LocalPlayer.UserId and v.Replicator:GetAttribute("Type") == "Swarmer" then
+                --
+                    if v.Target.Value == nil then
+                    else
+                        game:GetService("ReplicatedStorage").RemoteFunction:InvokeServer("Troops","Abilities","Activate",{["Troop"] = v,["Name"] = "Swarm"})
+                    end
+                --
+                elseif v.Owner.Value == game.Players.LocalPlayer.UserId and v.Replicator:GetAttribute("Type") == "Gladiator" then
+                --
+                    if v.Target.Value == nil then
+                    else
+                    game:GetService("ReplicatedStorage").RemoteFunction:InvokeServer("Troops","Abilities","Activate",{["Troop"] = v,["Name"] = "Warrior's Call"})
+                    end
+                --
                 end
             end
         end
    end
 end)()
+
+end
+
+GUI()
+
+LocalPlayer.OnTeleport:Connect(function(State)
+    if game.PlaceId == 3260590327 or 5591597781 then
+    if State == Enum.TeleportState.InProgress then
+        syn.queue_on_teleport([[
+            loadstring(game:HttpGet('https://raw.githubusercontent.com/Kyokiiis/CloudzOS/main/Games./Tower%20Defense%20Simulator',true))()
+        ]])
+    end
+    end
+end)
