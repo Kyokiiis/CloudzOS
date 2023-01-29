@@ -3313,11 +3313,11 @@ function OpenMain()
 	Domain.Main.Time.AMPM.TextTransparency = 1
 	Domain.Main.Position = UDim2.new(0.5, 0, 1.25, 0)
 	Domain.Main.Visible = true
-
+	coroutine.wrap(function()
 	if eleganceE then
 		PreviousElegance()
 	end
-
+	end)()
 	local transitionInfo = TweenInfo.new(1, Enum.EasingStyle.Quint)
 	local tween = TweenService:Create(Domain.Main, transitionInfo, {Position = UDim2.new(0.5, 0,1, -12)})
 	tween:Play()
