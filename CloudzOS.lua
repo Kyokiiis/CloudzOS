@@ -1416,7 +1416,7 @@ local DetectionScripts = {
 		Colour = Color3.fromRGB(141, 174, 227),
 		Games = {3260590327,5591597781},
 		Premium = true,
-		Loadstring = "https://raw.githubusercontent.com/Kyokiiis/CloudzOS/main/Games./Tower%20Defense%20Simulator",
+		Loadstring = "https://raw.githubusercontent.com/Kyokiiis/CloudzOS/main/Games/Tower%20Defense%20Simulator",
 	},
 	spongebobguess = {
 		Name = "Teleport to finish",
