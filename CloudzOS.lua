@@ -1504,7 +1504,7 @@ local DetectionScripts = {
 		Name = "RealZzHub",
 		Description = "Currently the best script right now for games like Kaiju Paradise or Arsenal.",
 		Colour = Color3.fromRGB(252, 148, 3),
-		Games = {286090429,662417684,2413927524,5987922834},
+		Games = {286090429,662417684,2413927524,5987922834,8318588114,6456351776},
 		Premium = true,
 		Loadstring = "https://raw.githubusercontent.com/RealZzHub/MainV2/main/Main.lua",
 	},
