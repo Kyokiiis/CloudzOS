@@ -8,6 +8,7 @@ local ROBLOXMENU = nil
 local ROBLOXMENUC = nil
 local SiriusFind = nil
 --
+
 if readfile("CloudzOS Risk.txt") == true then
 	getgenv().Blur = nil
 else
@@ -457,8 +458,6 @@ end)()
 		--Image = 4335476290,
 	 --}) 
 
--- WOAH
-
 local NotifSettings = nil
 
 function DomainLibrary:Notify(NotificationSettings)
@@ -864,7 +863,7 @@ function UnMuffleSound()
 		end
 	end
 end
---
+--[[
 coroutine.wrap(function()
 local maxLoudness = 75
 while true do
@@ -872,10 +871,12 @@ while true do
     for _, audioSource in pairs(game:GetService("Workspace"):GetChildren()) do
         if audioSource:IsA("Sound") and audioSource.PlaybackLoudness > maxLoudness then
 			audioSource.Volume = 0.01
-        end
+		else
+			audioSource.Volume = 0.5
+		end
     end
 end
-end)()
+end)()]]
 --[[
 
 DomainLibrary:RiskAnalysis({
