@@ -119,10 +119,10 @@ local KeyWaitTime = 60
 
 local MlemixMode = false
 
-local Release = 4.89
+local Release = 4.9
 local KeySystemEnabled = false
 local ReleaseType = "CLDZ"
-local UpdateDetail = "Added Custom Tower Defense Script! + Bug Fixes"
+local UpdateDetail = "Smart Bar Button Highlight lag Fixed and changed + Page layout fixed + Elegance Fixed + ESC Menu Detection Disabled + Other Bug Fixes"
 local Public = false
 local Beta = false
 
@@ -2210,11 +2210,10 @@ function Kill(Player)
 	end
 end
 
-local eleganceon = false
+local eleganceE = false
 
 function PreviousElegance(check)
-	eleganceon = false
-	left = false
+	eleganceE = false
 	--[[
 	if not check then
 		game:GetService("StarterGui"):SetCoreGuiEnabled(Enum.CoreGuiType.Backpack,false)
@@ -2312,7 +2311,7 @@ function elegance(check)
 		end
 	end]]
 	Domain.DisplayOrder = 1
-	eleganceon = true
+	eleganceE = true
 	--[[for _, GameID in pairs(KaijuParadise) do
 		if GameID == game.PlaceId then
 			TweenService:Create(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.InventoryGui, TweenInfo.new(1, Enum.EasingStyle.Quint), {Position = UDim2.new(0, 0,0.93,-70)}):Play()
@@ -2400,30 +2399,29 @@ end
 
 local hotbar = game:GetService("CoreGui").RobloxGui.Backpack
 local checkbar = false
-
+--[[
 if hotbar.Visible == true then
 checkbar = true
 elseif hotbar.Visible == false then
 checkbar = false
-end
+end]]
 
 local gamemenuopened = false
 
 Domain.Main.MouseEnter:Connect(function()
+	coroutine.wrap(function()
 	if scriptsopen or plrlistopen or plrconopen or gamemenuopened or homeopen or jcopen then 
 		return
 	end
 	left = false
 	PreviousElegance()
+end)()
 end)
 
 function MenuOpenedE()
 	if LocalPlayer.Character.Humanoid.Health == 0 then
 		return
 	else
-	end
-	if scriptsopen or plrlistopen or plrconopen or homeopen or jcopen then 
-		return
 	end
 	coroutine.wrap(function()
 	PreviousElegance()
@@ -2453,14 +2451,11 @@ function MenuOpenedE()
 			tween:Play()
 		end
 	end
-	ROBLOXMENUC:Disconnect()
-    ROBLOXMENUC = GuiService.MenuClosed:Connect(MenuClosedE)
+	--ROBLOXMENUC:Disconnect()
+    --ROBLOXMENUC = GuiService.MenuClosed:Connect(MenuClosedE)
 end
 
 function MenuClosedE()
-	if scriptsopen or plrlistopen or plrconopen or homeopen or jcopen then 
-		return
-	end
 	coroutine.wrap(function()
 	for __,v in pairs(game:GetDescendants()) do -- the path
 		if v.Name == "MuffleMenu" then -- the item
@@ -2504,15 +2499,15 @@ end)()
 			tween:Play()
 		end
 	end
-	ROBLOXMENU:Disconnect()
-    ROBLOXMENU = GuiService.MenuOpened:Connect(MenuOpenedE)
+	--ROBLOXMENU:Disconnect()
+   --ROBLOXMENU = GuiService.MenuOpened:Connect(MenuOpenedE)
 end
 --
-ROBLOXMENU = GuiService.MenuOpened:Connect(MenuOpenedE)
-ROBLOXMENUC = GuiService.MenuClosed:Connect(MenuClosedE)
+--ROBLOXMENU = GuiService.MenuOpened:Connect(MenuOpenedE)
+--ROBLOXMENUC = GuiService.MenuClosed:Connect(MenuClosedE)
 
 -- Home
-
+--[[
 coroutine.wrap(function()
 while true do
 	wait(0.1)
@@ -2651,21 +2646,26 @@ Domain.Main.Buttons.ScriptsButton.Interact.MouseEnter:Connect(function()
 	TweenService:Create(Domain.Main.Buttons.ScriptsButton.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Color = Color3.fromRGB(255, 209, 24)}):Play()
 	TweenService:Create(Domain.Main.Buttons.ScriptsButton.Icon, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {ImageColor3 = Color3.fromRGB(255, 209, 24)}):Play()
 	wait(0.6)
-end)
+end)]]
 
--- enter V2 --[[
---[[
+-- enter V2 --
 for _, obj in ipairs(Domain.Main.Buttons:GetChildren()) do
 	if obj.ClassName == "Frame" then
-		obj.Interact.MouseLeave:Connect(function()
-
+		obj.MouseLeave:Connect(function()
+			coroutine.wrap(function()
+		TweenService:Create(obj, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {BackgroundColor3 = Color3.fromRGB(50, 50, 50)}):Play()
+		TweenService:Create(obj, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 36, 0, 36)}):Play()
+			end)()
 		end)
 
-		obj.Interact.MouseEnter:Connect(function()
-
+		obj.MouseEnter:Connect(function()
+			coroutine.wrap(function()
+		TweenService:Create(obj, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {BackgroundColor3 = Color3.fromRGB(200, 200, 200)}):Play()
+		TweenService:Create(obj, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 40, 0, 40)}):Play()
+	end)()
 		end)
 	end
-end]]
+end
 
 function Windowmuffle()
 	for __,v in pairs(game:GetDescendants()) do
@@ -2776,17 +2776,39 @@ end
 
 --
 Domain.Main.MouseLeave:Connect(function()
+	coroutine.wrap(function()
 	if scriptsopen or plrlistopen or plrconopen or gamemenuopened or homeopen or jcopen then 
 		return
 	end
 	left = true
-	wait(20)
-	if not left then
+	wait(0.1) 
+	if not left or scriptsopen or plrlistopen or plrconopen or gamemenuopened or homeopen or jcopen then
+		return
+	end
+	wait(0.1)
+	if not left or scriptsopen or plrlistopen or plrconopen or gamemenuopened or homeopen or jcopen then
+		return
+	end
+	wait(0.1) 
+	if not left or scriptsopen or plrlistopen or plrconopen or gamemenuopened or homeopen or jcopen then
+		return
+	end
+	wait(0.1)
+	if not left or scriptsopen or plrlistopen or plrconopen or gamemenuopened or homeopen or jcopen then
+		return
+	end
+	wait(25)
+	if not left or scriptsopen or plrlistopen or plrconopen or gamemenuopened or homeopen or jcopen then
 		return
 	end
 	elegance()
+	wait(30)
+	if not left or scriptsopen or plrlistopen or plrconopen or gamemenuopened or homeopen or jcopen then
+		return
+	end
+	CloseMain()
+end)()
 end)
-
 -- e
 function checkM()
 if Domain.Main.Visible == true then
@@ -2797,10 +2819,12 @@ end
 end
 --
 
+left1 = false
+
 function FocusedW()
     if gamemenuopened == true then
 	elseif gamemenuopened == false then
-		left = false
+		left1 = false
 		UnWindowMuffle()
 		--IdleOff()
 		setfpscap(1000)
@@ -2815,17 +2839,25 @@ function UnfocusedW()
     if scriptsopen or plrlistopen or plrconopen or gamemenuopened or homeopen or jcopen then 
 		return
 	end
-	left = true
+	left1 = true
 	wait(0.1) 
-	if not left then
+	if not left1 or scriptsopen or plrlistopen or plrconopen or gamemenuopened or homeopen or jcopen then
 		return
 	end
 	wait(0.1)
-	if not left then
+	if not left1 or scriptsopen or plrlistopen or plrconopen or gamemenuopened or homeopen or jcopen then
+		return
+	end
+	wait(0.1) 
+	if not left1 or scriptsopen or plrlistopen or plrconopen or gamemenuopened or homeopen or jcopen then
+		return
+	end
+	wait(0.1)
+	if not left1 or scriptsopen or plrlistopen or plrconopen or gamemenuopened or homeopen or jcopen then
 		return
 	end
 	wait(25)
-	if not left then
+	if not left1 or scriptsopen or plrlistopen or plrconopen or gamemenuopened or homeopen or jcopen then
 		return
 	end
 	Windowmuffle()
@@ -3282,6 +3314,10 @@ function OpenMain()
 	Domain.Main.Position = UDim2.new(0.5, 0, 1.25, 0)
 	Domain.Main.Visible = true
 
+	if eleganceE then
+		PreviousElegance()
+	end
+
 	local transitionInfo = TweenInfo.new(1, Enum.EasingStyle.Quint)
 	local tween = TweenService:Create(Domain.Main, transitionInfo, {Position = UDim2.new(0.5, 0,1, -12)})
 	tween:Play()
@@ -3551,7 +3587,7 @@ function OpenPlayerConfig()
 	Domain.Player.Divider.Size = UDim2.new(0,0,0.007,0)
 	Domain.Player.Visible = true
 	local transitionInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quint)
-	local tween = TweenService:Create(Domain.Player, transitionInfo, {Position = UDim2.new(0.5,0,0.81,0)})
+	local tween = TweenService:Create(Domain.Player, transitionInfo, {Position = UDim2.new(0.5,0,0.8,0)})
 	tween:Play()
 	local transitionInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quint)
 	local tween = TweenService:Create(Domain.Player, transitionInfo, {Size = UDim2.new(0.296,0,0.201,0)})
@@ -3961,13 +3997,11 @@ function OpenScripts()
 	Domain.Scripts.Titlebar.Title.Text = "Main Page"
     Domain.Scripts.Titlebar.Icon.ImageTransparency = 1
 	Domain.Scripts.undo.ImageTransparency = 1
-	Domain.Scripts.Position = UDim2.new(0.5,0,0.81,0)
+	Domain.Scripts.Position = UDim2.new(0.5,0,0.78,0)
 	Domain.Scripts.BackgroundTransparency = 1
 	Domain.Scripts.Visible = true
 	Domain.Scripts.Main.Visible = true
-	local transitionInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quint)
-	local tween = TweenService:Create(Domain.Scripts, transitionInfo, {Position = UDim2.new(0.5,0,0.82,0)})
-	tween:Play()
+	TweenService:Create(Domain.Scripts, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Position = UDim2.new(0.5,0,0.81,0)}):Play()
 		blurlightS = nil
 		if not getgenv().Blur then
 			blurlightS = Instance.new("DepthOfFieldEffect",game:GetService("Lighting"))
@@ -5372,6 +5406,7 @@ elseif gamesopen then
 	local transitionInfo = TweenInfo.new(0.6, Enum.EasingStyle.Quint)
 	local tween = TweenService:Create(Domain.Scripts, transitionInfo, {BackgroundTransparency = 1})
 	tween:Play()
+	TweenService:Create(Domain.Scripts, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Position = UDim2.new(0.5,0,0.78,0)}):Play()
 
 	neon:UnbindFrame(Domain.Scripts.BlurModule)
 	if not getgenv().Blur then
@@ -5611,6 +5646,7 @@ function buttonplayerlist()
 		TweenService:Create(Domain.Playerlist.Search.UIStroke, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
 		TweenService:Create(Domain.Playerlist.Search.SearchBox, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
 		TweenService:Create(Domain.Playerlist.Search.Icon, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+
 		wait(0.7)
 		Domain.Playerlist.Buttons.Visible = false
 	end
@@ -5695,7 +5731,7 @@ function OpenPlayerlist()
 	playerlistui.BackgroundTransparency = 1
 	playerlistui.UIStroke.Transparency = 1
 	playerlistui.Main.Position = UDim2.new(0, 0, 1, 0)
-	playerlistui.Position = UDim2.new(0.5,0,0.8,0)
+	playerlistui.Position = UDim2.new(0.5,0,0.78,0)
 	--
 	playerlistui.Titlebar.BackgroundTransparency = 1
 	playerlistui.Titlebar.Frame.BackgroundTransparency = 1
@@ -5719,7 +5755,7 @@ function OpenPlayerlist()
 	end
 	playerlistui.Visible = true
 	-- ANIMATED --
-	TweenService:Create(playerlistui, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Position = UDim2.new(0.5,0,0.82,0)}):Play()
+	TweenService:Create(playerlistui, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Position = UDim2.new(0.5,0,0.81,0)}):Play()
 	if not getgenv().Blur then
 		TweenService:Create(playerlistui, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.4}):Play()
 		else
@@ -7592,11 +7628,11 @@ function OpenSettings()
 		game:GetService("Debris"):AddItem(script,0)
 	end
 	--
-	settingsui.Position = UDim2.new(0.5,0,0.8,0)
+	settingsui.Position = UDim2.new(0.5,0,0.78,0)
 	settingsui.Visible = true
 	jcopen = true
 	TweenService:Create(Domain.Toasts, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {Position = UDim2.new(0.5, 0, 0.58, 0)}):Play()
-	TweenService:Create(settingsui, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Position = UDim2.new(0.5,0,0.82,0)}):Play()
+	TweenService:Create(settingsui, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Position = UDim2.new(0.5,0,0.81,0)}):Play()
 	if not getgenv().Blur then
 		TweenService:Create(settingsui, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.4}):Play()
 		else
