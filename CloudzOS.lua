@@ -9143,7 +9143,10 @@ function OutIntro()
 end
 
 function BootCloudzOS()
-	olduidestroy()
+	if _G.Run then
+		olduidestroy()
+	end
+	_G.Run = true
 	local Start_Time = os.clock() -- This is start time
 	function CheckExecutionTime()
 	return os.clock()-Start_Time -- Returns execution time in seconds
