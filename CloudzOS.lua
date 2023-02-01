@@ -9143,16 +9143,7 @@ function OutIntro()
 end
 
 function BootCloudzOS()
-	if _G.CloudzOSRun then
-		olduidestroy()
-		coroutine.wrap(function()
-		repeat
-			wait(0.1)
-		until CloudzOSLoaded
-		FastToast("CloudzOS Has been Executed <b>Second</b> Time and may experience some issues!","GothamMedium",Color3.fromRGB(125, 28, 21))
-		end)()
-	end
-	_G.CloudzOSRun = true
+	olduidestroy()
 	local Start_Time = os.clock() -- This is start time
 	function CheckExecutionTime()
 	return os.clock()-Start_Time -- Returns execution time in seconds
