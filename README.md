@@ -20,6 +20,6 @@ CloudzOS
 --<>--<>--<>--
 
 
-𝘩𝘵𝘵𝘱𝘴://𝘤𝘭𝘰𝘶𝘥𝘻𝘰𝘴.𝘤𝘢𝘳𝘳𝘥.𝘤𝘰
+https://cloudzos.carrd.co
 
 < Made By Kyokiiis >
