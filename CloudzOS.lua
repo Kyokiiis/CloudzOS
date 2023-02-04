@@ -6767,8 +6767,6 @@ function ChangeWallpaperS(WallpaperFileName)
 	end
 	if CheckWritefile() then
 		if isfile(WallpaperFileName) then
-			Domain.Home.Wallpaper.Visible = true
-			Domain.Home.Wallpaper.ImageTransparency = 1
 			if getsynasset then
 				Domain.Home.Wallpaper.Image = getsynasset(WallpaperFileName)
 				writefile("DomainX Wallpaper.txt",WallpaperFileName)
@@ -6780,9 +6778,6 @@ function ChangeWallpaperS(WallpaperFileName)
 			else
 				Toast("Missing getcustomasset function!","GothamSemibold",Color3.FromRGB(120, 17, 10))
 			end
-			local transitionInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quint)
-			local tween = TweenService:Create(Domain.Home.Wallpaper, transitionInfo, {ImageTransparency = 0})
-			tween:Play()
 		else
 			Toast("Couldn't Locate File! make sure you're using a PNG or JPEG File!","GothamSemibold",Color3.FromRGB(120, 17, 10))
 		end
@@ -6798,7 +6793,10 @@ function ChangeWallpaper(WallpaperFileName)
 	if CheckWritefile() then
 		if isfile(WallpaperFileName) then
 			Domain.Home.Wallpaper.Visible = true
-			Domain.Home.Wallpaper.ImageTransparency = 1
+			local transitionInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quint)
+			local tween = TweenService:Create(Domain.Home.Wallpaper, transitionInfo, {ImageTransparency = 1})
+			tween:Play()
+			wait(0.8)
 			if getsynasset then
 				Domain.Home.Wallpaper.Image = getsynasset(WallpaperFileName)
 				writefile("DomainX Wallpaper.txt",WallpaperFileName)
@@ -6823,7 +6821,7 @@ Domain.Home.WallpaperManage.None.Interact.MouseButton1Click:Connect(function()
 	if CheckWritefile() then
 		if isfile("DomainX Wallpaper.txt") then
 			delfile("DomainX Wallpaper.txt")
-			Domain.Home.WallpaperManage.WBG.WBox.Text = ""
+			Domain.Home.WallpaperManage.WBG.WBox.Text = "Example.png"
 		end
 	end
 	local transitionInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quint)
@@ -6832,23 +6830,18 @@ Domain.Home.WallpaperManage.None.Interact.MouseButton1Click:Connect(function()
 	wait(0.8)
 	Domain.Home.Wallpaper.Visible = false
 	Domain.Home.Wallpaper.Image = ""
-	Toast("Wallpaper has been Reset")
+	Toast("Home Page Wallpaper has been successfully Reset.","GothamBlack",Color3.fromRGB(217, 48, 48))
 end)
 
 Domain.Settings.Main.List.WallpaperManage.None.Interact.MouseButton1Click:Connect(function()
 	if CheckWritefile() then
 		if isfile("DomainX Wallpaper.txt") then
 			delfile("DomainX Wallpaper.txt")
-			Domain.Settings.Main.List.WallpaperManage.WBG.WBox.Text = ""
+			Domain.Settings.Main.List.WallpaperManage.WBG.WBox.Text = "Example.png"
 		end
 	end
-	local transitionInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quint)
-	local tween = TweenService:Create(Domain.Home.Wallpaper, transitionInfo, {ImageTransparency = 1})
-	tween:Play()
 	wait(0.8)
-	Domain.Home.Wallpaper.Visible = false
-	Domain.Home.Wallpaper.Image = ""
-	Toast("Home Wallpaper has been Reset")
+	Toast("Home Page Wallpaper has been successfully Reset.","GothamBlack",Color3.fromRGB(217, 48, 48))
 end)
 
 function Execute(String)
@@ -9259,7 +9252,7 @@ Domain.Main.Buttons.PlayersButton.Interact.MouseButton1Click:Connect(function()
 end)
 
 local JCTOGGLE = false
-
+local lastClickTime = 0
 Domain.Main.Buttons.SettingsButton.Interact.MouseButton1Click:Connect(function()
 	local transitionInfo = TweenInfo.new(0.2, Enum.EasingStyle.Quint)
 	local tween = TweenService:Create(Domain.Main.Buttons.SettingsButton, transitionInfo, {Size = UDim2.new(0, 30,0, 30)})
@@ -9268,6 +9261,13 @@ Domain.Main.Buttons.SettingsButton.Interact.MouseButton1Click:Connect(function()
 	local transitionInfo = TweenInfo.new(0.2, Enum.EasingStyle.Quint)
 	local tween = TweenService:Create(Domain.Main.Buttons.SettingsButton, transitionInfo, {Size = UDim2.new(0, 36,0, 36)})
 	tween:Play()
+	--
+	local currentTime = os.time()
+	if currentTime - lastClickTime < 3 then
+	  print("Button clicked more than once in 3 seconds")
+	end
+	lastClickTime = currentTime
+	--
 if JCTOGGLE == false then
 	OpenSettings()
 	JCTOGGLE = true
@@ -9275,6 +9275,7 @@ elseif JCTOGGLE == true then
 	CloseSettings()
 	JCTOGGLE = false
 end
+
 end)
 
 EmoteToggle = false
