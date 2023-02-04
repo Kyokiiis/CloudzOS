@@ -1420,6 +1420,14 @@ local DetectionScripts = {
 		Premium = true,
 		Loadstring = "https://raw.githubusercontent.com/Kyokiiis/CloudzOS/main/Games/Tower%20Defense%20Simulator",
 	},
+	AgeOfHeroes = {
+		Name = "V.G Hub",
+		Description = "One of the best scripts out there for a game such as age of heroes. although they seem to have given up on it and any anti-cheat they thought of. there isnt even a player report system.",
+		Colour = Color3.fromRGB(141, 174, 227),
+		Games = {4866692557},
+		Premium = true,
+		Loadstring = "https://raw.githubusercontent.com/1201for/V.G-Hub/main/gayofheros1",
+	},
 	spongebobguess = {
 		Name = "Teleport to finish",
 		Description = "This script will teleport to the finish of the game. ha mlemix",
