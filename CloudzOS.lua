@@ -1456,7 +1456,7 @@ local DetectionScripts = {
 		Name = "Nova.XYZ",
 		Description = "This script is one of the best for the game that I have found so, uh.. enjoy!",
 		Colour = Color3.fromRGB(252, 148, 3),
-		Games = {263152704,4282985734},
+		Games = {263152704,4282985734,11979315221},
 		Premium = true,
 		Loadstring = "https://raw.githubusercontent.com/SussyImposterRed/Scripts/main/NEW_NOVA",
 	},
