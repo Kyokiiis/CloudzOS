@@ -11570,7 +11570,7 @@ Toast("Press x/z for a small hitbox / Must hit bind everytime somebody dies (WIL
 end
 --
 
-Deepwoken = {6032399813,6473861193}
+Deepwoken = {6032399813,6473861193,5735553160,8668476218}
 
 for _, GameID in pairs(Deepwoken) do
 	if GameID == game.PlaceId then
