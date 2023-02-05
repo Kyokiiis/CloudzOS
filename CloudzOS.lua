@@ -119,10 +119,10 @@ local KeyWaitTime = 60
 
 local MlemixMode = false
 
-local Release = 4.93
+local Release = 4.9
 local KeySystemEnabled = false
 local ReleaseType = "CLDZ"
-local UpdateDetail = "Added Deepwoken Configuration (Sends Server and player info to official Discord Server!)"
+local UpdateDetail = "Smart Bar Button Highlight lag Fixed and changed + Page layout fixed + Elegance Fixed + ESC Menu Detection Disabled + Other Bug Fixes"
 local Public = false
 local Beta = false
 
@@ -11575,7 +11575,6 @@ Deepwoken = {6032399813,6473861193}
 for _, GameID in pairs(Deepwoken) do
 	if GameID == game.PlaceId then
 		WAITINGD = game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("WorldInfo")
-		DpDiscordSend("**-- "..LocalPlayer.Name.." --**")
 		Region = game:GetService("Players").LocalPlayer.PlayerGui.WorldInfo.InfoFrame.ServerInfo.ServerRegion.Text
 		ServerName = game:GetService("Players").LocalPlayer.PlayerGui.WorldInfo.InfoFrame.ServerInfo.ServerTitle.Text
 		Realm = game:GetService("Players").LocalPlayer.PlayerGui.WorldInfo.InfoFrame.WorldInfo.Realm.Text
@@ -11672,7 +11671,8 @@ for _, GameID in pairs(Deepwoken) do
 		 local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
 		 request(abcdef)
 		end
-		
+		DpDiscordSend("**-- "..LocalPlayer.Name.." --**")
+		wait(0.1)
 		for _, Player in ipairs(game.Players:GetChildren()) do
 			if Player.UserId == LocalPlayer.UserId then
 			else
