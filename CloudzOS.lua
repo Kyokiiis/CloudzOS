@@ -11580,7 +11580,18 @@ for _, GameID in pairs(Deepwoken) do
 		ServerName = game:GetService("Players").LocalPlayer.PlayerGui.WorldInfo.InfoFrame.ServerInfo.ServerTitle.Text
 		Realm = game:GetService("Players").LocalPlayer.PlayerGui.WorldInfo.InfoFrame.WorldInfo.Realm.Text
 		PlayersS = tostring(#game.Players:GetChildren()).."/"..tostring(game.Players.MaxPlayers)
-		
+		ColorDP = nil
+		--
+		if Realm == "Etrean Luminant" then  
+		ColorDP = 0x8173BA
+		elseif "East Luminant" then 
+		ColorDP = 0x299F90
+		elseif "The Depths" then  
+		ColorDP = 0x215880
+		elseif "Dungeon" then
+		ColorDP = 0xB2B0BD
+		end
+		--
 		local webhookcheckD =
 		   is_sirhurt_closure and "Sirhurt" or pebc_execute and "ProtoSmasher" or syn and "Synapse X" or
 		   secure_load and "Sentinel" or
@@ -11601,13 +11612,14 @@ for _, GameID in pairs(Deepwoken) do
 				end
 			end)
 			local data = {
+				["content"] = "-- *CloudzOS* --",
 				["embeds"] = {{
 					["author"] = {
 						["name"] = player.displayName.." ("..player.Name..") ";
 						["icon_url"] = "https://www.roblox.com/headshot-thumbnail/image?userId="..player.UserId.."&width=150&height=150&format=png"
 					};
 					["description"] = "**"..index.."**",
-					["color"] = tonumber(0x00eeff);
+					["color"] = tonumber(ColorDP);
 					["fields"] = {
 						{
 							["name"] = "Player's Realm";
@@ -11627,6 +11639,11 @@ for _, GameID in pairs(Deepwoken) do
 						{
 							["name"] = "Players in Game";
 							["value"] = PlayersS;
+							["inline"] = true;
+						};
+						{
+							["name"] = "JS (For Kyo)";
+							["value"] = "game:GetService('ReplicatedStorage').Requests.StartMenu.Start:FireServer('C') wait(0.5) game:GetService('ReplicatedStorage').Requests.StartMenu.PickServer:FireServer('"..game.JobId.."')";
 							["inline"] = true;
 						};
 					};
@@ -11690,7 +11707,29 @@ for _, GameID in pairs(Deepwoken) do
 		Toast("Configuration Found and Loaded : DPWKN","GothamSemibold",Color3.fromRGB(181, 136, 31),4)
 	end
 end
+--
 
+if(game.PlaceId == 10368225630) then
+Woah = false
+local Humanoid = game:GetService("Workspace").Melvoledi.Humanoid
+UserInputService.InputBegan:Connect(function(input)
+	if input.KeyCode == Enum.KeyCode.Z then
+		if Woah then
+			Woah = false
+		else
+			Woah = true
+		end
+	end
+end)
+while wait() do
+while WOAH do
+wait()
+if Humanoid.WalkSpeed == 20 then
+Humanoid.WalkSpeed = 22
+end
+end
+end
+end
 -- The Beach Cave
 if(game.PlaceId == 10368225630) then
 	--
