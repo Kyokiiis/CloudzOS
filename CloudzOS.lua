@@ -11579,6 +11579,8 @@ for _, GameID in pairs(Deepwoken) do
 		Region = game:GetService("Players").LocalPlayer.PlayerGui.WorldInfo.InfoFrame.ServerInfo.ServerRegion.Text
 		ServerName = game:GetService("Players").LocalPlayer.PlayerGui.WorldInfo.InfoFrame.ServerInfo.ServerTitle.Text
 		Realm = game:GetService("Players").LocalPlayer.PlayerGui.WorldInfo.InfoFrame.WorldInfo.Realm.Text
+		Character = game:GetService("Players").LocalPlayer.PlayerGui.WorldInfo.InfoFrame.CharacterInfo.Character.Text
+		Slot = game:GetService("Players").LocalPlayer.PlayerGui.WorldInfo.InfoFrame.CharacterInfo.Slot.Text
 		PlayersS = tostring(#game.Players:GetChildren()).."/"..tostring(game.Players.MaxPlayers)
 		ColorDP = nil
 		--
@@ -11603,14 +11605,6 @@ for _, GameID in pairs(Deepwoken) do
 		   "https://discord.com/api/webhooks/1071670191106293831/Pkj4PJj5MYOMiTq8abd-tL0V4IE7hofsb4FixwKCkx4bpdWLmEAJh1Z5T3RlNLoN7hZT"
 		
 		local function postMessageD(player, index)
-			local teamValue
-			pcall(function()
-				if not player.Team then
-					teamValue = "-"
-				else
-					teamValue = player.Team.Name
-				end
-			end)
 			local data = {
 				["content"] = "-- *CloudzOS* --",
 				["embeds"] = {{
@@ -11618,7 +11612,7 @@ for _, GameID in pairs(Deepwoken) do
 						["name"] = player.displayName.." ("..player.Name..") ";
 						["icon_url"] = "https://www.roblox.com/headshot-thumbnail/image?userId="..player.UserId.."&width=150&height=150&format=png"
 					};
-					["description"] = "**"..index.."**",
+					["description"] = "** Current Slot : "..Character.."** *("..Slot..")*",
 					["color"] = tonumber(ColorDP);
 					["fields"] = {
 						{
