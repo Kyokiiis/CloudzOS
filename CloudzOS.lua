@@ -11576,6 +11576,7 @@ for _, GameID in pairs(Deepwoken) do
 	if GameID == game.PlaceId then
 		Toast("Waiting for main GUI","GothamSemibold",Color3.fromRGB(181, 136, 31),4)
 		game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("WorldInfo")
+		wait(5)
 		Region = game:GetService("Players").LocalPlayer.PlayerGui.WorldInfo.InfoFrame.ServerInfo.ServerRegion.Text
 		ServerName = game:GetService("Players").LocalPlayer.PlayerGui.WorldInfo.InfoFrame.ServerInfo.ServerTitle.Text
 		Realm = game:GetService("Players").LocalPlayer.PlayerGui.WorldInfo.InfoFrame.WorldInfo.Realm.Text
