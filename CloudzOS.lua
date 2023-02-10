@@ -119,7 +119,7 @@ local KeyWaitTime = 60
 
 local MlemixMode = false
 
-local Release = 5.00
+local Release = 5.05
 local KeySystemEnabled = false
 local ReleaseType = "CLDZ"
 local UpdateDetail = "Revamped Notification UI's + ROBLOX & Synapse-X Update Detection Added! + Auto-Mute for Chat Spam Added"
