@@ -755,6 +755,7 @@ function DomainLibrary:NotifyV2(NotificationSettings)
 		Notification.Side.Description.TextTransparency = 1
 		Notification.Side.Description.TextColor3 = Selected.TextColor
 		Notification.Side.CornerFix2.Visible = false
+		Notification.Side.CornerFix1.Size = UDim2.new(0, 34, 0, 80)
 		--
 		if FriendEnabled then
 			Notification.FrIcon.ImageColor3 = Selected.TextColor
@@ -788,7 +789,7 @@ function DomainLibrary:NotifyV2(NotificationSettings)
 		sound.PlayOnRemove = true
 		sound:Destroy()
 
-		TweenService:Create(Notification.Side.CornerFix1, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 34, 0, 67)}):Play()
+		TweenService:Create(Notification.Side.CornerFix1, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 34, 0, 80)}):Play()
 		TweenService:Create(Notification, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 295, 0, 80)}):Play()
 		TweenService:Create(Notification, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.1}):Play()
 		TweenService:Create(Notification.Side, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
@@ -834,6 +835,8 @@ function DomainLibrary:NotifyV2(NotificationSettings)
 			wait(NotificationSettings.Duration or NotificationDuration - 0.5)
 		else
 			wait(0.8)
+			Notification.Side.CornerFix2.Visible = true
+			TweenService:Create(Notification.Side.CornerFix1, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 34, 0, 67)}):Play()
 			TweenService:Create(Notification, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 295, 0, 132)}):Play()
 			wait(0.3)
 			for _, Action in ipairs(Notification.Actions:GetChildren()) do
@@ -853,7 +856,10 @@ function DomainLibrary:NotifyV2(NotificationSettings)
 				TweenService:Create(Action, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
 			end
 		end
+		Notification.Side.CornerFix2.Visible = false
+		wait(0.2)
 		TweenService:Create(Notification, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 280, 0, 80)}):Play()
+		TweenService:Create(Notification.Side.CornerFix1, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 34, 0, 80)}):Play()
 		--
 		if FriendEnabled then
 			TweenService:Create(Notification.FrIcon, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
@@ -1156,7 +1162,11 @@ function DomainLibrary:SkySecurityV2(NotificationSettings)
 
 		TweenService:Create(Notification.Taken, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
 
+		Notification.Side.CornerFix2.Visible = false
+		wait(0.2)
+		TweenService:Create(Notification.Side.CornerFix1, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 34, 0, 80)}):Play()
 		TweenService:Create(Notification, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 280, 0, 80)}):Play()
+		
 		--
 		TweenService:Create(Notification.Icon.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
 		TweenService:Create(Notification.Icon, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
