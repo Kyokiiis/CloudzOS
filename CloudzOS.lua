@@ -12128,7 +12128,7 @@ end)()
 coroutine.wrap(function()
 	while true do
 		wait(1.5)
-		FpsLabel.Text = tostring(UpdatedFPS)
+		Domain.Home.FPS.FPSText.Text = tostring(UpdatedFPS)
 	end
 end)()
 --
