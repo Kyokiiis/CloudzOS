@@ -12158,7 +12158,17 @@ local dataS = game:GetService("HttpService"):JSONDecode(responseS)
 -- Variables
 if isfile("SynapseUpdateVersion.txt") then
 else
-	writefile("SynapseUpdateVersion.txt",tostring("v2.22.9b"))
+	DomainLibrary:NotifyV2({
+		Title = "CloudzOS",
+		Content = "CloudzOS Has Added Version File for Update Detections.",
+		Tag = "{CLDZ/SynapseX/Workspace}",
+		FriendSystem = false,
+		Duration = 8,
+		Image = 11849580844,
+		Location = "Bottom",
+	})
+	writefile("SynapseUpdateVersion.txt",tostring("v2.22.8b"))
+	wait(5)
 end
 while true do
 SynapseVersion = readfile("SynapseUpdateVersion.txt")
