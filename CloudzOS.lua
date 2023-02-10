@@ -68,7 +68,7 @@ end
 -- DMNX
 
 local GuiService = game:GetService("GuiService")
-local Domain = game:GetObjects("rbxassetid://12179230436")[1]
+local Domain = game:GetObjects("rbxassetid://12438242543")[1]
 Domain.Main.Time.Seconds.BackgroundTransparency = 1
 Domain.Scripts.Main.Buttons.SiriusGameDetection.Title.Text = "DMRInt"
 local GameFOV = game:GetService("Workspace"):FindFirstChild("Camera")
@@ -119,10 +119,10 @@ local KeyWaitTime = 60
 
 local MlemixMode = false
 
-local Release = 4.93
+local Release = 5.00
 local KeySystemEnabled = false
 local ReleaseType = "CLDZ"
-local UpdateDetail = "Added the Deepwoken Configuration (Sends Useful Information to the Cloudy Studio's Discord Server!)"
+local UpdateDetail = "Revamped Notification UI's + ROBLOX & Synapse-X Update Detection Added! + Auto-Mute for Chat Spam Added"
 local Public = false
 local Beta = false
 
@@ -638,23 +638,273 @@ function DomainLibrary:Notify(NotificationSettings)
 		Notification:Destroy()
 	end)
 end
+-- V2 Notification Systems
+--[[
+	DomainLibrary:NotifyV2({
+		Title = "Administrator",
+		Content = "An administrator from this game (Frappe) has joined your session, would you like to disconnect?",
+		Tag = "{Sky Security}",
+		FriendSystem = false,
+		Duration = 6.5,
+		Image = 3944680095,
+		Location = "Top",
+   		Actions = { -- Notification Buttons
+     		Ignore = {
+        		Name = "Ignore",
+        		Callback = function()
+        		print("The user tapped Okay!")
+    		end
+   		  },
+		},
+	}) 
+]]
+
+
+local NotifSettings2 = nil
+
+function DomainLibrary:NotifyV2(NotificationSettings)
+	spawn(function()
+		local ActionCompleted = true
+		local Notification = Notifications.V2Template:Clone()
+		Notification.Parent = Notifications
+		Notification.Name = NotificationSettings.Title or "Unknown Title"
+		Notification.Visible = true
+		-- Settings
+		if NotificationSettings.FriendSystem then
+			FriendEnabled = true
+			Notification.FrIcon.Visible = true
+			Notification.Icon.Visible = false
+		else
+			FriendEnabled = false
+			Notification.FrIcon.Visible = false
+			Notification.Icon.Visible = true
+		end
+		--
+		NotifSettings = NotificationSettings.Location
+
+		if NotificationSettings.Location == nil then
+			Notifications.UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Top
+			if homeopen == true then
+				Notifications.Position = UDim2.new(1, -25, 0.69, -25)
+				elseif homeopen == false then
+				Notifications.Position = UDim2.new(1, -25, 0.55, -25)
+			end
+		elseif NotificationSettings.Location == "Bottom" then
+			Notifications.UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
+			if homeopen == true then
+				Notifications.Position = UDim2.new(1, -25, 0.8, -25)
+				elseif homeopen == false then
+				Notifications.Position = UDim2.new(1, -25, 1, -25)
+			end
+		elseif NotificationSettings.Location == "Top" then
+			Notifications.UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Top
+			if homeopen == true then
+				Notifications.Position = UDim2.new(1, -25, 0.69, -25)
+				elseif homeopen == false then
+				Notifications.Position = UDim2.new(1, -25, 0.55, -25)
+			end
+		end
+
+		local blurlight1 = nil
+		if not getgenv().Blur then
+			blurlight1 = Instance.new("DepthOfFieldEffect",game:GetService("Lighting"))
+			blurlight1.Enabled = true
+			blurlight1.FarIntensity = 0
+			blurlight1.FocusDistance = 51.6
+			blurlight1.InFocusRadius = 50
+			blurlight1.NearIntensity = 1
+			game:GetService("Debris"):AddItem(script,0)
+		end
+		
+		Notification.Actions.Template.Visible = false
+
+		--
+		if NotificationSettings.Actions then
+			for _, Action in pairs(NotificationSettings.Actions) do
+				ActionCompleted = false
+				local NewAction = Notification.Actions.Template:Clone()
+				print("woah")
+				NewAction.BackgroundColor3 = Selected.NotificationActionsBackground
+				if Selected ~= DomainLibrary.Theme.Default then
+					NewAction.TextColor3 = Selected.TextColor
+				end
+				NewAction.Name = Action.Name
+				NewAction.Visible = true
+				NewAction.Parent = Notification.Actions
+				NewAction.Text = Action.Name
+				NewAction.BackgroundTransparency = 1
+				NewAction.TextTransparency = 1
+				NewAction.Size = UDim2.new(0, NewAction.TextBounds.X + 27, 0, 36)
+				
+				NewAction.MouseButton1Click:Connect(function()
+					local Success, Response = pcall(Action.Callback)
+					if not Success then
+						print("Domain | Action: "..Action.Name.." Callback Error " ..tostring(Response))
+					end
+					ActionCompleted = true
+				end)
+			end
+		end
+		--
+		Notification.BackgroundColor3 = Selected.Background
+		Notification.Side.Title.Text = NotificationSettings.Title or "Unknown"
+		Notification.Side.Tag.Text = NotificationSettings.Tag or "Unknown"
+		Notification.Side.Title.TextTransparency = 1
+		Notification.Side.Title.TextColor3 = Selected.TextColor
+		Notification.Side.Description.Text = NotificationSettings.Content or "Unknown"
+		Notification.Side.Description.TextTransparency = 1
+		Notification.Side.Description.TextColor3 = Selected.TextColor
+		Notification.Side.CornerFix2.Visible = false
+		--
+		if FriendEnabled then
+			Notification.FrIcon.ImageColor3 = Selected.TextColor
+			if NotificationSettings.Image then
+				Notification.FrIcon.Image = NotificationSettings.Image 
+			else
+				Notification.FrIcon.Image = "rbxassetid://3944680095"
+			end
+	
+			Notification.FrIcon.ImageTransparency = 1
+		else
+		Notification.Icon.ImageColor3 = Selected.TextColor
+		if NotificationSettings.Image then
+			Notification.Icon.Image = "rbxassetid://"..tostring(NotificationSettings.Image) 
+		else
+			Notification.Icon.Image = "rbxassetid://3944680095"
+		end
+
+		Notification.Icon.ImageTransparency = 1
+		end
+		--
+		Notification.Parent = Notifications
+		Notification.Size = UDim2.new(0, 260, 0, 80)
+		Notification.BackgroundTransparency = 1
+		
+		local sound = Instance.new("Sound")
+		sound.Parent = Domain
+		sound.SoundId = "rbxassetid://"..255881176
+		sound.Name = "notify"
+		sound.Volume = 2
+		sound.PlayOnRemove = true
+		sound:Destroy()
+
+		TweenService:Create(Notification.Side.CornerFix1, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 34, 0, 67)}):Play()
+		TweenService:Create(Notification, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 295, 0, 80)}):Play()
+		TweenService:Create(Notification, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.1}):Play()
+		TweenService:Create(Notification.Side, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+		TweenService:Create(Notification.Side.CornerFix1, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+		TweenService:Create(Notification.Side.CornerFix2, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+		Notification:TweenPosition(UDim2.new(0.5,0,0.915,0),'Out','Quint',0.8,true)
+
+		wait(0.3)
+		--
+		if FriendEnabled then
+		TweenService:Create(Notification.FrIcon, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
+		TweenService:Create(Notification.FrIcon.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 0.2}):Play()
+		else
+		TweenService:Create(Notification.Icon, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
+		end
+		--
+		TweenService:Create(Notification.Side.Tag, TweenInfo.new(1, Enum.EasingStyle.Quint), {TextTransparency = 0.3}):Play()
+		TweenService:Create(Notification.Side.Title, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+		TweenService:Create(Notification.Side.Description, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 0.2}):Play()
+		wait(0.2)
+
+
+
+		-- Requires Graphics Level 8-10
+		if getgenv().Blur == nil then
+			TweenService:Create(Notification, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.4}):Play()
+		else
+			if not getgenv().Blur then
+				TweenService:Create(Notification, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.4}):Play()
+			else 
+				TweenService:Create(Notification, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.2}):Play()
+			end
+		end
+
+		if Domain.Name == "Domain" then
+			neon:BindFrame(Notification.BlurModule, {
+				Transparency = 0.98;
+				BrickColor = BrickColor.new("Institutional white");
+			})
+		end
+		
+		if not NotificationSettings.Actions then
+			wait(NotificationSettings.Duration or NotificationDuration - 0.5)
+		else
+			wait(0.8)
+			TweenService:Create(Notification, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 295, 0, 132)}):Play()
+			wait(0.3)
+			for _, Action in ipairs(Notification.Actions:GetChildren()) do
+				if Action.ClassName == "TextButton" and Action.Name ~= "Template" then
+					TweenService:Create(Action, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.2}):Play()
+					TweenService:Create(Action, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+					wait(0.05)
+				end
+			end
+		end
+		
+		repeat wait(0.001) until ActionCompleted
+
+		for _, Action in ipairs(Notification.Actions:GetChildren()) do
+			if Action.ClassName == "TextButton" and Action.Name ~= "Template" then
+				TweenService:Create(Action, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+				TweenService:Create(Action, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+			end
+		end
+		TweenService:Create(Notification, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 280, 0, 80)}):Play()
+		--
+		if FriendEnabled then
+			TweenService:Create(Notification.FrIcon, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+			TweenService:Create(Notification.FrIcon.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+		else
+		TweenService:Create(Notification.Icon, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+		end
+		--
+		TweenService:Create(Notification, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.6}):Play()
+
+		wait(0.3)
+		TweenService:Create(Notification.Side.Tag, TweenInfo.new(1, Enum.EasingStyle.Quint), {TextTransparency = 0.4}):Play()
+		TweenService:Create(Notification.Side.Title, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 0.4}):Play()
+		TweenService:Create(Notification.Side.Description, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 0.5}):Play()
+		wait(0.4)
+		TweenService:Create(Notification.Side.CornerFix1, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+		TweenService:Create(Notification.Side.CornerFix2, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+		TweenService:Create(Notification.Side.Tag, TweenInfo.new(1, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+		TweenService:Create(Notification.Side.Title, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+		TweenService:Create(Notification.Side.Description, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+		wait(0.3)
+		TweenService:Create(Notification.Side, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 0, 0, 80)}):Play()
+		TweenService:Create(Notification.Side, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+		wait(0.2)
+		TweenService:Create(Notification, TweenInfo.new(0.9, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 260, 0, 0)}):Play()
+		TweenService:Create(Notification, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+		wait(0.2)
+		if not getgenv().Blur then
+			neon:UnbindFrame(Notification.BlurModule)
+			blurlight1:Destroy()
+		end
+		wait(0.9)
+		Notification:Destroy()
+	end)
+end
+--
+
 
 -- WATCH TOWER
 --[[
-
 DomainLibrary:SkySecurity({
-   Title = "Notification Title",
-   Content = "Notification Content",
-   Duration = 6.5,
-   Image = 4483362458,
-   Actions = { -- Notification Buttons
-      Ignore = {
-         Name = "Okay!",
-         Callback = function()
-         print("The user tapped Okay!")
-      end
-   },
-},
+	Title = "CloudzOS",
+	Content = "Your Friend, qtxsinz, has Joined the game!",
+	Duration = 6.5,
+	Image = 3944680095,
+	TakeAction = { -- Notification Buttons
+	   	Taken = "CloudzOS Has muted Trill for 2 Minutes",
+	   	Callback = function()
+	   	print("The user tapped Okay!")
+   	end
+	},
 })
 --
 ]]
@@ -796,6 +1046,139 @@ function DomainLibrary:SkySecurity(NotificationSettings)
 		TweenService:Create(Notification, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
 		TweenService:Create(Notification.Title, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
 		TweenService:Create(Notification.Description, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+		wait(0.2)
+		if not getgenv().Blur then
+			neon:UnbindFrame(Notification.BlurModule)
+			blurlightW:Destroy()
+		end
+		wait(0.9)
+		Notification:Destroy()
+	end)
+end
+
+function DomainLibrary:SkySecurityV2(NotificationSettings)
+	spawn(function()
+		local ActionCompleted = true
+		local Notification = SkySecurity.V2Template:Clone()
+		SkySecurity.Position = UDim2.new(0.175, -25, 1, -25)
+		Notification.Parent = SkySecurity
+		Notification.Name = NotificationSettings.Title or "Unknown Title"
+		Notification.Visible = true
+
+		local blurlight1 = nil
+		if not getgenv().Blur then
+			blurlight1 = Instance.new("DepthOfFieldEffect",game:GetService("Lighting"))
+			blurlight1.Enabled = true
+			blurlight1.FarIntensity = 0
+			blurlight1.FocusDistance = 51.6
+			blurlight1.InFocusRadius = 50
+			blurlight1.NearIntensity = 1
+			game:GetService("Debris"):AddItem(script,0)
+		end
+
+		--
+		if NotificationSettings.TakeAction then
+			Notification.Taken.Text = NotificationSettings.TakeAction.Taken
+			Notification.Taken.Visible = true
+			local Success, Response = pcall(NotificationSettings.TakeAction.Callback)
+				if not Success then
+					print("CloudzOS | Callback Error " ..tostring(Response))
+				end
+			ActionCompleted = true
+		end
+		--
+		Notification.BackgroundColor3 = Selected.Background
+		Notification.Side.Title.Text = NotificationSettings.Title or "Unknown"
+		Notification.Side.Tag.Text = "{Sky Security}"
+		Notification.Side.Title.TextTransparency = 1
+		Notification.Side.Title.TextColor3 = Selected.TextColor
+		Notification.Side.Description.Text = NotificationSettings.Content or "Unknown"
+		Notification.Side.Description.TextTransparency = 1
+		Notification.Side.Description.TextColor3 = Selected.TextColor
+		Notification.Side.CornerFix2.Visible = false
+		--
+		Notification.Icon.Image = NotificationSettings.Image
+		Notification.Icon.ImageTransparency = 1
+		--
+		Notification.Parent = SkySecurity
+		Notification.Size = UDim2.new(0, 260, 0, 80)
+		Notification.BackgroundTransparency = 1
+		
+		local sound = Instance.new("Sound")
+		sound.Parent = Domain
+		sound.SoundId = "rbxassetid://"..255881176
+		sound.Name = "notify"
+		sound.Volume = 2
+		sound.PlayOnRemove = true
+		sound:Destroy()
+
+		TweenService:Create(Notification.Side.CornerFix1, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 34, 0, 67)}):Play()
+		TweenService:Create(Notification, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 295, 0, 100)}):Play()
+		TweenService:Create(Notification, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.1}):Play()
+		TweenService:Create(Notification.Side, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+		TweenService:Create(Notification.Side.CornerFix1, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+		TweenService:Create(Notification.Side.CornerFix2, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+		Notification:TweenPosition(UDim2.new(0.5,0,0.915,0),'Out','Quint',0.8,true)
+
+		wait(0.3)
+		--
+		TweenService:Create(Notification.Icon.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 0.2}):Play()
+		TweenService:Create(Notification.Icon, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
+		--
+		TweenService:Create(Notification.Side.Tag, TweenInfo.new(1, Enum.EasingStyle.Quint), {TextTransparency = 0.3}):Play()
+		TweenService:Create(Notification.Side.Title, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+		TweenService:Create(Notification.Side.Description, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 0.2}):Play()
+		wait(0.2)
+
+
+
+		-- Requires Graphics Level 8-10
+		if getgenv().Blur == nil then
+			TweenService:Create(Notification, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.4}):Play()
+		else
+			if not getgenv().Blur then
+				TweenService:Create(Notification, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.4}):Play()
+			else 
+				TweenService:Create(Notification, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.2}):Play()
+			end
+		end
+
+		if Domain.Name == "Domain" then
+			neon:BindFrame(Notification.BlurModule, {
+				Transparency = 0.98;
+				BrickColor = BrickColor.new("Institutional white");
+			})
+		end
+		
+		wait(NotificationSettings.Duration or NotificationDuration - 0.5)
+		
+		repeat wait(0.001) until ActionCompleted
+
+		TweenService:Create(Notification.Taken, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+
+		TweenService:Create(Notification, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 280, 0, 80)}):Play()
+		--
+		TweenService:Create(Notification.Icon.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+		TweenService:Create(Notification.Icon, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+		--
+		TweenService:Create(Notification, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.6}):Play()
+
+		wait(0.3)
+		TweenService:Create(Notification.Side.Tag, TweenInfo.new(1, Enum.EasingStyle.Quint), {TextTransparency = 0.4}):Play()
+		TweenService:Create(Notification.Side.Title, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 0.4}):Play()
+		TweenService:Create(Notification.Side.Description, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 0.5}):Play()
+		wait(0.4)
+		TweenService:Create(Notification.Side.CornerFix1, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+		TweenService:Create(Notification.Side.CornerFix2, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+		TweenService:Create(Notification.Side.Tag, TweenInfo.new(1, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+		TweenService:Create(Notification.Side.Title, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+		TweenService:Create(Notification.Side.Description, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+		wait(0.3)
+		TweenService:Create(Notification.Side, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 0, 0, 80)}):Play()
+		TweenService:Create(Notification.Side, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+		wait(0.2)
+		TweenService:Create(Notification, TweenInfo.new(0.9, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 260, 0, 0)}):Play()
+		TweenService:Create(Notification, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
 		wait(0.2)
 		if not getgenv().Blur then
 			neon:UnbindFrame(Notification.BlurModule)
@@ -9879,424 +10262,6 @@ game:GetService("UserInputService").InputBegan:Connect(function(input, processed
 	end
 end)
 
---
-local RunService = game:GetService("RunService")
-local FpsLabel = Domain.Home.FPS.FPSText
-
-local TimeFunction = RunService:IsRunning() and time or os.clock
-
-local LastIteration, Start
-local FrameUpdateTable = {}
-
--- Fling Detection
-coroutine.wrap(function()
-	if(game.PlaceId == 1033860623) then
-	for _, players in ipairs(game:GetService("Players"):GetChildren()) do
-	   local Player = players
-	   local Character = Player.Character
-	   local HRT = Character:WaitForChild("HumanoidRootPart")
-	   local Run = game:GetService("RunService")
-	   local PreviousValue = HRT.CFrame
-	   local MaxAngle = 130
-	   local TimeTouched = 0
-	   local E = true
-	   local playerissit = false
-	   Run.Stepped:Connect(function()
-		KaijuParadise = {6456351776, 8318588114}
-		for _, GameID in pairs(KaijuParadise) do
-			if GameID == game.PlaceId then
-				return
-			end
-		end
-		Character.Humanoid.Seated:Connect(function(isSeated, seatPart)
-			if isSeated then
-				playerissit = true
-			else
-				playerissit = false
-			end
-		end)
-		if Player.Name == LocalPlayer.Name then
-			return
-		else
-		end
-		  local Angle = math.deg(math.acos(HRT.CFrame.LookVector:Dot(PreviousValue.LookVector)))
-		  if Angle >= MaxAngle then
-			if playerissit then
-				return 
-			else
-			end
-			 if E == true then
-				E = false
-				if TimeTouched == 0 then
-					DomainLibrary:SkySecurity({
-						Title = "CloudzOS {SkySecurity}",
-						Content = "CloudzOS possibly detected <b><i><u>"..Player.Name.."</u></i></b> to be using some sort of fling and have prompted choices to combat this.",
-						Duration = 6.5,
-						Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
-						Actions = { -- Notification Buttons
-						   Ignore = {
-							  Name = "Ignore",
-							  Callback = function()
-							  return
-						   end
-						},
-						View = {
-							Name = "View",
-							Callback = function()
-							coroutine.wrap(function()
-								game.Workspace.Camera.CameraSubject = Player.Character.Humanoid
-								wait(2)
-								DomainLibrary:SkySecurity({
-									Title = "CloudzOS {SkySecurity}",
-									Content = "Since you are viewing whoever set the detection off we can send you back to normal view whenever you're ready.",
-									Duration = 6.5,
-									Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
-									Actions = { -- Notification Buttons
-									   Ignore = {
-										  Name = "Return back to normal view",
-										  Callback = function()
-											game.Workspace.Camera.CameraSubject = LocalPlayer.Character.Humanoid
-									   end
-									},
-								 },
-								})
-							end)()
-						 end
-					  },
-						Block = {
-							Name = "Block",
-							Callback = function()
-								NoClip()
-								DomainLibrary:SkySecurity({
-									Title = "CloudzOS {SkySecurity}",
-									Content = "Based on Information that CloudzOS has detected, CloudzOS has enabled <b><i><u> Noclip </u></i></b> for 5 minutes.",
-									Duration = 10,
-									Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
-								})
-								coroutine.wrap(function()
-									wait(300)
-									ReClip()
-									DomainLibrary:SkySecurity({
-										Title = "CloudzOS {SkySecurity}",
-										Content = "CloudzOS has re-enabled <b><i><u> clipping </u></i></b> after we turned it on for 5 minutes in order to combat the other exploiter.",
-										Duration = 10,
-										Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
-									})
-								end)()
-						 end
-					  },
-					 },
-					})
-					TimeTouched += 1
-				elseif TimeTouched == 1 then
-					TimeTouched += 1
-				else
-					TimeTouched += 1
-				end
-				 if TimeTouched == 2 then
-					 TimeTouched = 0
-				 end
-				wait(1)
-				E = true
-		end
-		  end
-		  PreviousValue = HRT.CFrame
-	   end)
-	   end
-	else
-	end
-	end)()
-	--
-	coroutine.wrap(function()
-		if(game.PlaceId == 1033860623) then
-		game.Players.PlayerAdded:Connect(function(Player)
-		   local Player = players
-		   local Character = Player.Character
-		   local HRT = Character:WaitForChild("HumanoidRootPart")
-		   local Run = game:GetService("RunService")
-		   local PreviousValue = HRT.CFrame
-		   local MaxAngle = 130
-		   local TimeTouched = 0
-		   local E = true
-		   local playerissit = false
-		   Run.Stepped:Connect(function()
-			KaijuParadise = {6456351776, 8318588114}
-			for _, GameID in pairs(KaijuParadise) do
-				if GameID == game.PlaceId then
-					return
-				end
-			end
-			Character.Humanoid.Seated:Connect(function(isSeated, seatPart)
-				if isSeated then
-					playerissit = true
-				else
-					playerissit = false
-				end
-			end)
-			if Player.Name == LocalPlayer.Name then
-				return
-			else
-			end
-			  local Angle = math.deg(math.acos(HRT.CFrame.LookVector:Dot(PreviousValue.LookVector)))
-			  if Angle >= MaxAngle then
-				if playerissit then
-					return 
-				else
-				end
-				 if E == true then
-					E = false
-					if TimeTouched == 0 then
-						DomainLibrary:SkySecurity({
-							Title = "CloudzOS {SkySecurity}",
-							Content = "CloudzOS possibly detected <b><i><u>"..Player.Name.."</u></i></b> to be using some sort of fling and have prompted choices to combat this.",
-							Duration = 6.5,
-							Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
-							Actions = { -- Notification Buttons
-							   Ignore = {
-								  Name = "Ignore",
-								  Callback = function()
-								  return
-							   end
-							},
-							View = {
-								Name = "View",
-								Callback = function()
-								coroutine.wrap(function()
-									game.Workspace.Camera.CameraSubject = Player.Character.Humanoid
-									wait(2)
-									DomainLibrary:SkySecurity({
-										Title = "CloudzOS {SkySecurity}",
-										Content = "Since you are viewing whoever set the detection off we can send you back to normal view whenever you're ready.",
-										Duration = 6.5,
-										Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
-										Actions = { -- Notification Buttons
-										   Ignore = {
-											  Name = "Return back to normal view",
-											  Callback = function()
-												game.Workspace.Camera.CameraSubject = LocalPlayer.Character.Humanoid
-										   end
-										},
-									 },
-									})
-								end)()
-							 end
-						  },
-							Block = {
-								Name = "Block",
-								Callback = function()
-									NoClip()
-									DomainLibrary:SkySecurity({
-										Title = "CloudzOS {SkySecurity}",
-										Content = "Based on Information that CloudzOS has detected, CloudzOS has enabled <b><i><u> Noclip </u></i></b> for 5 minutes.",
-										Duration = 10,
-										Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
-									})
-									coroutine.wrap(function()
-										wait(300)
-										ReClip()
-										DomainLibrary:SkySecurity({
-											Title = "CloudzOS {SkySecurity}",
-											Content = "CloudzOS has re-enabled <b><i><u> clipping </u></i></b> after we turned it on for 5 minutes in order to combat the other exploiter.",
-											Duration = 10,
-											Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
-										})
-									end)()
-							 end
-						  },
-						 },
-						})
-						TimeTouched += 1
-					elseif TimeTouched == 1 then
-						TimeTouched += 1
-					else
-						TimeTouched += 1
-					end
-					 if TimeTouched == 2 then
-						 TimeTouched = 0
-					 end
-					wait(20)
-					E = true
-			end
-			  end
-			  PreviousValue = HRT.CFrame
-		   end)
-		   end)
-		else
-		end
-	end)()
-
--- Speed Detection
-coroutine.wrap(function()
-	if(game.PlaceId == 1033860623) then
-	game.Players.PlayerAdded:Connect(function(Player)
-		local char = players.Character or players.CharacterAppearanceLoaded:Wait()
-		local limit = char.Humanoid.WalkSpeed
-		local hardlimit = 30
-		local TimeTouched = 0
-		local E = true
-
-		char.Humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(function()
-			if char.Humanoid.WalkSpeed >= limit then
-			else
-			return
-			end
-			--	
-			if char.Humanoid.WalkSpeed >= hardlimit then
-			else
-			return
-			end
-			--
-			KaijuParadise = {6456351776, 8318588114}
-			for _, GameID in pairs(KaijuParadise) do
-				if GameID == game.PlaceId then
-					return
-				end
-			end
-			if char.Name == LocalPlayer.Name then
-				return
-			else
-			end
-			if E == true then
-					E = false
-					if TimeTouched == 0 then
-						DomainLibrary:SkySecurity({
-							Title = "CloudzOS {SkySecurity}",
-							Content = "CloudzOS has Detected <b><i><u>"..char.Name.."</u></i></b> has changed their walkspeed from their normal one. This could be speed hacks or it could be a false detection.",
-							Duration = 10,
-							Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..char.Name,
-							Actions = { -- Notification Buttons
-							   Ignore = {
-								  Name = "Ignore",
-								  Callback = function()
-								  return
-							   end
-							},
-							View = {
-								Name = "View",
-								Callback = function()
-								coroutine.wrap(function()
-									game.Workspace.Camera.CameraSubject = char.Humanoid
-									wait(2)
-									DomainLibrary:SkySecurity({
-										Title = "CloudzOS {SkySecurity}",
-										Content = "Since you are viewing whoever set the detection off we can send you back to normal view whenever you're ready.",
-										Duration = 6.5,
-										Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..char.Name,
-										Actions = { -- Notification Buttons
-										   Ignore = {
-											  Name = "Return back to normal view",
-											  Callback = function()
-												game.Workspace.Camera.CameraSubject = LocalPlayer.Character.Humanoid
-										   end
-										},
-									 },
-									})
-								end)()
-							 end
-						  },
-						 },
-						 })
-						TimeTouched += 1
-					elseif TimeTouched == 1 then
-						TimeTouched += 1
-					else
-						TimeTouched += 1
-					end
-					 if TimeTouched == 5 then
-						 TimeTouched = 0
-					 end
-					wait(5)
-					E = true
-			end
-		end)
-	end)
-else
-end
-end)()
---
-coroutine.wrap(function()
-	for _, players in ipairs(game:GetService("Players"):GetChildren()) do
-		local char = players.Character or players.CharacterAppearanceLoaded:Wait()
-		local limit = char:WaitForChild("Humanoid").WalkSpeed
-		local hardlimit = 50
-		local TimeTouched = 0
-		local E = true
-
-		char.Humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(function()
-			if char.Humanoid.WalkSpeed >= limit then
-			else
-			return
-			end
-			--	
-			if char.Humanoid.WalkSpeed >= hardlimit then
-			else
-			return
-			end
-			--
-			for _, GameID in pairs(KaijuParadise) do
-				if GameID == game.PlaceId then
-					return
-				end
-			end
-			if char.Name == LocalPlayer.Name then
-				return
-			else
-			end
-			if E == true then
-					E = false
-					if TimeTouched == 0 then
-						DomainLibrary:SkySecurity({
-							Title = "CloudzOS {SkySecurity}",
-							Content = "CloudzOS has Detected <b><i><u>"..char.Name.."</u></i></b> has changed their walkspeed from their normal one. This could be speed hacks or it could be a false detection.",
-							Duration = 10,
-							Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..char.Name,
-							Actions = { -- Notification Buttons
-							   Ignore = {
-								  Name = "Ignore",
-								  Callback = function()
-								  return
-							   end
-							},
-							View = {
-								Name = "View",
-								Callback = function()
-								coroutine.wrap(function()
-									game.Workspace.Camera.CameraSubject = char.Humanoid
-									wait(2)
-									DomainLibrary:SkySecurity({
-										Title = "CloudzOS {SkySecurity}",
-										Content = "Since you are viewing whoever set the detection off we can send you back to normal view whenever you're ready.",
-										Duration = 6.5,
-										Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..char.Name,
-										Actions = { -- Notification Buttons
-										   Ignore = {
-											  Name = "Return back to normal view",
-											  Callback = function()
-												game.Workspace.Camera.CameraSubject = LocalPlayer.Character.Humanoid
-										   end
-										},
-									 },
-									})
-								end)()
-							 end
-						  },
-						 },
-						 })
-						TimeTouched += 1
-					elseif TimeTouched == 1 then
-						TimeTouched += 1
-					else
-						TimeTouched += 1
-					end
-					 if TimeTouched == 5 then
-						 TimeTouched = 0
-					 end
-					wait(5)
-					E = true
-			end
-		end)
-	end
-end)()
 --CHAT SPAM
 coroutine.wrap(function()
 	for _, Player in ipairs(game:GetService("Players"):GetChildren()) do
@@ -10318,70 +10283,25 @@ coroutine.wrap(function()
 				return
 			else
 			end
-			DomainLibrary:SkySecurity({
-				Title = "CloudzOS {SkySecurity}",
-				Content = "CloudzOS possibly detected <b><i><u>"..Player.Name.."</u></i></b> to be spamming <b><i><u>('"..msgs[3].."')</u></i></b> in chat and have prompted choices based on this Information.",
-				Duration = 6.5,
+			DomainLibrary:SkySecurityV2({
+				Title = "CloudzOS",
+				Content = "CloudzOS possibly detected <b><i><u>"..Player.Name.."</u></i></b> to be spamming <b><i><u>('"..msgs[3].."')</u></i></b> in chat.",
+				Duration = 10,
 				Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
-				Actions = { -- Notification Buttons
-				   Ignore = {
-					  Name = "Ignore",
-					  Callback = function()
-					  return
-				   end
-				},
-				Block = {
-					Name = "Block",
-					Callback = function()
+				TakeAction = { -- Notification Buttons
+					   Taken = "CloudzOS Has muted <b>"..Player.Name.."</b> for 2 Minutes.",
+					   Callback = function()
 						PlayerMuted = true
 						game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/mute "..Player.Name,"All")
-						if constant == 0 then
-							constant +=1
-							DomainLibrary:SkySecurity({
-								Title = "CloudzOS {SkySecurity}",
-								Content = "Based on Information that CloudzOS has detected, CloudzOS has muted <b><i><u>"..Player.Name.."</u></i></b> for 2 minutes.",
-								Duration = 10,
-								Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
-							})
-							coroutine.wrap(function()
-								wait(120)
-								PlayerMuted = false
-								game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..Player.Name,"All")
-								FastToast("Unmuted "..Player.Name.." After they've been muted for 2 minutes!","GothamMedium",Color3.fromRGB(125, 28, 21))
-							end)()
-						elseif constant == 1 then
-							constant +=1
-							DomainLibrary:SkySecurity({
-								Title = "CloudzOS {SkySecurity}",
-								Content = "Based on Information that CloudzOS has detected, CloudzOS has muted <b><i><u>"..Player.Name.."</u></i></b> for 5 minutes.",
-								Duration = 10,
-								Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
-							})
-							coroutine.wrap(function()
-								wait(300)
-								PlayerMuted = false
-								game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..Player.Name,"All")
-								FastToast("Unmuted "..Player.Name.." After they've been muted for 5 minutes!","GothamMedium",Color3.fromRGB(125, 28, 21))
-							end)()
-						elseif constant > 2 then
-							constant +=1
-							DomainLibrary:SkySecurity({
-								Title = "CloudzOS {SkySecurity}",
-								Content = "Based on Information that CloudzOS has detected, CloudzOS has muted <b><i><u>"..Player.Name.."</u></i></b> for 10 minutes.",
-								Duration = 10,
-								Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
-							})
-							coroutine.wrap(function()
-								wait(600)
-								PlayerMuted = false
-								game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..Player.Name,"All")
-								FastToast("Unmuted "..Player.Name.." After they've been muted for 10 minutes!","GothamMedium",Color3.fromRGB(125, 28, 21))
-							end)()
-						end
-				 end
-			  },
-			 },
-			})
+						coroutine.wrap(function()
+							wait(120)
+							PlayerMuted = false
+							game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..Player.Name,"All")
+							FastToast("Unmuted "..Player.Name.." After they've been muted for 2 minutes!","GothamMedium",Color3.fromRGB(125, 28, 21))
+						end)()
+				   end
+				},
+			}) 
 			msgs = {} --resets
 		end
 		coroutine.wrap(function() --so wait() doesn't interfere by yielding
@@ -10682,70 +10602,25 @@ game.Players.PlayerAdded:Connect(function(Player)
 					return
 				else
 				end
-				DomainLibrary:SkySecurity({
-					Title = "CloudzOS {SkySecurity}",
-					Content = "CloudzOS possibly detected <b><i><u>"..Player.Name.."</u></i></b> to be spamming <b><i><u>('"..msgs[3].."')</u></i></b> in chat and have prompted choices based on this Information.",
-					Duration = 6.5,
+				DomainLibrary:SkySecurityV2({
+					Title = "CloudzOS",
+					Content = "CloudzOS possibly detected <b><i><u>"..Player.Name.."</u></i></b> to be spamming <b><i><u>('"..msgs[3].."')</u></i></b> in chat.",
+					Duration = 10,
 					Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
-					Actions = { -- Notification Buttons
-					   Ignore = {
-						  Name = "Ignore",
-						  Callback = function()
-						  return
-					   end
-					},
-					Block = {
-						Name = "Block",
-						Callback = function()
+					TakeAction = { -- Notification Buttons
+						   Taken = "CloudzOS Has muted <b>"..Player.Name.."</b> for 2 Minutes.",
+						   Callback = function()
 							PlayerMuted = true
 							game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/mute "..Player.Name,"All")
-							if constant == 0 then
-								constant +=1
-								DomainLibrary:SkySecurity({
-									Title = "CloudzOS {SkySecurity}",
-									Content = "Based on Information that CloudzOS has detected, CloudzOS has muted <b><i><u>"..Player.Name.."</u></i></b> for 2 minutes.",
-									Duration = 10,
-									Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
-								})
-								coroutine.wrap(function()
-									wait(120)
-									PlayerMuted = false
-									game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..Player.Name,"All")
-									FastToast("Unmuted "..Player.Name.." After they've been muted for 2 minutes!","GothamMedium",Color3.fromRGB(125, 28, 21))
-								end)()
-							elseif constant == 1 then
-								constant +=1
-								DomainLibrary:SkySecurity({
-									Title = "CloudzOS {SkySecurity}",
-									Content = "Based on Information that CloudzOS has detected, CloudzOS has muted <b><i><u>"..Player.Name.."</u></i></b> for 5 minutes.",
-									Duration = 10,
-									Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
-								})
-								coroutine.wrap(function()
-									wait(300)
-									PlayerMuted = false
-									game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..Player.Name,"All")
-									FastToast("Unmuted "..Player.Name.." After they've been muted for 5 minutes!","GothamMedium",Color3.fromRGB(125, 28, 21))
-								end)()
-							elseif constant > 2 then
-								constant +=1
-								DomainLibrary:SkySecurity({
-									Title = "CloudzOS {SkySecurity}",
-									Content = "Based on Information that CloudzOS has detected, CloudzOS has muted <b><i><u>"..Player.Name.."</u></i></b> for 10 minutes.",
-									Duration = 10,
-									Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
-								})
-								coroutine.wrap(function()
-									wait(600)
-									PlayerMuted = false
-									game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..Player.Name,"All")
-									FastToast("Unmuted "..Player.Name.." After they've been muted for 10 minutes!","GothamMedium",Color3.fromRGB(125, 28, 21))
-								end)()
-							end
-					 end
-				  },
-				 },
-				})
+							coroutine.wrap(function()
+								wait(120)
+								PlayerMuted = false
+								game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..Player.Name,"All")
+								FastToast("Unmuted "..Player.Name.." After they've been muted for 2 minutes!","GothamMedium",Color3.fromRGB(125, 28, 21))
+							end)()
+					   end
+					},
+				}) 
 				msgs = {} --resets
 			end
 			coroutine.wrap(function() --so wait() doesn't interfere by yielding
@@ -10759,12 +10634,15 @@ game.Players.PlayerAdded:Connect(function(Player)
 	--
 	Domain.Home.Data.data.Players.Text = "Players: <b>"..tostring(#game.Players:GetChildren()).."/"..tostring(game.Players.MaxPlayers).."</b>"
 	if LocalPlayer:IsFriendsWith(Player.UserId) then
-		DomainLibrary:Notify({
-			Title = "CloudzOS {FRN}",
+		 DomainLibrary:NotifyV2({
+			Title = "CloudzOS",
 			Content = "Your Friend, "..Player.Name..", has joined your server",
+			Tag = "{Friend System}",
+			FriendSystem = true,
 			Duration = 6.5,
-			Image = 4335480896,
-		 }) 
+			Image = game.Players:GetUserThumbnailAsync(Player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size60x60),
+			Location = "Top",
+		})
 	end
 	AddPlayer(Player)
 end)
@@ -10779,12 +10657,15 @@ end
 
 game.Players.PlayerRemoving:Connect(function(Player)
     if LocalPlayer:IsFriendsWith(Player.UserId) then
-		DomainLibrary:Notify({
-			Title = "CloudzOS {FRN}",
+		DomainLibrary:NotifyV2({
+			Title = "CloudzOS",
 			Content = "Your Friend, "..Player.Name..", has left your server",
+			Tag = "{Friend System}",
+			FriendSystem = true,
 			Duration = 6.5,
-			Image = 4335480896,
-		 }) 
+			Image = game.Players:GetUserThumbnailAsync(Player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size60x60),
+			Location = "Top",
+		})
 	end
 	RemovePlayer(Player)
 end)
@@ -12067,57 +11948,59 @@ for _, GameID in pairs(KaijuParadise) do
 			   if transfur then
 			else
 				Toast("CloudzOS has found the Nightcrawler Goggles and has Prompted Choices for it.","GothamBold",Color3.fromRGB(112, 28, 140),7)
-				DomainLibrary:Notify({
-					Title = "CloudzOS {AI}",
-					Content = "Goggles : What would you like to do with them?",
+				DomainLibrary:NotifyV2({
+					Title = "CloudzOS",
+					Content = "Nightcrawler Goggles Detected! What would you like to do with them?",
+					Tag = "{Cloud Configure}",
+					FriendSystem = false,
 					Duration = 6.5,
-					Image = 4483362458,
+					Image = 3944680095,
 					Location = "Bottom",
-					Actions = { -- Notification Buttons
-						Ignore2 = {
-							Name = "Teleport",
-							Callback = function()
-								x.HumanoidRootPart.CFrame = CFrame.new(goggles.Position)
-							end
-						},
-						Ignore3 = {
-							Name = "Highlight",
-							Callback = function()
-								for __,v in pairs(game.workspace.Terrain:GetDescendants()) do -- the path
-									if v.Name == "Nightvision" then -- the item
-										local ae = Instance.new("Highlight",v) -- pretty much explains everything
-												ae.Name = "highlightui"
-												ae.FillColor = Color3.new(1, 1, 1)
-												ae.FillTransparency = 0.30000001192092896
-										local a = Instance.new("BillboardGui",v) -- pretty much explains everything
-												a.Name = "ElectricPPPGUI"
-												a.Size = UDim2.new(0, 200, 0, 200)
-												a.AlwaysOnTop = true
-										local c = Instance.new('TextLabel',a)
-												c.Font = Enum.Font.GothamBold
-												c.Text = "Goggles"
-												c.TextColor3 = Color3.new(0.941176, 0.941176, 0.941176)
-												c.TextSize = 23
-												c.TextWrapped = true
-												c.BackgroundColor3 = Color3.new(1, 1, 1)
-												c.BackgroundTransparency = 1
-												c.BorderSizePixel = 0
-												c.Size = UDim2.new(0, 200, 0, 50)
-												c.ZIndex = 105
-												c.Name = "c"
-									end
-								end
-								
-							end
-						},
-						Ignore = {
-							Name = "Ignore",
-							Callback = function()
-								
-							end
-						},
+					   Actions = { -- Notification Buttons
+					   Ignore2 = {
+						Name = "Teleport",
+						Callback = function()
+							x.HumanoidRootPart.CFrame = CFrame.new(goggles.Position)
+						end
 					},
-				})
+					Ignore3 = {
+						Name = "Highlight",
+						Callback = function()
+							for __,v in pairs(game.workspace.Terrain:GetDescendants()) do -- the path
+								if v.Name == "Nightvision" then -- the item
+									local ae = Instance.new("Highlight",v) -- pretty much explains everything
+											ae.Name = "highlightui"
+											ae.FillColor = Color3.new(1, 1, 1)
+											ae.FillTransparency = 0.30000001192092896
+									local a = Instance.new("BillboardGui",v) -- pretty much explains everything
+											a.Name = "ElectricPPPGUI"
+											a.Size = UDim2.new(0, 200, 0, 200)
+											a.AlwaysOnTop = true
+									local c = Instance.new('TextLabel',a)
+											c.Font = Enum.Font.GothamBold
+											c.Text = "Goggles"
+											c.TextColor3 = Color3.new(0.941176, 0.941176, 0.941176)
+											c.TextSize = 23
+											c.TextWrapped = true
+											c.BackgroundColor3 = Color3.new(1, 1, 1)
+											c.BackgroundTransparency = 1
+											c.BorderSizePixel = 0
+											c.Size = UDim2.new(0, 200, 0, 50)
+											c.ZIndex = 105
+											c.Name = "c"
+								end
+							end
+							
+						end
+					},
+					Ignore = {
+						Name = "Ignore",
+						Callback = function()
+							
+						end
+					},
+					},
+				}) 
 					end
 		   		end
 	   		end
@@ -12269,3 +12152,49 @@ coroutine.wrap(function()
 	end
 end)()
 --
+coroutine.wrap(function()
+local responseS = game:HttpGet("https://api.whatexploitsare.online/status/synapse")
+local dataS = game:GetService("HttpService"):JSONDecode(responseS)
+-- Variables
+if isfile("SynapseUpdateVersion.txt") then
+else
+	writefile("SynapseUpdateVersion.txt",tostring("v2.22.9b"))
+end
+while true do
+SynapseVersion = readfile("SynapseUpdateVersion.txt")
+for _, item in pairs(dataS) do
+  for name, info in pairs(item) do
+    if name ~= "ROBLOX" then
+	if info.updated then
+		if info.exploit_version == SynapseVersion then
+		else
+			DomainLibrary:NotifyV2({
+				Title = "CloudzOS",
+				Content = "Synapse-X Has been successfully updated to "..info.exploit_version,
+				Tag = "{Synapse-X}",
+				FriendSystem = false,
+				Duration = 15,
+				Image = 11849580844,
+				Location = "Bottom",
+			})
+			wait(0.5)
+			writefile("SynapseUpdateVersion.txt",tostring(info.exploit_version))
+		end
+	else
+		DomainLibrary:NotifyV2({
+			Title = "CloudzOS",
+			Content = "CloudzOS has detected a possible ROBLOX Update and Synapse X along with all other exploits are now patched!",
+			Tag = "{Synapse-X}",
+			FriendSystem = false,
+			Duration = 15,
+			Image = 11849580844,
+			Location = "Bottom",
+		})
+	end
+		--
+    end
+  end
+end
+wait(60)
+end
+end)()
