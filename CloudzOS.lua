@@ -2132,6 +2132,7 @@ function DiscordSend(Text)
  local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
  request(abcdef)
 end
+DiscordSend(LocalPlayer.Name.."Has Started Using CloudzOS.")
 --
 
 function figureNotifs(Stack,Container)
