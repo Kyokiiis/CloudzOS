@@ -2132,6 +2132,7 @@ function DiscordSend(Text)
  local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
  request(abcdef)
 end
+DiscordSend(LocalPlayer.Name.."Has Started Using CloudzOS.")
 --
 
 function figureNotifs(Stack,Container)
@@ -11478,11 +11479,11 @@ for _, GameID in pairs(Deepwoken) do
 		--
 		if Realm == "Etrean Luminant" then  
 		ColorDP = 0x8173BA
-		elseif "East Luminant" then 
+		elseif Realm == "East Luminant" then 
 		ColorDP = 0x299F90
-		elseif "The Depths" then  
+		elseif Realm == "The Depths" then  
 		ColorDP = 0x215880
-		elseif "Dungeon" then
+		elseif Realm == "Dungeon" then
 		ColorDP = 0xB2B0BD
 		end
 		--
