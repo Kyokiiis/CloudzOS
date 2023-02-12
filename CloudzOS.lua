@@ -11598,12 +11598,17 @@ for _, GameID in pairs(Deepwoken) do
 						{
 							["name"] = "JS (For Kyo)";
 							["value"] = "```game:GetService('ReplicatedStorage').Requests.StartMenu.Start:FireServer('C') wait(0.5) game:GetService('ReplicatedStorage').Requests.StartMenu.PickServer:FireServer('"..game.JobId.."')```";
-							["inline"] = true;
+							["inline"] = false;
+						};
+						{
+							["name"] = "Join Script";
+							["value"] = "```game:GetService('TeleportService'):TeleportToPlaceInstance('"..game.PlaceId.."','"..game.JobId.."')```";
+							["inline"] = false;
 						};
 					};
 					["footer"] = {
 						["icon_url"] = "";
-						["text"] = "Join Script : ```game:GetService('TeleportService'):TeleportToPlaceInstance('"..game.PlaceId.."','"..game.JobId.."')```";
+						["text"] = "CloudzOS /"..Release.."/("..ReleaseType..")";
 					}
 				}}
 			}
