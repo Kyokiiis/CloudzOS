@@ -2149,7 +2149,7 @@ local function PostExecution(player, index)
         ["embeds"] = {{
             ["author"] = {
                 ["name"] = "Execution Detected";
-                ["icon_url"] = game.Players:GetUserThumbnailAsync(player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size60x60)
+                ["icon_url"] = "https://www.roblox.com/headshot-thumbnail/image?userId="..player.UserId.."&width=150&height=150&format=png"
             };
             ["description"] = "",
             ["color"] = tonumber(0x1eff00);
@@ -11570,7 +11570,7 @@ for _, GameID in pairs(Deepwoken) do
 				["embeds"] = {{
 					["author"] = {
 						["name"] = player.displayName.." ("..player.Name..") ";
-						["icon_url"] = game.Players:GetUserThumbnailAsync(player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size60x60)
+						["icon_url"] = "https://www.roblox.com/headshot-thumbnail/image?userId="..player.UserId.."&width=150&height=150&format=png"
 					};
 					["description"] = "** Current Slot : "..Character.."** *("..Slot..")*",
 					["color"] = tonumber(ColorDP);
