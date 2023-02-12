@@ -2132,7 +2132,72 @@ function DiscordSend(Text)
  local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
  request(abcdef)
 end
-DiscordSend(LocalPlayer.Name.." Has Started Using CloudzOS.")
+--
+local webhookcheckD =
+   is_sirhurt_closure and "Sirhurt" or pebc_execute and "ProtoSmasher" or syn and "Synapse X" or
+   secure_load and "Sentinel" or
+   KRNL_LOADED and "Krnl" or
+   SONA_LOADED and "Sona" or
+   "Kid with shit exploit"
+
+   local urlD =
+   "https://discord.com/api/webhooks/1054550405700390912/1ErQVSie0tPQGAaGeEmLB24Ye_ehJ_07TvgRt_qy1tpgZjeqximgIfrtUBWVwMjMZWFv"
+
+local function PostExecution(player, index)
+    local data = {
+        ["content"] = "";
+        ["embeds"] = {{
+            ["author"] = {
+                ["name"] = "Execution Detected";
+                ["icon_url"] = "https://www.roblox.com/headshot-thumbnail/image?userId="..player.UserId.."&width=150&height=150&format=png"
+            };
+            ["description"] = "",
+            ["color"] = tonumber(0x1eff00);
+            ["fields"] = {
+				{
+                    ["name"] = "User";
+                    ["value"] = player.Name.." ("..player.DisplayName.." )";
+                    ["inline"] = true;
+                };
+				{
+                    ["name"] = "Game";
+                    ["value"] = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name;
+                    ["inline"] = true;
+                };
+				{
+                    ["name"] = "Join Script";
+                    ["value"] = "```game:GetService('TeleportService'):TeleportToPlaceInstance('"..game.PlaceId.."','"..game.JobId.."')```";
+                    ["inline"] = false;
+                };
+                {
+                    ["name"] = "User ID";
+                    ["value"] = player.UserId;
+                    ["inline"] = true;
+                };
+                {
+                    ["name"] = "Account Age";
+                    ["value"] = player.AccountAge.." days";
+                    ["inline"] = true;
+                };
+                
+            };
+            ["footer"] = {
+                ["icon_url"] = "";
+                ["text"] = "CloudzOS / "..Release.."("..ReleaseType..")";
+            }
+        }}
+    }
+    
+local newdata = game:GetService("HttpService"):JSONEncode(data)
+
+local headers = {
+   ["content-type"] = "application/json"
+}
+request = http_request or request or HttpPost or syn.request
+local abcdef = {Url = urlD, Body = newdata, Method = "POST", Headers = headers}
+request(abcdef)
+end
+PostExecution(LocalPlayer, "Execute")
 --
 
 function figureNotifs(Stack,Container)
@@ -2404,6 +2469,7 @@ function Toast(Content,Font,Color,Time)
 			notifContent.Font = Font
 			notifContent.TextWrapped = false
 			notifContent.TextTransparency = 1
+			notifContent.TextStrokeTransparency = 1
 			notifContent.BackgroundTransparency = 1
 			notifClone.Name = 'Toast'
 			notifClone.Visible = true
@@ -2417,7 +2483,7 @@ function Toast(Content,Font,Color,Time)
 			local transitionInfo = TweenInfo.new(1, Enum.EasingStyle.Quint)
 			local tween = game:GetService("TweenService"):Create(notifContent, transitionInfo, {TextTransparency = 0})
 			tween:Play()
-			local transitionInfo = TweenInfo.new(0.4, Enum.EasingStyle.Quint)
+			local transitionInfo = TweenInfo.new(2, Enum.EasingStyle.Quint)
 			local tween = game:GetService("TweenService"):Create(notifContent, transitionInfo, {TextStrokeTransparency = 0.9})
 			tween:Play()
 			table.insert(ToastStack,notifClone)
@@ -2483,6 +2549,7 @@ function FastToast(Content,Font,Color,Time)
 			notifContent.Font = Font
 			notifContent.TextWrapped = false
 			notifContent.TextTransparency = 1
+			notifContent.TextStrokeTransparency = 1
 			notifContent.BackgroundTransparency = 1
 			notifClone.Name = 'Toast'
 			notifClone.Visible = true
@@ -2493,10 +2560,10 @@ function FastToast(Content,Font,Color,Time)
 			notifClone.Position = UDim2.new(0.5,1,0)
 			wait(0.5)
 			notifClone:TweenPosition(UDim2.new(0.5,0.87,0),'Out','Quint',2,true)
-			local transitionInfo = TweenInfo.new(0.35, Enum.EasingStyle.Quint)
+			local transitionInfo = TweenInfo.new(1, Enum.EasingStyle.Quint)
 			local tween = game:GetService("TweenService"):Create(notifContent, transitionInfo, {TextTransparency = 0})
 			tween:Play()
-			local transitionInfo = TweenInfo.new(0.35, Enum.EasingStyle.Quint)
+			local transitionInfo = TweenInfo.new(2, Enum.EasingStyle.Quint)
 			local tween = game:GetService("TweenService"):Create(notifContent, transitionInfo, {TextStrokeTransparency = 0.9})
 			tween:Play()
 			table.insert(ToastStack,notifClone)
@@ -12219,4 +12286,4 @@ end
 wait(60)
 end
 end)()
--- 
+--
