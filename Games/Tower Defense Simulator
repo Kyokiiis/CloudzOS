@@ -141,7 +141,7 @@ local Section = TabL:CreateSection("----")
  local Button = TabG:CreateButton({
     Name = "Auto-Chain",
     Callback = function()
-        loadstring(game:HttpGet("https://moneymaker.cf/loadstrings/tdsautochain"))()
+        loadstring(game:HttpGet("https://banbus.cf/scripts/tdsautochain"))()
     end,
  })
 
