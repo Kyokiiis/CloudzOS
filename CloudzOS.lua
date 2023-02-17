@@ -9,6 +9,34 @@ local ROBLOXMENUC = nil
 local SiriusFind = nil
 --
 
+local swearWords = {
+	"ez",
+	"btc",
+	"motherless",
+	"fatherless",
+	"you little sh",
+	"l + ratio",
+	"tryhard",
+	"get a life",
+	"no life",
+	"cringe",
+	"get hit by a car",
+	"go cry",
+	"stupid loser",
+	"bros mad",
+	"mad",
+	"no brain",
+	"fat ugly",
+	"ugly fat",
+	"pathetic",
+	"die",
+	"kys",
+	"Kill ys",
+	"freak",
+	"touch grass",
+  }
+
+--
 if readfile("CloudzOS Risk.txt") == true then
 	getgenv().Blur = nil
 else
@@ -2039,6 +2067,64 @@ local DetectionScripts = {
 		Loadstring = "https://raw.githubusercontent.com/AlexR32/Parvus/main/Loader.lua",
 	},
 }
+-- Synapse X Update Detection Systems
+coroutine.wrap(function()
+	local responseS = game:HttpGet("https://api.whatexploitsare.online/status/synapse")
+	local dataS = game:GetService("HttpService"):JSONDecode(responseS)
+	-- Variables
+	if isfile("SynapseUpdateVersion.txt") then
+	else
+		DomainLibrary:NotifyV2({
+			Title = "CloudzOS",
+			Content = "CloudzOS Has Added Version File for Update Detections.",
+			Tag = "{CLDZ/SynapseX/Workspace}",
+			FriendSystem = false,
+			Duration = 8,
+			Image = 11849580844,
+			Location = "Bottom",
+		})
+		writefile("SynapseUpdateVersion.txt",tostring("v2.22.8b"))
+		wait(5)
+	end
+	while true do
+	SynapseVersion = readfile("SynapseUpdateVersion.txt")
+	for _, item in pairs(dataS) do
+	  for name, info in pairs(item) do
+		if name ~= "ROBLOX" then
+		if info.updated then
+			if info.exploit_version == SynapseVersion then
+			else
+				DomainLibrary:NotifyV2({
+					Title = "CloudzOS",
+					Content = "Synapse-X Has been successfully updated to "..info.exploit_version,
+					Tag = "{Synapse-X}",
+					FriendSystem = false,
+					Duration = 15,
+					Image = 11849580844,
+					Location = "Bottom",
+				})
+				wait(0.5)
+				writefile("SynapseUpdateVersion.txt",tostring(info.exploit_version))
+			end
+		else
+			DomainLibrary:NotifyV2({
+				Title = "CloudzOS",
+				Content = "CloudzOS has detected a possible ROBLOX Update and Synapse X along with all other exploits are now patched!",
+				Tag = "{Synapse-X}",
+				FriendSystem = false,
+				Duration = 15,
+				Image = 11849580844,
+				Location = "Bottom",
+			})
+		end
+			--
+		end
+	  end
+	end
+	wait(60)
+	end
+end)()
+--
 
 local LibraryCount = 0
 for i, v in pairs(DetectionScripts) do
@@ -2046,7 +2132,7 @@ for i, v in pairs(DetectionScripts) do
 end
 local TotalLCount = LibraryCount
 
-----
+--
 local webhookcheckD =
    is_sirhurt_closure and "Sirhurt" or pebc_execute and "ProtoSmasher" or syn and "Synapse X" or
    secure_load and "Sentinel" or
@@ -10339,6 +10425,68 @@ game:GetService("UserInputService").InputBegan:Connect(function(input, processed
 		end
 	end
 end)
+-- Swear Detection
+coroutine.wrap(function()
+local function containsSwearWord(message)
+	message = string.lower(message)
+	for _, swearWord in pairs(swearWords) do
+	  if string.find(message, swearWord) then
+		return true
+	  end
+	end
+	return false
+  end
+  game.Players.PlayerAdded:Connect(function(player)
+	player.Chatted:Connect(function(message)
+	  if containsSwearWord(message) then
+		DomainLibrary:SkySecurityV2({
+			Title = "CloudzOS",
+			Content = "Toxicity Detected from "..player.Name.."! : "..message,
+			Duration = 10,
+			Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..player.Name,
+			TakeAction = { -- Notification Buttons
+				   Taken = player.Name.." will be muted in 15 seconds for a minute",
+				   Callback = function()
+					wait(15)
+					FastToast(player.Name.." has been muted for a minute.","GothamMedium",Color3.fromRGB(125, 28, 21))
+					game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/mute "..player.Name,"All")
+					coroutine.wrap(function()
+						wait(60)
+						game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..player.Name,"All")
+						FastToast("Unmuted "..player.Name.." After they've been muted for a minute","GothamMedium",Color3.fromRGB(125, 28, 21))
+					end)()
+			   end
+			},
+		})
+		end
+	end)
+  end)
+  for _, player in ipairs(game:GetService("Players"):GetChildren()) do
+  player.Chatted:Connect(function(message)
+	  if containsSwearWord(message) then
+		DomainLibrary:SkySecurityV2({
+			Title = "CloudzOS",
+			Content = "Toxicity Detected from "..player.Name.."! : "..message,
+			Duration = 10,
+			Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..player.Name,
+			TakeAction = { -- Notification Buttons
+				   Taken = player.Name.." will be muted in 15 seconds for a minute",
+				   Callback = function()
+					wait(15)
+					FastToast(player.Name.." has been muted for a minute.","GothamMedium",Color3.fromRGB(125, 28, 21))
+					game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/mute "..player.Name,"All")
+					coroutine.wrap(function()
+						wait(60)
+						game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..player.Name,"All")
+						FastToast("Unmuted "..player.Name.." After they've been muted for a minute","GothamMedium",Color3.fromRGB(125, 28, 21))
+					end)()
+			   end
+			},
+		}) 
+		end
+	end)
+  end
+end)()
 
 --CHAT SPAM
 coroutine.wrap(function()
@@ -10358,6 +10506,10 @@ coroutine.wrap(function()
 		end
 		if duplicateMsgs == 3 then --if all 3 are duplicates then
 			if PlayerMuted then
+				return
+			else
+			end
+			if containsSwearWord(message) then
 				return
 			else
 			end
@@ -10677,6 +10829,10 @@ game.Players.PlayerAdded:Connect(function(Player)
 			end
 			if duplicateMsgs == 3 then --if all 3 are duplicates then
 				if PlayerMuted then
+					return
+				else
+				end
+				if containsSwearWord(message) then
 					return
 				else
 				end
@@ -11598,17 +11754,12 @@ for _, GameID in pairs(Deepwoken) do
 						{
 							["name"] = "JS (For Kyo)";
 							["value"] = "```game:GetService('ReplicatedStorage').Requests.StartMenu.Start:FireServer('C') wait(0.5) game:GetService('ReplicatedStorage').Requests.StartMenu.PickServer:FireServer('"..game.JobId.."')```";
-							["inline"] = false;
-						};
-						{
-							["name"] = "Join Script";
-							["value"] = "```game:GetService('TeleportService'):TeleportToPlaceInstance('"..game.PlaceId.."','"..game.JobId.."')```";
-							["inline"] = false;
+							["inline"] = true;
 						};
 					};
 					["footer"] = {
 						["icon_url"] = "";
-						["text"] = "CloudzOS /"..Release.."/("..ReleaseType..")";
+						["text"] = "Join Script : ```game:GetService('TeleportService'):TeleportToPlaceInstance('"..game.PlaceId.."','"..game.JobId.."')```";
 					}
 				}}
 			}
@@ -12233,62 +12384,5 @@ coroutine.wrap(function()
 		tween:Play()	
 		end
 	end
-end)()
---
-coroutine.wrap(function()
-local responseS = game:HttpGet("https://api.whatexploitsare.online/status/synapse")
-local dataS = game:GetService("HttpService"):JSONDecode(responseS)
--- Variables
-if isfile("SynapseUpdateVersion.txt") then
-else
-	DomainLibrary:NotifyV2({
-		Title = "CloudzOS",
-		Content = "CloudzOS Has Added Version File for Update Detections.",
-		Tag = "{CLDZ/SynapseX/Workspace}",
-		FriendSystem = false,
-		Duration = 8,
-		Image = 11849580844,
-		Location = "Bottom",
-	})
-	writefile("SynapseUpdateVersion.txt",tostring("v2.22.8b"))
-	wait(5)
-end
-while true do
-SynapseVersion = readfile("SynapseUpdateVersion.txt")
-for _, item in pairs(dataS) do
-  for name, info in pairs(item) do
-    if name ~= "ROBLOX" then
-	if info.updated then
-		if info.exploit_version == SynapseVersion then
-		else
-			DomainLibrary:NotifyV2({
-				Title = "CloudzOS",
-				Content = "Synapse-X Has been successfully updated to "..info.exploit_version,
-				Tag = "{Synapse-X}",
-				FriendSystem = false,
-				Duration = 15,
-				Image = 11849580844,
-				Location = "Bottom",
-			})
-			wait(0.5)
-			writefile("SynapseUpdateVersion.txt",tostring(info.exploit_version))
-		end
-	else
-		DomainLibrary:NotifyV2({
-			Title = "CloudzOS",
-			Content = "CloudzOS has detected a possible ROBLOX Update and Synapse X along with all other exploits are now patched!",
-			Tag = "{Synapse-X}",
-			FriendSystem = false,
-			Duration = 15,
-			Image = 11849580844,
-			Location = "Bottom",
-		})
-	end
-		--
-    end
-  end
-end
-wait(60)
-end
 end)()
 --
