@@ -2069,7 +2069,6 @@ local DetectionScripts = {
 }
 -- Synapse X Update Detection Systems
 coroutine.wrap(function()
-	local AlreadyUpdated = false
 	local responseS = game:HttpGet("https://api.whatexploitsare.online/status/synapse")
 	local dataS = game:GetService("HttpService"):JSONDecode(responseS)
 	-- Variables
@@ -2102,15 +2101,12 @@ coroutine.wrap(function()
 					FriendSystem = false,
 					Duration = 15,
 					Image = 11849580844,
-					Location = "Top",
+					Location = "Bottom",
 				})
 				wait(0.5)
 				writefile("SynapseUpdateVersion.txt",tostring(info.exploit_version))
 			end
 		else
-			if AlreadyUpdated then
-				return
-			else
 			DomainLibrary:NotifyV2({
 				Title = "CloudzOS",
 				Content = "CloudzOS has detected a possible ROBLOX Update and Synapse X along with all other exploits are now patched!",
@@ -2118,9 +2114,8 @@ coroutine.wrap(function()
 				FriendSystem = false,
 				Duration = 15,
 				Image = 11849580844,
-				Location = "Top",
+				Location = "Bottom",
 			})
-		end
 		end
 			--
 		end

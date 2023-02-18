@@ -2102,7 +2102,7 @@ coroutine.wrap(function()
 					FriendSystem = false,
 					Duration = 15,
 					Image = 11849580844,
-					Location = "Top",
+					Location = "Bottom",
 				})
 				wait(0.5)
 				writefile("SynapseUpdateVersion.txt",tostring(info.exploit_version))
@@ -2118,7 +2118,7 @@ coroutine.wrap(function()
 				FriendSystem = false,
 				Duration = 15,
 				Image = 11849580844,
-				Location = "Top",
+				Location = "Bottom",
 			})
 		end
 		end
