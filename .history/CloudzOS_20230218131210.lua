@@ -10450,6 +10450,7 @@ coroutine.wrap(function()
 		end
 		return false
 	  end
+	
 	  game.Players.PlayerAdded:Connect(function(player)
 		player.Chatted:Connect(function(message)
 		  if containsSwearWord(message) then
@@ -10465,11 +10466,10 @@ coroutine.wrap(function()
 							coroutine.wrap(function()
 							wait(15)
 							game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/mute "..player.Name,"All")
-							FastToast("Muted "..player.Name.." After 15 seconds.","GothamMedium",Color3.fromRGB(125, 28, 21))
 							coroutine.wrap(function()
-							wait(60)
+							wait(120)
 								game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..player.Name,"All")
-								FastToast("Unmuted "..player.Name.." After they've been muted for 1 minutes!","GothamMedium",Color3.fromRGB(125, 28, 21))
+								FastToast("Unmuted "..player.Name.." After they've been muted for 2 minutes!","GothamMedium",Color3.fromRGB(125, 28, 21))
 							end)()
 						end)()
 					   end
@@ -10493,11 +10493,10 @@ coroutine.wrap(function()
 							coroutine.wrap(function()
 							wait(15)
 							game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/mute "..player.Name,"All")
-							FastToast("Muted "..player.Name.." After 15 seconds.","GothamMedium",Color3.fromRGB(125, 28, 21))
 							coroutine.wrap(function()
-							wait(60)
+							wait(120)
 								game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..player.Name,"All")
-								FastToast("Unmuted "..player.Name.." After they've been muted for 1 minutes!","GothamMedium",Color3.fromRGB(125, 28, 21))
+								FastToast("Unmuted "..player.Name.." After they've been muted for 2 minutes!","GothamMedium",Color3.fromRGB(125, 28, 21))
 							end)()
 						end)()
 					   end
