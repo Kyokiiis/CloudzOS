@@ -1,0 +1,61 @@
+local Skyren = loadstring(game:HttpGet('https://raw.githubusercontent.com/Kyokiiis/Skyren-Notifications/main/Source',true))()
+--
+function TPSTATUS()
+    game:GetService("TeleportService").TeleportInitFailed:Connect(function(player, teleportResult, errorMessage)
+         if player == game.Players.LocalPlayer then
+            Skyren:Notify({
+                Title = "Skyren",
+                Content = "Teleportation Failed! Error : "..errorMessage,
+                Tag = "{Teleport Service}",
+                Duration = 6.5,
+                Image = 11924758053,
+                Location = "Top",
+            })
+		 end
+    end)
+end
+TPSTATUS()
+--
+if getgenv().JobId == game.JobId then
+    Skyren:Notify({
+        Title = "Skyren",
+        Content = "You are already in the server you attempted to teleport to!",
+        Tag = "{Join Script}",
+        Duration = 6.5,
+        Image = 11924758053,
+        Location = "Top",
+    }) 
+else
+local Data = game:HttpGetAsync("https://games.roblox.com/v1/games/"..getgenv().GameId.."/servers/0?sortOrder=2&excludeFullGames=false&limit=100")
+local Data2 = game:GetService("HttpService"):JSONDecode(Data)
+for i, Servers in pairs(Data2.data) do
+    coroutine.wrap(function()
+        if Servers.id == getgenv().JobId then 
+        local MaxPlayers = Servers.maxPlayers 
+        local Players = Servers.playing      
+            if Players >= MaxPlayers then
+                Skyren:Notify({
+                    Title = "Skyren",
+                    Content = "The Server you are trying to teleport to is full at the moment!",
+                    Tag = "{Join Script/CloudzOS}",
+                    Duration = 6.5,
+                    Image = 11949106296,
+                    Location = "Top",
+                }) 
+                else            
+                    Skyren:Notify({
+                        Title = "Skyren",
+                        Content = "Successfully found server! Teleporting now!",
+                        Tag = "{Join Script/CloudzOS}",
+                        Duration = 6.5,
+                        Image = 11971880900,
+                        Location = "Top",
+                    })            
+                wait(2)       
+                game:GetService('TeleportService'):TeleportToPlaceInstance(getgenv().GameId,getgenv().JobId)
+            end
+        else
+        end
+    end)()
+end
+end
