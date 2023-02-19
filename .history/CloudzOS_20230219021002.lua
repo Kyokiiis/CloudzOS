@@ -756,17 +756,17 @@ function DomainLibrary:Prompt(PromptSettings)
 				--
 				NewAction.Interact.MouseEnter:Connect(function()
 					coroutine.wrap(function()
-						TweenService:Create(NewAction.Icon, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
-						TweenService:Create(NewAction.Content, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
-						TweenService:Create(NewAction, TweenInfo.new(1, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 65, 0, 34)}):Play()
+						TweenService:Create(NewAction.Icon, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+						TweenService:Create(NewAction.Content, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+						TweenService:Create(NewAction, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 65, 0, 34)}):Play()
 					end)()
 				end)
 				----
 				NewAction.Interact.MouseLeave:Connect(function()
 					coroutine.wrap(function()
-						TweenService:Create(NewAction.Content, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
-						TweenService:Create(NewAction.Icon, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
-						TweenService:Create(NewAction, TweenInfo.new(1, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 34, 0, 34)}):Play()
+						TweenService:Create(NewAction.Content, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+						TweenService:Create(NewAction.Icon, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
+						TweenService:Create(NewAction, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 34, 0, 34)}):Play()
 					end)()
 				end)
 				--
@@ -864,7 +864,6 @@ function DomainLibrary:Prompt(PromptSettings)
 		end
 		
 		if not PromptSettings.Actions then
-			TweenService:Create(Prompt.Title, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Position = UDim2.new(0, 170, 0, 20)}):Play()
             TweenService:Create(Prompt.Title, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 246, 0, 26)}):Play()
 			wait(PromptSettings.Duration or NotificationDuration - 0.5)
 		else
@@ -11912,12 +11911,12 @@ while task.wait() do
         local connection = syn.websocket.connect("ws://localhost:55555/")
 
         connection:Send("Account Connected: "..LocalPlayer.DisplayName.." ("..LocalPlayer.Name..")")
-		 DomainLibrary:Prompt({
-			Content = "Connection to Visual Studio Code Successfully Established.",
-			Duration = 5,
-			FriendSystem = false,
-			Image = 11602461955,
-		})
+        DomainLibrary:Notify({
+            Title = "CloudzOS {DV PLG}",
+            Content = "Visual Studio Code Has Successfully Connected to Synapse X : "..LocalPlayer.DisplayName.." ("..LocalPlayer.Name..")",
+            Duration = 3,
+            Image = 11602461955,
+         })
         connection.OnMessage:Connect(function(call) 
             local callback, output = loadstring(call);
             if not callback then
