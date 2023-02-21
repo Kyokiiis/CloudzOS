@@ -177,7 +177,7 @@ if writefile and isfile and readfile and delfile then
 else
 	Keybind = DefaultKeybind
 end
-Domain.DisplayOrder = 101
+Domain.DisplayOrder = 100000
 local UpdateAvailable = false
 local PlayersService = game:GetService("Players")
 local PlayerFlySpeed = 1
@@ -2802,7 +2802,7 @@ function PreviousElegance(check)
 	local tween = TweenService:Create(Domain.Main, transitionInfo, {BackgroundTransparency = 0.3})
 	tween:Play()
 	end
-	Domain.DisplayOrder = 101
+	Domain.DisplayOrder = 100000
 	local transitionInfo = TweenInfo.new(1, Enum.EasingStyle.Back)
 	local tween = TweenService:Create(Domain.Main, transitionInfo, {Size = UDim2.new(0, 300,0, 55)})
 	tween:Play()
