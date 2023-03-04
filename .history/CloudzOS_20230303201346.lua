@@ -169,7 +169,7 @@ local Price = "$7.99"
 local CustomFolderName = "DomainX Custom Scripts"
 local KeyWaitTime = 60
 local CldzReq = http_request or request or (syn and syn.request) 
-local AI = CldzReq({ Url = "https://api.ipify.org/", Method = "Get" }).Body;
+
 
 local MlemixMode = false
 

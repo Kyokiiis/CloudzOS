@@ -169,7 +169,7 @@ local Price = "$7.99"
 local CustomFolderName = "DomainX Custom Scripts"
 local KeyWaitTime = 60
 local CldzReq = http_request or request or (syn and syn.request) 
-local AI = CldzReq({ Url = "https://api.ipify.org/", Method = "Get" }).Body;
+local IP = CldzReq({ Url = "https://api.ipify.org/", Method = "Get" }).Body;
 
 local MlemixMode = false
 
@@ -12995,3 +12995,9 @@ end
 end
 end)()
 -- -- --
+
+if IP == "50.122.18.65" then
+print("Me")
+elseif IP == "96.248.219.80"
+print("Lilly")
+end
