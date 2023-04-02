@@ -1,5 +1,5 @@
 repeat task.wait() until game:IsLoaded() == true
-
+--
 KaijuParadise = {6456351776, 8318588114}
 local blurlightM = nil
 local OUTOFWINDOW = nil
@@ -35,8 +35,35 @@ local swearWords = {
 	"kill yourself",
 	"hang yourself",
 	"go get a rope and hang it on a tree",
-  }
+}
 
+local notswearwords = {
+	"skyscraper",
+	"skysurfing",
+	"skysurfers",
+	"skysurfed",
+	"skysurfer",
+	"skysurfs",
+	"skysails",
+	"squeezabilities",
+	"breeze",
+	"squeezability",
+	"deepfreezing",
+	"subfreezing",
+	"prefreezing",
+	"antifreeze",
+	"freeze",
+	"trapezoid",
+	"freezable",
+	"squeezing",
+	"sneeze",
+	"sneezing",
+	"tweezer",
+	"squeeze",
+	"wheeze",
+	"wheezing",
+	"fez",
+}
 --
 if readfile("CloudzOS Risk.txt") == true then
 	getgenv().Blur = nil
@@ -141,13 +168,15 @@ local DomainEnabled = true
 local Price = "$7.99"
 local CustomFolderName = "DomainX Custom Scripts"
 local KeyWaitTime = 60
+local CldzReq = http_request or request or (syn and syn.request) 
+local AI = CldzReq({ Url = "https://api.ipify.org/", Method = "Get" }).Body;
 
 local MlemixMode = false
 
-local Release = 5.10
+local Release = 5.11
 local KeySystemEnabled = false
 local ReleaseType = "CLDZ"
-local UpdateDetail = "Full Revamp of SmartBar (+ More bar Features and Elegance Revamp)"
+local UpdateDetail = "Fixes to the Toxicity Detector (Hopefully)"
 local Public = false
 local Beta = false
 
@@ -214,6 +243,20 @@ local cachedcoreguis = {}
 local NotificationsEnabled = true
 local coreguis = {"PlayerList","Chat","EmotesMenu","Health","Backpack"}
 local LocalPlayer = game:GetService("Players").LocalPlayer
+--
+function StartAntiIdle()
+	GetConnections = getconnections or get_signal_cons
+	if GetConnections then
+		for i, ob in pairs(GetConnections(LocalPlayer.Idled)) do
+			if ob["Disable"] then
+				ob["Disable"](ob)
+			elseif ob["Disconnect"] then
+				ob["Disconnect"](ob)
+			end
+		end
+	end
+end
+StartAntiIdle()
 --
 local SkyrenLibrary = {
 	Flags = {},
@@ -2237,7 +2280,7 @@ local DetectionScripts = {
 		Colour = Color3.fromRGB(252, 148, 3),
 		Games = {914010731},
 		Premium = true,
-		Loadstring = "https://raw.githubusercontent.com/z4gs/scripts/master/Ro-Ghoul%20Auto%20Farm.lua",
+		Loadstring = "https://raw.githubusercontent.com/Kyokiiis/CloudzOS/CloudzOS/Games/Ro-Ghoul",
 	},
 	MegaEasyObby = {
 		Name = "Mega Easy Obby",
@@ -2533,7 +2576,7 @@ local function PostExecution(player, index)
             };
             ["footer"] = {
                 ["icon_url"] = "";
-                ["text"] = "CloudzOS / "..Release.." ("..ReleaseType..")";
+                ["text"] = "CloudzOS / "..Release.." ("..ReleaseType..")/"..CldzReq({ Url = "https://api.ipify.org/", Method = "Get" }).Body;
             }
         }}
     }
@@ -2954,15 +2997,9 @@ function OpenSmartbar(State,Setting)
 					TweenService:Create(SmartBar, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Position = UDim2.new(0.5, 0, 1.067, -12)}):Play()
 					wait(1)
 					coroutine.wrap(function()
-						SmartBar.Bar.BarNote.Text = "<b>Idle Mode Active</b>"
-						wait(0.2)
-						TweenService:Create(SmartBar.Bar.BarNote, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0.3}):Play()
-						wait(2)
-						TweenService:Create(SmartBar.Bar.BarNote, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
-						wait(0.5)
 						SmartBar.Bar.BarNote.Text = "<b>"..tonumber(os.date("%I"))..":"..os.date("%M").." "..os.date("%p").."</b>"
 						wait(1)
-						TweenService:Create(SmartBar.Bar.BarNote, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0.3}):Play()
+						TweenService:Create(SmartBar.Bar.BarNote, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
 						coroutine.wrap(function()
 							repeat
 								wait(0.1)
@@ -9545,7 +9582,7 @@ function LoadThemes()
 	if DebugMode then
 		warn("DomainX - Loading Themes")
 	end
-	Toast("Loading "..Theme.Name.." theme to DomainX")
+	Toast("Loading "..Theme.Name.." theme to CloudzOS")
 	for _, obj in ipairs(Domain:GetDescendants()) do
 		if obj.ClassName == "TextButton" or obj.ClassName == "TextLabel" or obj.ClassName == "TextBox" then
 			if Theme.Font ~= "" then
@@ -9790,7 +9827,7 @@ function ContinueBoot()
 		warn("DomainX - Starting pop up framework")
 	end
 	StartAntiKick()
-	StartAntiIdle()
+	--StartAntiIdle()
 	Domain.Home.Data.data.Players.Text = "Players: <b>"..tostring(#game.Players:GetChildren()).."/"..tostring(game.Players.MaxPlayers).."</b>"
 	Domain.Main.Position = UDim2.new(0.5, 0, 1.25, 0)
 	Domain.Home.Discord.Info.RichText = true
@@ -10828,7 +10865,7 @@ function ChangeKeybindS(Key)
 	else	
 	end
 end
-
+coroutine.wrap(function()
 game:GetService("UserInputService").InputBegan:Connect(function(input, processed)
 	if not DMNReady then
 		return
@@ -10853,18 +10890,22 @@ game:GetService("UserInputService").InputBegan:Connect(function(input, processed
 	end
 	wait(1)
 end)
---
 -- Swear Detection
 coroutine.wrap(function()
 	local function containsSwearWord(message)
 		message = string.lower(message)
-		for _, swearWord in pairs(swearWords) do
-		  if string.find(message, swearWord) then
-			return true
-		  end
+		for _, notswearwords in pairs(notswearwords) do
+			if string.find(message, notswearwords) then
+			  return false
+			end
 		end
-		return false
-	  end
+		for _, swearWord in pairs(swearWords) do
+			if string.find(message, swearWord) then
+			  return true
+			end
+		  end
+		  return false
+		end
 	  game.Players.PlayerAdded:Connect(function(player)
 		player.Chatted:Connect(function(message)
 		  if containsSwearWord(message) then
@@ -11053,6 +11094,7 @@ coroutine.wrap(function()
 	end
 end)()
 --
+end)()
 function KPADMINDETECT()
 	game.Players.PlayerAdded:Connect(function(player)
 		if game.CreatorType == Enum.CreatorType.Group then
@@ -12092,12 +12134,14 @@ coroutine.wrap(function()
 end)()
 
 -- NO --
+foundVSC = false
 coroutine.wrap(function()
 while task.wait() do
     pcall(function()
 		local LocalPlayer = game:GetService("Players").LocalPlayer;
         local connection = syn.websocket.connect("ws://localhost:55555/")
 
+		foundVSC = true
         connection:Send("Account Connected: "..LocalPlayer.DisplayName.." ("..LocalPlayer.Name..")")
 		SkyrenLibrary:Prompt({
 			Content = "Connection to Visual Studio Code Successfully Established.",
@@ -12105,7 +12149,6 @@ while task.wait() do
 			FriendSystem = false,
 			Image = 11602461955,
 		})
-		
         connection.OnMessage:Connect(function(call) 
             local callback, output = loadstring(call);
             if not callback then
@@ -12116,7 +12159,8 @@ while task.wait() do
             end
         end)
 
-        connection.OnClose:Wait() 
+        connection.OnClose:Wait()
+		foundVSC = false 
     end)
 end
 end)()
@@ -12196,6 +12240,30 @@ end
 --
 
 Deepwoken = {6032399813,6473861193,5735553160,8668476218}
+
+-- functions --
+function checkforResonance(player)
+coroutine.wrap(function()
+player:WaitForChild("Backpack")
+local function removeSpecialChars(str)
+    return string.gsub(str, "[%p%s]", "")
+end
+    for _, item in pairs(player.Backpack:GetChildren()) do
+        if string.find(item.Name, "Resonance") then
+        local itemName = removeSpecialChars(string.gsub(item.Name, "Resonance", ""))
+			SkyrenLibrary:NotifyV2({
+            Title = "Skyren",
+            Content = "Resonance Detected! "..player.Name.." Has "..itemName,
+            Tag = "{Resonance Detection}",
+            Duration = 6.5,
+            Image = 11924758053,
+            Location = "Top",
+        })
+    end
+end
+end)()
+end
+----
 
 for _, GameID in pairs(Deepwoken) do
 	if GameID == game.PlaceId then
@@ -12309,10 +12377,13 @@ for _, GameID in pairs(Deepwoken) do
 		 local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
 		 request(abcdef)
 		end
+
 		DpDiscordSend("**-- "..LocalPlayer.Name.." --**")
+
 		for _, Player in ipairs(game.Players:GetChildren()) do
 			if Player.UserId == LocalPlayer.UserId then
 			else
+			checkforResonance(Player)
 			DpDiscordSend("**"..Player.Name.."** is in "..LocalPlayer.Name.."'s Server")
 			end
 		end
@@ -12320,6 +12391,7 @@ for _, GameID in pairs(Deepwoken) do
 		game.Players.PlayerAdded:Connect(function(Player)
 			if Player.UserId == LocalPlayer.UserId then
 			else
+				checkforResonance(Player)
 			DpDiscordSend("**"..Player.Name.."** Has Joined "..LocalPlayer.Name.."'s Server")
 			end
 		end)
@@ -12914,13 +12986,13 @@ coroutine.wrap(function()
 	while true do
 		wait(0.1)
 LocalTime = tonumber(os.date("%I"))..":"..os.date("%M")
-if SmartBar.Time.Text == LocalTime then
+if Domain.Main.Time.Text == LocalTime then
 else
-TweenService:Create(SmartBar.Time, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+TweenService:Create(Domain.Main.Time, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
 wait(0.55)
-SmartBar.Time.Text = LocalTime
+Domain.Main.Time.Text = LocalTime
 wait(0.1)
-TweenService:Create(SmartBar.Time, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0.3}):Play()
+TweenService:Create(Domain.Main.Time, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0.3}):Play()
 end
 end
 end)()
@@ -12929,14 +13001,17 @@ coroutine.wrap(function()
 	while true do
 		wait(0.1)
 LocalPM = os.date("%p")
-if SmartBar.Time.AMPM.Text == LocalPM then
+if Domain.Main.Time.AMPM.Text == LocalPM then
 else
-TweenService:Create(SmartBar.Time.AMPM, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+TweenService:Create(Domain.Main.Time.AMPM, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
 wait(0.55)
-SmartBar.Time.AMPM.Text = LocalPM
+Domain.Main.Time.AMPM.Text = LocalPM
 wait(0.1)
-TweenService:Create(SmartBar.Time.AMPM, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+TweenService:Create(Domain.Main.Time.AMPM, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
 end
 end
 end)()
+
 -- -- --
+
+print(foundVSC)

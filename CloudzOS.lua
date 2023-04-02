@@ -2280,7 +2280,7 @@ local DetectionScripts = {
 		Colour = Color3.fromRGB(252, 148, 3),
 		Games = {914010731},
 		Premium = true,
-		Loadstring = "https://raw.githubusercontent.com/z4gs/scripts/master/Ro-Ghoul%20Auto%20Farm.lua",
+		Loadstring = "https://raw.githubusercontent.com/Kyokiiis/CloudzOS/CloudzOS/Games/Ro-Ghoul",
 	},
 	MegaEasyObby = {
 		Name = "Mega Easy Obby",
@@ -10099,6 +10099,9 @@ function ContinueBoot()
 		end
 		for _, GameID in pairs(custscript.Games) do
 			if GameID == game.PlaceId then
+				if game.PlaceId == 914010731 then
+				else
+				end
 				CustomScriptEnabled = true
 				PromptDetection(custscript)
 				Prompted = true
@@ -10436,13 +10439,13 @@ local function onActivatedOS()
 		end
 		for _, GameID in pairs(custscript.Games) do
 			if GameID == game.PlaceId then
+				if game.PlaceId == 914010731 then
+				else
+				end
 				--if game.PlaceId == 286090429 or 3233893879 then
-					--print("no")
-				--else
 				CustomScriptEnabled = true
 				PromptDetection(custscript)
 				Prompted = true
-				--end
 			end
 		end
 	end

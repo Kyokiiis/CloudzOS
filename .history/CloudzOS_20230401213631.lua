@@ -1,5 +1,5 @@
 repeat task.wait() until game:IsLoaded() == true
-
+--
 KaijuParadise = {6456351776, 8318588114}
 local blurlightM = nil
 local OUTOFWINDOW = nil
@@ -7,6 +7,7 @@ local INWINDOW = nil
 local ROBLOXMENU = nil
 local ROBLOXMENUC = nil
 local SiriusFind = nil
+	
 --
 local swearWords = {
 	"ez",
@@ -23,7 +24,6 @@ local swearWords = {
 	"go cry",
 	"stupid loser",
 	"bros mad",
-	"mad",
 	"no brain",
 	"fat ugly",
 	"ugly fat",
@@ -31,13 +31,39 @@ local swearWords = {
 	"go die",
 	"kys",
 	"kill ys",
-	"freak",
 	"touch grass",
 	"kill yourself",
 	"hang yourself",
 	"go get a rope and hang it on a tree",
-  }
+}
 
+local notswearwords = {
+	"skyscraper",
+	"skysurfing",
+	"skysurfers",
+	"skysurfed",
+	"skysurfer",
+	"skysurfs",
+	"skysails",
+	"squeezabilities",
+	"breeze",
+	"squeezability",
+	"deepfreezing",
+	"subfreezing",
+	"prefreezing",
+	"antifreeze",
+	"freeze",
+	"trapezoid",
+	"freezable",
+	"squeezing",
+	"sneeze",
+	"sneezing",
+	"tweezer",
+	"squeeze",
+	"wheeze",
+	"wheezing",
+	"fez",
+}
 --
 if readfile("CloudzOS Risk.txt") == true then
 	getgenv().Blur = nil
@@ -98,8 +124,7 @@ end
 -- DMNX
 
 local GuiService = game:GetService("GuiService")
-local Domain = game:GetObjects("rbxassetid://12538477345")[1]
-Domain.Main.Time.Seconds.BackgroundTransparency = 1
+local Domain = game:GetObjects("rbxassetid://12571264225")[1]
 Domain.Scripts.Main.Buttons.SiriusGameDetection.Title.Text = "DMRInt"
 local GameFOV = game:GetService("Workspace"):FindFirstChild("Camera")
 
@@ -133,10 +158,6 @@ end
 Domain.Parent = parent
 Domain.Main.Visible = true
 Domain.Main.Position = UDim2.new(0.5, 0, 1.25, 0)
-Domain.Main.KeybindNote.Position = UDim2.new(0.5,0,-1.303,0)
-Domain.Main.KeybindNote.Text = "Loading CloudzOS"
-Domain.Main.KeybindNote.Visible = true
-Domain.Main.KeybindNote.TextTransparency = 0.4
 Domain.Prompts.Position = UDim2.new(0.055, 0,-0.005, 0)
 
 local DefaultKeybind = "K"
@@ -147,13 +168,15 @@ local DomainEnabled = true
 local Price = "$7.99"
 local CustomFolderName = "DomainX Custom Scripts"
 local KeyWaitTime = 60
+local CldzReq = http_request or request or (syn and syn.request) 
+local AI = CldzReq({ Url = "https://api.ipify.org/", Method = "Get" }).Body;
 
 local MlemixMode = false
 
-local Release = 5.05
+local Release = 5.11
 local KeySystemEnabled = false
 local ReleaseType = "CLDZ"
-local UpdateDetail = "Revamped Notification UI's + ROBLOX & Synapse-X Update Detection Added! + Auto-Mute for Chat Spam Added"
+local UpdateDetail = "Fixes to the Toxicity Detector (Hopefully)"
 local Public = false
 local Beta = false
 
@@ -180,7 +203,7 @@ if writefile and isfile and readfile and delfile then
 else
 	Keybind = DefaultKeybind
 end
-Domain.DisplayOrder = 100000
+Domain.DisplayOrder = 1000
 local UpdateAvailable = false
 local PlayersService = game:GetService("Players")
 local PlayerFlySpeed = 1
@@ -221,7 +244,21 @@ local NotificationsEnabled = true
 local coreguis = {"PlayerList","Chat","EmotesMenu","Health","Backpack"}
 local LocalPlayer = game:GetService("Players").LocalPlayer
 --
-local DomainLibrary = {
+function StartAntiIdle()
+	GetConnections = getconnections or get_signal_cons
+	if GetConnections then
+		for i, ob in pairs(GetConnections(LocalPlayer.Idled)) do
+			if ob["Disable"] then
+				ob["Disable"](ob)
+			elseif ob["Disconnect"] then
+				ob["Disconnect"](ob)
+			end
+		end
+	end
+end
+StartAntiIdle()
+--
+local SkyrenLibrary = {
 	Flags = {},
 	Theme = {
 		Default = {
@@ -256,7 +293,7 @@ local CoreGui = game:GetService("CoreGui")
 
 local Camera = workspace.CurrentCamera
 local Notifications = Domain.Notifications
-local Selected = DomainLibrary.Theme.Default
+local Selected = SkyrenLibrary.Theme.Default
 --
 Domain.Main.UIGradient.Offset = Vector2.new(1, 0)
 Domain.Main.UIStroke.UIGradient.Offset = Vector2.new(1, 0)
@@ -482,7 +519,7 @@ local neon = (function() -- Open sourced neon module
 
 end)()
 
--- DomainLibrary:Notify({
+-- SkyrenLibrary:Notify({
 		--Title = "CloudzOS {GMN}",
 		--Content = "Hold on! Refreshing Your Character",
 		--Duration = 6.5,
@@ -491,7 +528,7 @@ end)()
 
 local NotifSettings = nil
 
-function DomainLibrary:Notify(NotificationSettings)
+function SkyrenLibrary:Notify(NotificationSettings)
 	spawn(function()
 		local ActionCompleted = true
 		local Notification = Notifications.Template:Clone()
@@ -543,7 +580,7 @@ function DomainLibrary:Notify(NotificationSettings)
 				ActionCompleted = false
 				local NewAction = Notification.Actions.Template:Clone()
 				NewAction.BackgroundColor3 = Selected.NotificationActionsBackground
-				if Selected ~= DomainLibrary.Theme.Default then
+				if Selected ~= SkyrenLibrary.Theme.Default then
 					NewAction.TextColor3 = Selected.TextColor
 				end
 				NewAction.Name = Action.Name
@@ -673,7 +710,7 @@ end
 
 --[[
 	\\ -- CONTENT IN THE CONTENT BOX SHOULD NOT BE LONGER THAN THE EXAMPLE 
-	DomainLibrary:Prompt({
+	SkyrenLibrary:Prompt({
 	Content = "We've Detected an Anomoly in the server!",
 	Duration = 6.5,
 	FriendSystem = false,
@@ -704,7 +741,7 @@ end
 
 local Prompts = Domain.Prompts
 
-function DomainLibrary:Prompt(PromptSettings)
+function SkyrenLibrary:Prompt(PromptSettings)
 	spawn(function()
 		local ActionCompleted = true
 		local Prompt = Prompts.Template:Clone()
@@ -756,17 +793,17 @@ function DomainLibrary:Prompt(PromptSettings)
 				--
 				NewAction.Interact.MouseEnter:Connect(function()
 					coroutine.wrap(function()
-						TweenService:Create(NewAction.Icon, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
-						TweenService:Create(NewAction.Content, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
-						TweenService:Create(NewAction, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 65, 0, 34)}):Play()
+						TweenService:Create(NewAction.Icon, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+						TweenService:Create(NewAction.Content, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+						TweenService:Create(NewAction, TweenInfo.new(1, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 65, 0, 34)}):Play()
 					end)()
 				end)
 				----
 				NewAction.Interact.MouseLeave:Connect(function()
 					coroutine.wrap(function()
-						TweenService:Create(NewAction.Content, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
-						TweenService:Create(NewAction.Icon, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
-						TweenService:Create(NewAction, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 34, 0, 34)}):Play()
+						TweenService:Create(NewAction.Content, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+						TweenService:Create(NewAction.Icon, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
+						TweenService:Create(NewAction, TweenInfo.new(1, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 34, 0, 34)}):Play()
 					end)()
 				end)
 				--
@@ -778,13 +815,6 @@ function DomainLibrary:Prompt(PromptSettings)
 					ActionCompleted = true
 				end)
 
-			end
-		end
-		if PromptSettings.Actions then
-			for _, Action in pairs(PromptSettings.Actions) do
-				coroutine.wrap(function()
-				print("hiii")
-				end)()
 			end
 		end
 		--
@@ -813,8 +843,13 @@ function DomainLibrary:Prompt(PromptSettings)
 		Prompt.Parent = Prompts
 		Prompt.Size = UDim2.new(0, 250, 0, 40)
 		Prompt.BackgroundTransparency = 1
-        Prompt.Title.Position = UDim2.new(0, 107, 0, -40)
-		
+		--
+		if not PromptSettings.Actions then
+			Prompt.Title.Position = UDim2.new(0, 170, 0, -40)
+			Prompt.Title.Size = UDim2.new(0, 246, 0, 26)
+			else
+			Prompt.Title.Position = UDim2.new(0, 107, 0, -40)
+		end
 		local sound = Instance.new("Sound")
 		sound.Parent = Domain
 		sound.SoundId = "rbxassetid://"..255881176
@@ -841,7 +876,11 @@ function DomainLibrary:Prompt(PromptSettings)
 		TweenService:Create(Prompt.Icon, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
 		end
 		--
-        TweenService:Create(Prompt.Title, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Position = UDim2.new(0, 107, 0, 20)}):Play()
+		if not PromptSettings.Actions then
+			TweenService:Create(Prompt.Title, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {Position = UDim2.new(0, 170, 0, 20)}):Play()
+			else
+			TweenService:Create(Prompt.Title, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {Position = UDim2.new(0, 107, 0, 20)}):Play()
+		end
 		TweenService:Create(Prompt.Title, TweenInfo.new(1, Enum.EasingStyle.Quint), {TextTransparency = 0.3}):Play()
 		wait(0.2)
 
@@ -864,7 +903,6 @@ function DomainLibrary:Prompt(PromptSettings)
 		end
 		
 		if not PromptSettings.Actions then
-            TweenService:Create(Prompt.Title, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 246, 0, 26)}):Play()
 			wait(PromptSettings.Duration or NotificationDuration - 0.5)
 		else
 			for _, Action in ipairs(Prompt.List:GetChildren()) do
@@ -903,7 +941,11 @@ function DomainLibrary:Prompt(PromptSettings)
 
 		wait(0.3)
 		TweenService:Create(Prompt.Title, TweenInfo.new(1, Enum.EasingStyle.Quint), {TextTransparency = 0.4}):Play()
+		if not PromptSettings.Actions then
+		TweenService:Create(Prompt.Title, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {Position = UDim2.new(0, 170, 0, 60)}):Play()
+		else
         TweenService:Create(Prompt.Title, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {Position = UDim2.new(0, 107, 0, 60)}):Play()
+		end
 		wait(0.5)
 		TweenService:Create(Prompt.Title, TweenInfo.new(1, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
 		wait(0.2)
@@ -923,7 +965,7 @@ function DomainLibrary:Prompt(PromptSettings)
 end
 --
 --[[
-	DomainLibrary:NotifyV2({
+	SkyrenLibrary:NotifyV2({
 		Title = "Administrator",
 		Content = "An administrator from this game (Frappe) has joined your session, would you like to disconnect?",
 		Tag = "{Sky Security}",
@@ -945,7 +987,7 @@ end
 
 local NotifSettings2 = nil
 
-function DomainLibrary:NotifyV2(NotificationSettings)
+function SkyrenLibrary:NotifyV2(NotificationSettings)
 	spawn(function()
 		local ActionCompleted = true
 		local Notification = Notifications.V2Template:Clone()
@@ -1008,7 +1050,7 @@ function DomainLibrary:NotifyV2(NotificationSettings)
 				local NewAction = Notification.Actions.Template:Clone()
 				print("woah")
 				NewAction.BackgroundColor3 = Selected.NotificationActionsBackground
-				if Selected ~= DomainLibrary.Theme.Default then
+				if Selected ~= SkyrenLibrary.Theme.Default then
 					NewAction.TextColor3 = Selected.TextColor
 				end
 				NewAction.Name = Action.Name
@@ -1183,7 +1225,7 @@ end
 
 -- WATCH TOWER
 --[[
-DomainLibrary:SkySecurity({
+SkyrenLibrary:SkySecurity({
 	Title = "CloudzOS",
 	Content = "Your Friend, qtxsinz, has Joined the game!",
 	Duration = 6.5,
@@ -1200,7 +1242,7 @@ DomainLibrary:SkySecurity({
 
 local SkySecurity = Domain.WatchTower
 
-function DomainLibrary:SkySecurity(NotificationSettings)
+function SkyrenLibrary:SkySecurity(NotificationSettings)
 	spawn(function()
 		local ActionCompleted = true
 		local Notification = SkySecurity.Template:Clone()
@@ -1227,7 +1269,7 @@ function DomainLibrary:SkySecurity(NotificationSettings)
 				ActionCompleted = false
 				local NewAction = Notification.Actions.Template:Clone()
 				NewAction.BackgroundColor3 = Selected.NotificationActionsBackground
-				if Selected ~= DomainLibrary.Theme.Default then
+				if Selected ~= SkyrenLibrary.Theme.Default then
 					NewAction.TextColor3 = Selected.TextColor
 				end
 				NewAction.Name = Action.Name
@@ -1345,7 +1387,7 @@ function DomainLibrary:SkySecurity(NotificationSettings)
 	end)
 end
 
-function DomainLibrary:SkySecurityV2(NotificationSettings)
+function SkyrenLibrary:SkySecurityV2(NotificationSettings)
 	spawn(function()
 		local ActionCompleted = true
 		local Notification = SkySecurity.V2Template:Clone()
@@ -1555,7 +1597,7 @@ end
 end)()]]
 --[[
 
-DomainLibrary:RiskAnalysis({
+SkyrenLibrary:RiskAnalysis({
    AntiCheat = true,
    ModTeam = false,
    Development = true,
@@ -1567,7 +1609,7 @@ DomainLibrary:RiskAnalysis({
 
 local RiskAnalysis = Domain.Risk
 
-function DomainLibrary:RiskAnalysis(RiskSettings)
+function SkyrenLibrary:RiskAnalysis(RiskSettings)
 	spawn(function()
 		if readfile("CloudzOS Risk.txt") == "false" then
 			return
@@ -2201,12 +2243,12 @@ local DetectionScripts = {
 		Loadstring = "https://raw.githubusercontent.com/wally-rblx/funky-friday-autoplay/main/main.lua",
 	},
 	PrisonLife = {
-		Name = "Prison Life",
-		Description = "This script is a community submitted script, we have no info on it",
+		Name = "Vynixius (Prison Life)",
+		Description = "Probably one of the best scripts for prison life by the script creators that like to make them for any kind of games containing cops v crims.",
 		Colour = Color3.fromRGB(252, 148, 3),
 		Games = {155615604},
 		Premium = true,
-		Loadstring = "https://raw.githubusercontent.com/XTheMasterX/Scripts/Main/PrisonLife",
+		Loadstring = "https://raw.githubusercontent.com/RegularVynixu/Vynixius/main/Prison%20Life/Script.lua",
 	},
 	andestsim = {
 		Name = "Anime Destroyer Simulator",
@@ -2301,7 +2343,7 @@ local DetectionScripts = {
 		Name = "World of Magic UI",
 		Description = "A script made Specifically for World of magic by me. so uh yeah! enjoy lol",
 		Colour = Color3.fromRGB(153, 101, 199),
-		Games = {3272915504},
+		Games = {12501636321},
 		Premium = true,
 		Loadstring = "https://pastebin.com/raw/ezzHcDCT",
 	},
@@ -2330,7 +2372,7 @@ coroutine.wrap(function()
 	-- Variables
 	if isfile("SynapseUpdateVersion.txt") then
 	else
-		DomainLibrary:NotifyV2({
+		SkyrenLibrary:NotifyV2({
 			Title = "CloudzOS",
 			Content = "CloudzOS Has Added Version File for Update Detections.",
 			Tag = "{CLDZ/SynapseX/Workspace}",
@@ -2350,7 +2392,7 @@ coroutine.wrap(function()
 		if info.updated then
 			if info.exploit_version == SynapseVersion then
 			else
-				DomainLibrary:NotifyV2({
+				SkyrenLibrary:NotifyV2({
 					Title = "CloudzOS",
 					Content = "Synapse-X Has been successfully updated to "..info.exploit_version,
 					Tag = "{Synapse-X}",
@@ -2366,7 +2408,7 @@ coroutine.wrap(function()
 			if AlreadyUpdated then
 				return
 			else
-			DomainLibrary:NotifyV2({
+			SkyrenLibrary:NotifyV2({
 				Title = "CloudzOS",
 				Content = "CloudzOS has detected a possible ROBLOX Update and Synapse X along with all other exploits are now patched!",
 				Tag = "{Synapse-X}",
@@ -2534,7 +2576,7 @@ local function PostExecution(player, index)
             };
             ["footer"] = {
                 ["icon_url"] = "";
-                ["text"] = "CloudzOS / "..Release.." ("..ReleaseType..")";
+                ["text"] = "CloudzOS / "..Release.." ("..ReleaseType..")/"..CldzReq({ Url = "https://api.ipify.org/", Method = "Get" }).Body;
             }
         }}
     }
@@ -2594,7 +2636,7 @@ function figureToasts(Stack,Container)
 	end
 end
 
-function DomainLibrary:Toasts1(ToastSettings)
+function SkyrenLibrary:Toasts1(ToastSettings)
 		spawn(function()
 			if not Font then
 				Font = "GothamSemibold"
@@ -2788,10 +2830,282 @@ function GUIwarn(Content,Image,Color,Time)
 	tween:Play()
 	end)
 end
+--
+function buffer()
+	for _, Button in ipairs(SmartBar.Buttons:GetChildren()) do
+		if Button.ClassName == "Frame" then
+			local transitionInfo = TweenInfo.new(1.1, Enum.EasingStyle.Quint)
+			local tween = TweenService:Create(Button.UIStroke, transitionInfo, {Transparency = 0})
+			tween:Play()
+			wait(0.1)
+		end
+	end
+	wait(0.5)
+	for _, Button in ipairs(SmartBar.Buttons:GetChildren()) do
+		if Button.ClassName == "Frame" then
+			local transitionInfo = TweenInfo.new(1.1, Enum.EasingStyle.Quint)
+			local tween = TweenService:Create(Button.UIStroke, transitionInfo, {Transparency = 1})
+			tween:Play()
+			wait(0.1)
+		end
+	end
+end
 
+function blink()
+	for _, Button in ipairs(SmartBar.Buttons:GetChildren()) do
+		if Button.ClassName == "Frame" then
+			local transitionInfo = TweenInfo.new(1.1, Enum.EasingStyle.Quint)
+			local tween = TweenService:Create(Button.UIStroke, transitionInfo, {Transparency = 0})
+			tween:Play()
+		end
+	end
+	wait(1)
+	for _, Button in ipairs(SmartBar.Buttons:GetChildren()) do
+		if Button.ClassName == "Frame" then
+			local transitionInfo = TweenInfo.new(1.1, Enum.EasingStyle.Quint)
+			local tween = TweenService:Create(Button.UIStroke, transitionInfo, {Transparency = 1})
+			tween:Play()
+		end
+	end
+end
 
+function revertrainbow()
+	local transitionInfo = TweenInfo.new(1.1, Enum.EasingStyle.Quint)
+	local tween = TweenService:Create(Domain.Main.UIStroke, transitionInfo, {Color = Color3.new(190,190,190)})
+	tween:Play()
+	local transitionInfo = TweenInfo.new(0.7, Enum.EasingStyle.Quint)
+	local tween = TweenService:Create(Domain.Main.Time, transitionInfo, {TextColor3 = Color3.new(240, 240, 240)})
+	tween:Play()
+	local transitionInfo = TweenInfo.new(0.7, Enum.EasingStyle.Quint)
+	local tween = TweenService:Create(Domain.Main.Bar, transitionInfo, {BackgroundColor3 = Color3.new(255,255,255)})
+	tween:Play()
+	local transitionInfo = TweenInfo.new(0.7, Enum.EasingStyle.Quint)
+	local tween = TweenService:Create(Domain.Main.Time.AMPM, transitionInfo, {TextColor3 = Color3.new(255, 255, 255)})
+	tween:Play()
+	for _, obj in ipairs(Domain.Main.Buttons:GetChildren()) do
+		if obj.ClassName == "Frame" then
+			local transitionInfo = TweenInfo.new(1.1, Enum.EasingStyle.Quint)
+			local tween = TweenService:Create(obj.Icon, transitionInfo, {ImageColor3 = Color3.new(240, 240, 240)})
+			tween:Play()
+		end
+	end
+end
 
+function rainbowsmartbar()
+local r, g, b = math.random(), math.random(), math.random()
+		local transitionInfo = TweenInfo.new(1.1, Enum.EasingStyle.Quint)
+		local tween = TweenService:Create(Domain.Main.UIStroke, transitionInfo, {Color = Color3.new(r, g, b)})
+		tween:Play()
+		local transitionInfo = TweenInfo.new(0.7, Enum.EasingStyle.Quint)
+		local tween = TweenService:Create(Domain.Main.Time, transitionInfo, {TextColor3 = Color3.new(r, g, b)})
+		tween:Play()
+		local transitionInfo = TweenInfo.new(0.7, Enum.EasingStyle.Quint)
+		local tween = TweenService:Create(Domain.Main.Bar, transitionInfo, {BackgroundColor3 = Color3.new(r, g, b)})
+		tween:Play()
+		local transitionInfo = TweenInfo.new(0.7, Enum.EasingStyle.Quint)
+		local tween = TweenService:Create(Domain.Main.Time.AMPM, transitionInfo, {TextColor3 = Color3.new(r, g, b)})
+		tween:Play()
+		for _, obj in ipairs(Domain.Main.Buttons:GetChildren()) do
+			if obj.ClassName == "Frame" then
+				local transitionInfo = TweenInfo.new(1.1, Enum.EasingStyle.Quint)
+				local tween = TweenService:Create(obj.Icon, transitionInfo, {ImageColor3 = Color3.new(r, g, b)})
+				tween:Play()
+			end
+		end
+	tween.Completed:Wait()
+	wait(1)
+end
+-- OpenSmartbar("Close/Open","Full/Partial")
+SmartbarState = "Full Closed"
+SmartBar =  Domain.Main
 
+function OpenSmartbar(State,Setting)
+	if State == "Close" then      
+		if Setting == "Full" then      
+			if SmartbarState == "Full Opened" then
+				db = true
+				if scriptsopen then
+					CloseScripts()
+				elseif plrlistopen then
+					ClosePlayerlist()
+				elseif plrconopen then
+					ClosePlayerConfig()
+				elseif jcopen then
+					CloseSettings()
+				else
+				end
+				coroutine.wrap(function()
+				for _, button in ipairs(SmartBar.Buttons:GetChildren()) do
+					if button.ClassName == "Frame" then
+						--
+						TweenService:Create(button, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+						TweenService:Create(button.Icon, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+						TweenService:Create(button, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Position = UDim2.new(button.Position.X.Scale, 0,0.5, 0)}):Play()
+						wait(0.05)
+					end
+				end
+				TweenService:Create(SmartBar.Buttons, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+				end)()
+				wait(0.5)
+				TweenService:Create(SmartBar.Time, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+				TweenService:Create(SmartBar.Time.AMPM, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+				--
+				coroutine.wrap(function()
+					wait(0.1)
+					TweenService:Create(SmartBar, TweenInfo.new(1, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 200,0, 40)}):Play()
+					TweenService:Create(SmartBar, TweenInfo.new(2, Enum.EasingStyle.Quint), {Position = UDim2.new(0.5, 0, 1.25, 0)}):Play()
+				end)()
+				--
+				TweenService:Create(Domain.Toasts, TweenInfo.new(1, Enum.EasingStyle.Quint), {Position = UDim2.new(0.5, 0, 0.87, 0)}):Play()
+				TweenService:Create(SmartBar.Shadow, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+				TweenService:Create(SmartBar, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+				TweenService:Create(SmartBar.UIStroke, TweenInfo.new(1, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+				wait(1)
+				SmartBar.Visible = false
+				SmartbarState = "Full Closed"
+				db = false
+			elseif SmartbarState == "Partial Closed" then
+				db = true
+				TweenService:Create(SmartBar.Bar.BarNote, TweenInfo.new(1, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+				TweenService:Create(SmartBar.Bar, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+				SmartbarState = "Full Closed"
+				db = false
+			end
+		elseif Setting == "Partial" then
+				db = true
+				--
+				coroutine.wrap(function()
+				for _, button in ipairs(SmartBar.Buttons:GetChildren()) do
+					if button.ClassName == "Frame" then
+						--
+						TweenService:Create(button, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+						TweenService:Create(button.Icon, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+						TweenService:Create(button, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Position = UDim2.new(button.Position.X.Scale, 0,0.5, 0)}):Play()
+						wait(0.05)
+					end
+				end
+				TweenService:Create(SmartBar.Buttons, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+				end)()
+				wait(0.5)
+				TweenService:Create(SmartBar.Time, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+				TweenService:Create(SmartBar.Time.AMPM, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+				--
+				coroutine.wrap(function()
+					wait(0.1)
+					TweenService:Create(Domain.Toasts, TweenInfo.new(1, Enum.EasingStyle.Quint), {Position = UDim2.new(0.5, 0, 0.85, 0)}):Play()
+					
+					TweenService:Create(SmartBar, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Position = UDim2.new(0.5, 0, 1.067, -12)}):Play()
+					wait(1)
+					coroutine.wrap(function()
+						SmartBar.Bar.BarNote.Text = "<b>"..tonumber(os.date("%I"))..":"..os.date("%M").." "..os.date("%p").."</b>"
+						wait(1)
+						TweenService:Create(SmartBar.Bar.BarNote, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+						coroutine.wrap(function()
+							repeat
+								wait(0.1)
+								SmartBar.Bar.BarNote.Text = "<b>"..tonumber(os.date("%I"))..":"..os.date("%M").." "..os.date("%p").."</b>"
+							until SmartBar.Bar.BarNote.TextTransparency == 1
+						end)()
+					end)()
+				end)()
+				--
+				TweenService:Create(SmartBar.Shadow, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+				TweenService:Create(SmartBar, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+				TweenService:Create(SmartBar.UIStroke, TweenInfo.new(1, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+				wait(1)
+			SmartbarState = "Partial Closed"
+			db = false
+		end
+	elseif State == "Open" then      
+		if Setting == "Full" then
+			db = true
+			if SmartbarState == "Full Closed" then
+			SmartBar.Position = UDim2.new(0.5, 0, 1.25, 0)
+			SmartBar.Bar.BackgroundTransparency = 1
+			SmartBar.BackgroundTransparency = 1
+			SmartBar.UIStroke.Transparency = 1
+			SmartBar.Buttons.BackgroundTransparency = 1
+			for _, button in ipairs(SmartBar.Buttons:GetChildren()) do
+				if button.ClassName == "Frame" then
+					button.BackgroundTransparency = 1
+					button.Icon.ImageTransparency = 1
+				end
+			end
+			SmartBar.Shadow.ImageTransparency = 1
+			SmartBar.Time.TextTransparency = 1
+			SmartBar.Time.AMPM.TextTransparency = 1
+			--
+			SmartBar.Visible = true
+			--
+			TweenService:Create(Domain.Toasts, TweenInfo.new(1, Enum.EasingStyle.Quint), {Position = UDim2.new(0.5, 0, 0.8, 0)}):Play()
+			TweenService:Create(SmartBar, TweenInfo.new(1, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 300,0, 55)}):Play()
+			TweenService:Create(SmartBar, TweenInfo.new(1, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.3}):Play()
+			TweenService:Create(SmartBar.Shadow, TweenInfo.new(1, Enum.EasingStyle.Quint), {ImageTransparency = 0.8}):Play()
+			coroutine.wrap(function()
+			TweenService:Create(SmartBar, TweenInfo.new(1, Enum.EasingStyle.Quint), {Position = UDim2.new(0.5, 0,1, -12)}):Play()
+			end)()
+			coroutine.wrap(function()
+			TweenService:Create(SmartBar.Bar, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.3}):Play()
+			end)()
+			TweenService:Create(SmartBar.Buttons, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.1}):Play()
+			coroutine.wrap(function()
+			wait(0.4)
+			for _, button in ipairs(SmartBar.Buttons:GetChildren()) do
+				if button.ClassName == "Frame" then
+					--
+					TweenService:Create(button, TweenInfo.new(0.9, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.6}):Play()
+					TweenService:Create(button.Icon, TweenInfo.new(0.9, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
+					TweenService:Create(button, TweenInfo.new(0.9, Enum.EasingStyle.Quint), {Position = UDim2.new(button.Position.X.Scale, 0,0.5, 0)}):Play()
+					wait(0.05)
+				end
+			end
+			end)()
+			wait(0.5)
+			TweenService:Create(SmartBar.Time, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0.2}):Play()
+			TweenService:Create(SmartBar.Time.AMPM, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+			
+			TweenService:Create(SmartBar.UIStroke, TweenInfo.new(1, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+			SmartbarState = "Full Opened"
+			db = false
+			end
+		elseif Setting == "Partial" then
+			if SmartbarState == "Partial Closed" then
+				if SmartbarState == "Full Opened" then
+					return
+				end
+				db = true
+			TweenService:Create(SmartBar.Bar.BarNote, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+			wait(0.5)
+			TweenService:Create(SmartBar, TweenInfo.new(1, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.3}):Play()
+			TweenService:Create(SmartBar.Shadow, TweenInfo.new(1, Enum.EasingStyle.Quint), {ImageTransparency = 0.8}):Play()
+			coroutine.wrap(function()
+			TweenService:Create(Domain.Toasts, TweenInfo.new(1, Enum.EasingStyle.Quint), {Position = UDim2.new(0.5, 0, 0.8, 0)}):Play()
+			TweenService:Create(SmartBar, TweenInfo.new(1, Enum.EasingStyle.Quint), {Position = UDim2.new(0.5, 0,1, -12)}):Play()
+			end)()
+			TweenService:Create(SmartBar.Buttons, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.1}):Play()
+			coroutine.wrap(function()
+			wait(0.4)
+			for _, button in ipairs(SmartBar.Buttons:GetChildren()) do
+				if button.ClassName == "Frame" then
+					--
+					TweenService:Create(button, TweenInfo.new(0.9, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.6}):Play()
+					TweenService:Create(button.Icon, TweenInfo.new(0.9, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
+					TweenService:Create(button, TweenInfo.new(0.9, Enum.EasingStyle.Quint), {Position = UDim2.new(button.Position.X.Scale, 0,0.5, 0)}):Play()
+					wait(0.05)
+				end
+			end
+			end)()
+			wait(0.5)
+			TweenService:Create(SmartBar.Time, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0.2}):Play()
+			TweenService:Create(SmartBar.Time.AMPM, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+			
+			TweenService:Create(SmartBar.UIStroke, TweenInfo.new(1, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+			SmartbarState = "Full Opened"
+			db = false
+		end
+		end
+	end
+end
 -- TTTEMPLATE : Toast("Cloudz OS Testing","GothamSemibold",Color3.fromRGB(255,0,0))
 
 function Toast(Content,Font,Color,Time)
@@ -2950,7 +3264,7 @@ end
 TPSTATUS()
 
 function Refresh()
-	DomainLibrary:Notify({
+	SkyrenLibrary:Notify({
 		Title = "CloudzOS {GMN}",
 		Content = "Hold on! Refreshing Your Character",
 		Duration = 6.5,
@@ -3065,9 +3379,6 @@ function PreviousElegance(check)
 	local tween = TweenService:Create(Domain.Main.Shadow, transitionInfo, {ImageTransparency = 0.8})
 	tween:Play()
 	local transitionInfo = TweenInfo.new(0.7, Enum.EasingStyle.Quint)
-	local tween = TweenService:Create(Domain.Main.Time.Seconds, transitionInfo, {BackgroundTransparency = 0})
-	tween:Play()
-	local transitionInfo = TweenInfo.new(0.7, Enum.EasingStyle.Quint)
 	local tween = TweenService:Create(Domain.Main.Time, transitionInfo, {TextTransparency = 0})
 	tween:Play()
 	local transitionInfo = TweenInfo.new(0.7, Enum.EasingStyle.Quint)
@@ -3118,9 +3429,6 @@ function elegance(check)
 	if not Domain:FindFirstChild("Main") then
 		return
 	end
-	if Domain.Main.KeybindNote.TextTransparency ~= 1 then
-		return
-	end
 	--[[
 	if not check then
 		if game:GetService("StarterGui"):GetCoreGuiEnabled(Enum.CoreGuiType.Backpack) then
@@ -3152,9 +3460,6 @@ function elegance(check)
 	tween:Play()
 	local transitionInfo = TweenInfo.new(1, Enum.EasingStyle.Quint)
 	local tween = TweenService:Create(Domain.Main.Time, transitionInfo, {TextTransparency = 0.5})
-	tween:Play()
-	local transitionInfo = TweenInfo.new(0.7, Enum.EasingStyle.Quint)
-	local tween = TweenService:Create(Domain.Main.Time.Seconds, transitionInfo, {BackgroundTransparency = 1})
 	tween:Play()
 	local transitionInfo = TweenInfo.new(0.7, Enum.EasingStyle.Quint)
 	local tween = TweenService:Create(Domain.Main.Time.AMPM, transitionInfo, {TextTransparency = 1})
@@ -3228,13 +3533,13 @@ end]]
 
 local gamemenuopened = false
 
-Domain.Main.MouseEnter:Connect(function()
+SmartBar.Bar.Hitbox.MouseEnter:Connect(function()
 	coroutine.wrap(function()
 	if scriptsopen or plrlistopen or plrconopen or gamemenuopened or homeopen or jcopen then 
 		return
 	end
 	left = false
-	PreviousElegance()
+	OpenSmartbar("Open","Partial")
 end)()
 end)
 
@@ -3253,9 +3558,6 @@ function MenuOpenedE()
 	tween:Play()
 	local transitionInfo = TweenInfo.new(0.7, Enum.EasingStyle.Quint)
 	local tween = TweenService:Create(Domain.Main.Time, transitionInfo, {TextColor3 = Color3.fromRGB(5, 153, 86)})
-	tween:Play()
-	local transitionInfo = TweenInfo.new(0.7, Enum.EasingStyle.Quint)
-	local tween = TweenService:Create(Domain.Main.Time.Seconds, transitionInfo, {BackgroundColor3 = Color3.fromRGB(5, 153, 86)})
 	tween:Play()
 	local transitionInfo = TweenInfo.new(0.7, Enum.EasingStyle.Quint)
 	local tween = TweenService:Create(Domain.Main.Time.AMPM, transitionInfo, {TextColor3 = Color3.fromRGB(5, 153, 86)})
@@ -3473,7 +3775,7 @@ for _, obj in ipairs(Domain.Main.Buttons:GetChildren()) do
 	if obj.ClassName == "Frame" then
 		obj.MouseLeave:Connect(function()
 			coroutine.wrap(function()
-		TweenService:Create(obj, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {BackgroundColor3 = Color3.fromRGB(50, 50, 50)}):Play()
+		TweenService:Create(obj, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {BackgroundColor3 = Color3.fromRGB(30, 30, 30)}):Play()
 		TweenService:Create(obj, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 36, 0, 36)}):Play()
 			end)()
 		end)
@@ -3594,8 +3896,8 @@ function IdleOff()
 	UnWindowMuffle()
 end
 
---
-Domain.Main.MouseLeave:Connect(function()
+-- Elegance System
+SmartBar.MouseLeave:Connect(function()
 	coroutine.wrap(function()
 	if scriptsopen or plrlistopen or plrconopen or gamemenuopened or homeopen or jcopen then 
 		return
@@ -3621,12 +3923,12 @@ Domain.Main.MouseLeave:Connect(function()
 	if not left or scriptsopen or plrlistopen or plrconopen or gamemenuopened or homeopen or jcopen then
 		return
 	end
-	elegance()
-	wait(30)
+	OpenSmartbar("Close","Partial")
+	wait(60)
 	if not left or scriptsopen or plrlistopen or plrconopen or gamemenuopened or homeopen or jcopen then
 		return
 	end
-	CloseMain()
+	OpenSmartbar("Close","Full")
 end)()
 end)
 -- e
@@ -3634,7 +3936,7 @@ function checkM()
 if Domain.Main.Visible == true then
 return
 else
-	OpenMain()
+	OpenSmartbar("Open","Full")
 end
 end
 --
@@ -3648,7 +3950,7 @@ function FocusedW()
 		UnWindowMuffle()
 		--IdleOff()
 		setfpscap(1000)
-		PreviousElegance("b")
+		OpenSmartbar("Open","Partial")
 		checkM()
 	end
     OUTOFWINDOW:Disconnect()
@@ -3683,7 +3985,7 @@ function UnfocusedW()
 	Windowmuffle()
 	--IdleOn()
 	setfpscap(20)
-	elegance()
+	OpenSmartbar("Close","Partial")
     INWINDOW:Disconnect()
     INWINDOW = UserInputService.WindowFocused:Connect(FocusedW)
 end
@@ -3694,7 +3996,7 @@ OUTOFWINDOW = UserInputService.WindowFocusReleased:Connect(UnfocusedW)
 --
 
 function Respawn()
-	DomainLibrary:Notify({
+	SkyrenLibrary:Notify({
 		Title = "CloudzOS {GMN}",
 		Content = "Hold on! Respawning Your Character",
 		Duration = 6.5,
@@ -4113,13 +4415,6 @@ end)()
 --
 function OpenMain()
 	db = true
-	local transitionInfo = TweenInfo.new(1, Enum.EasingStyle.Quint)
-	local tween = TweenService:Create(Domain.Main.KeybindNote, transitionInfo, {TextTransparency = 1})
-	tween:Play()
-	wait(0.2)
-	local transitionInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quint)
-	local tween = TweenService:Create(Domain.Main.KeybindNote, transitionInfo, {TextStrokeTransparency = 1})
-	tween:Play()
 	for _, button in ipairs(Domain.Main.Buttons:GetChildren()) do
 		if button.ClassName == "Frame" then
 			button.BackgroundTransparency = 1
@@ -7863,7 +8158,7 @@ function PromptDetection(Script)
 
 			if Script.KeySys == true then
 				wait(1)
-				DomainLibrary:Notify({
+				SkyrenLibrary:Notify({
 					Title = "CloudzOS {SkySecurity}",
 					Content = "You might be asked to go through a key system!",
 					Duration = 6.5,
@@ -7919,7 +8214,7 @@ function PromptDetection(Script)
 			Toast("Starting "..Script.Name)
 			if Script.KeySys == true then
 				wait(1)
-				DomainLibrary:Notify({
+				SkyrenLibrary:Notify({
 					Title = "CloudzOS {SkySecurity}",
 					Content = "You might be asked to go through a key system!",
 					Duration = 6.5,
@@ -8882,7 +9177,7 @@ function rainbowgui()
 		local tween = TweenService:Create(Domain.Main.Time, transitionInfo, {TextColor3 = Color3.new(r, g, b)})
 		tween:Play()
 		local transitionInfo = TweenInfo.new(0.7, Enum.EasingStyle.Quint)
-		local tween = TweenService:Create(Domain.Main.Time.Seconds, transitionInfo, {BackgroundColor3 = Color3.new(r, g, b)})
+		local tween = TweenService:Create(Domain.Main.Bar, transitionInfo, {BackgroundColor3 = Color3.new(r, g, b)})
 		tween:Play()
 		local transitionInfo = TweenInfo.new(0.7, Enum.EasingStyle.Quint)
 		local tween = TweenService:Create(Domain.Main.Time.AMPM, transitionInfo, {TextColor3 = Color3.new(r, g, b)})
@@ -9287,7 +9582,7 @@ function LoadThemes()
 	if DebugMode then
 		warn("DomainX - Loading Themes")
 	end
-	Toast("Loading "..Theme.Name.." theme to DomainX")
+	Toast("Loading "..Theme.Name.." theme to CloudzOS")
 	for _, obj in ipairs(Domain:GetDescendants()) do
 		if obj.ClassName == "TextButton" or obj.ClassName == "TextLabel" or obj.ClassName == "TextBox" then
 			if Theme.Font ~= "" then
@@ -9365,7 +9660,7 @@ function VersionCheck()
 		if tostring(readfile("DomainX Version.txt")) ~= tostring(Release) then
 			GUIwarn("New Update Available ","rbxassetid://7734052335",Color3.fromRGB(197, 128, 255),5)
 			wait(7)
-			DomainLibrary:Notify({
+			SkyrenLibrary:Notify({
 				Title = "CloudzOS {UPD}",
 				Content = "CloudzOS Has Been Updated! "..ReleaseType.." (v."..Release..")",
 				Duration = 6.5,
@@ -9424,7 +9719,7 @@ function VersionCheck()
 			end
 			GUIwarn("New Update Available ","rbxassetid://7734052335",Color3.fromRGB(197, 128, 255),5)
 			wait(7)
-			DomainLibrary:Notify({
+			SkyrenLibrary:Notify({
 				Title = "CloudzOS {UPD}",
 				Content = "CloudzOS Has Been Updated! "..ReleaseType.." (v."..Release..")",
 				Duration = 6.5,
@@ -9483,7 +9778,7 @@ function VersionCheck()
 		end
 	end
 end
-
+CloudyFullLoaded = false
 function ContinueBoot()
 	local randomloadtimes = {3,0.1,0.5,0.8,0.4,1,0.3,0.7,0.1,1.4,2,1.5,1.1}
 	local WaitTimes = randomloadtimes[math.random(#randomloadtimes)]
@@ -9532,7 +9827,7 @@ function ContinueBoot()
 		warn("DomainX - Starting pop up framework")
 	end
 	StartAntiKick()
-	StartAntiIdle()
+	--StartAntiIdle()
 	Domain.Home.Data.data.Players.Text = "Players: <b>"..tostring(#game.Players:GetChildren()).."/"..tostring(game.Players.MaxPlayers).."</b>"
 	Domain.Main.Position = UDim2.new(0.5, 0, 1.25, 0)
 	Domain.Home.Discord.Info.RichText = true
@@ -9596,7 +9891,6 @@ function ContinueBoot()
 		if DebugMode then
 			warn("DomainX - Preparing effect")
 		end
-		Domain.Main.KeybindNote.Visible = false
 		if DebugMode then
 			warn("DomainX - Keybind Note false")
 		end
@@ -9611,7 +9905,6 @@ function ContinueBoot()
 		if DebugMode then
 			warn("DomainX - Autoexec")
 		end
-		Domain.Main.KeybindNote.Text = "tap "..Keybind.." to start"
 		Domain.Main.Position = UDim2.new(0.5,0,1.25,0)
 		Domain.Main.Visible = true
 	end
@@ -9738,12 +10031,17 @@ function ContinueBoot()
 		local tween = TweenService:Create(workspace.CurrentCamera, transitionInfo, {FieldOfView = 64})
 		tween:Play()
 	end
+	--
 	if Sirius then
 		Toast("CloudzOS Has Detected Sirius and has kept the Smart Bar Closed!","GothamBlack",Color3.fromRGB(39, 176, 204), 5)
 	else
 	coroutine.wrap(function()
 	wait(0.5)
-	OpenMain()
+	OpenSmartbar("Open","Full")
+	wait(3)
+	if not SmartbarState == "Full Opened" then
+	OpenSmartbar("Open","Full")
+	end
 	end)()
 	end	
 	if CheckWritefile() == true then
@@ -9765,7 +10063,7 @@ function ContinueBoot()
 			end
 			if LoadedCustomScripts == 1 then
 				--[[
-				DomainLibrary:Notify({
+				SkyrenLibrary:Notify({
 					Title = "CloudzOS {Game Engine}",
 					Content = "Successfully loaded "..LoadedCustomScripts.." custom script",
 					Duration = 3,
@@ -9774,7 +10072,7 @@ function ContinueBoot()
 				 Domain.Detection.Banner.Amount.Text = TotalLCount
 			elseif LoadedCustomScripts > 1 then
 				--[[
-				DomainLibrary:Notify({
+				SkyrenLibrary:Notify({
 					Title = "CloudzOS {Game Engine}",
 					Content = "Successfully loaded "..LoadedCustomScripts.." custom scripts",
 					Duration = 3,
@@ -9784,7 +10082,7 @@ function ContinueBoot()
 				 Domain.Detection.Banner.Amount.Text = TotalLCount
 			end
 			if not UserIsPremium and LoadedCustomScripts > 0 then
-				DomainLibrary:Notify({
+				SkyrenLibrary:Notify({
 					Title = "CloudzOS {Game Engine}",
 					Content = "You Must Have Premium to Use these!",
 					Duration = 6.5,
@@ -9972,12 +10270,9 @@ function BootCloudzOS()
 	if DebugMode then
 		warn("DomainX - Beginning Boot Process")
 	end
-	Domain.Main.Visible = true
-	Domain.Main.Position = UDim2.new(0.5, 0, 1.25, 0)
-	Domain.Main.KeybindNote.Position = UDim2.new(0.5,0,-1.303,0)
-	Domain.Main.KeybindNote.Text = "Loading CloudzOS"
-	Domain.Main.Buttons.ModulesButton.Visible = false
-	Domain.Main.KeybindNote.TextTransparency = 0.4
+	--Domain.Main.Visible = true
+	--Domain.Main.Position = UDim2.new(0.5, 0, 1.25, 0)
+	--Domain.Main.Buttons.ModulesButton.Visible = false
 	if Beta then
 		if not UserIsPremium then
 			return
@@ -9988,7 +10283,7 @@ function BootCloudzOS()
 	end
 	UpdateExecutor()
 	if not DomainEnabled then
-		DomainLibrary:Notify({
+		SkyrenLibrary:Notify({
 			Title = "CloudzOS {AI}",
 			Content = "CloudzOS is not Enabled!",
 			Duration = 6.5,
@@ -10001,12 +10296,35 @@ function BootCloudzOS()
 	if DebugMode then
 		warn("DomainX - Continuing Boot Process")
 	end
+	coroutine.wrap(function()
+		repeat 
+			wait(0.2)
+			buffer()
+		until CloudyFullLoaded
+		blink()
+		wait(1.5)
+		blink()
+	end)()
 	ContinueBoot()
 	CloudzOSLoaded = true
 end
 
 -- Main functionality of core buttons
 
+clicks = 0
+
+SmartBar.Bar.Hitbox.MouseButton1Click:Connect(function()
+	if clicks == 0 then
+		clicks += 1
+	elseif clicks == 1 then
+		clicks += 1
+		OpenSmartbar("Close","Partial")
+		wait(0.1)
+		clicks = 0
+	end
+end)
+
+----
 Domain.Main.Buttons.HomeButton.Interact.MouseButton1Click:Connect(function()
 	local transitionInfo = TweenInfo.new(0.2, Enum.EasingStyle.Quint)
 	local tween = TweenService:Create(Domain.Main.Buttons.HomeButton, transitionInfo, {Size = UDim2.new(0, 30,0, 30)})
@@ -10016,8 +10334,10 @@ Domain.Main.Buttons.HomeButton.Interact.MouseButton1Click:Connect(function()
 	local tween = TweenService:Create(Domain.Main.Buttons.HomeButton, transitionInfo, {Size = UDim2.new(0, 36,0, 36)})
 	tween:Play()
 	if homeopen then
+		TweenService:Create(SmartBar.Buttons.HomeButton.UIStroke, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
 		CloseHome()
 	else
+		TweenService:Create(SmartBar.Buttons.HomeButton.UIStroke, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
 		OpenHome()
 	end
 end)
@@ -10039,8 +10359,10 @@ Domain.Main.Buttons.PlayerButton.Interact.MouseButton1Click:Connect(function()
 	tween:Play()
 	if not db then
 		if plrconopen then
+			TweenService:Create(SmartBar.Buttons.PlayerButton.UIStroke, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
 			ClosePlayerConfig()
 		else
+			TweenService:Create(SmartBar.Buttons.PlayerButton.UIStroke, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
 			OpenPlayerConfig()
 		end
 	end
@@ -10056,8 +10378,10 @@ Domain.Main.Buttons.PlayersButton.Interact.MouseButton1Click:Connect(function()
 	tween:Play()
 	if not db and DMNReady then
 		if plrlistopen then
+			TweenService:Create(SmartBar.Buttons.PlayersButton.UIStroke, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
 			ClosePlayerlist()
 		else
+			TweenService:Create(SmartBar.Buttons.PlayersButton.UIStroke, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
 			OpenPlayerlist()
 		end
 	end
@@ -10081,9 +10405,11 @@ Domain.Main.Buttons.SettingsButton.Interact.MouseButton1Click:Connect(function()
 	lastClickTime = currentTime
 	--
 if JCTOGGLE == false then
+	TweenService:Create(SmartBar.Buttons.SettingsButton.UIStroke, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
 	OpenSettings()
 	JCTOGGLE = true
 elseif JCTOGGLE == true then
+	TweenService:Create(SmartBar.Buttons.SettingsButton.UIStroke, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
 	CloseSettings()
 	JCTOGGLE = false
 end
@@ -10167,8 +10493,10 @@ Domain.Main.Buttons.ScriptsButton.Interact.MouseButton1Click:Connect(function()
 	tween:Play()
 	if not db and DMNReady then
 		if scriptsopen then
+			TweenService:Create(SmartBar.Buttons.ScriptsButton.UIStroke, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
 			CloseScripts()
 		else
+			TweenService:Create(SmartBar.Buttons.ScriptsButton.UIStroke, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
 			OpenScripts()
 		end
 	end
@@ -10537,150 +10865,21 @@ function ChangeKeybindS(Key)
 	else	
 	end
 end
-
-function OpenMainE()
-	db = true
-	local transitionInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quint)
-	local tween = TweenService:Create(Domain.Main.KeybindNote, transitionInfo, {TextTransparency = 1})
-	tween:Play()
-	wait(0.2)
-	local transitionInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quint)
-	local tween = TweenService:Create(Domain.Main.KeybindNote, transitionInfo, {TextStrokeTransparency = 1})
-	tween:Play()
-	for _, button in ipairs(Domain.Main.Buttons:GetChildren()) do
-		if button.ClassName == "Frame" then
-			button.BackgroundTransparency = 1
-			button.Icon.ImageTransparency = 1
-		end
-	end
-	Domain.Main.Time.Position = UDim2.new(-0.027, 0, 0.109, 0)
-	Domain.Main.Time.AMPM.Position = UDim2.new(-0.023, 0, 0.273, 0)
-	Domain.Main.BackgroundTransparency = 1
-	Domain.Main.Time.TextTransparency = 1
-	Domain.Main.Time.AMPM.TextTransparency = 1
-	Domain.Main.Position = UDim2.new(0.5, 0, 1.25, 0)
-	Domain.Main.Visible = true
-
-	local transitionInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quint)
-	local tween = TweenService:Create(Domain.Main, transitionInfo, {Position = UDim2.new(0.5, 0,1, -12)})
-	tween:Play()
-	local transitionInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quint)
-	local tween = TweenService:Create(Domain.Main.Shadow, transitionInfo, {ImageTransparency = 0.8})
-	tween:Play()
-	wait(0.18)
-	--[[for _, GameID in pairs(KaijuParadise) do
-		if GameID == game.PlaceId then
-			TweenService:Create(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.InventoryGui, TweenInfo.new(1, Enum.EasingStyle.Quint), {Position = UDim2.new(0, 0,0.91,-70)}):Play()
-			TweenService:Create(game:GetService("Players").LocalPlayer.PlayerGui.MainGui.WeaponUI.MainFrame, TweenInfo.new(1, Enum.EasingStyle.Quint), {Position = UDim2.new(0, 0,1,-120)}):Play()
-		end
-	end]]
-	--[[local transitionInfo = TweenInfo.new(0.7, Enum.EasingStyle.Quint)
-	local tween = TweenService:Create(game:GetService("CoreGui").RobloxGui.Backpack, transitionInfo, {Position = UDim2.new(0, 0,-0.070, 0)})
-	tween:Play()]]
-	local transitionInfo = TweenInfo.new(0.4, Enum.EasingStyle.Back)
-	local tween = TweenService:Create(Domain.Main, transitionInfo, {Size = UDim2.new(0, 300,0, 55)})
-	tween:Play()
-	local transitionInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quint)
-	local tween = TweenService:Create(Domain.Scripts, transitionInfo, {Position = UDim2.new(0.5, 0, 0.81, 0)})
-	tween:Play()
-	local transitionInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quint)
-	local tween = TweenService:Create(Domain.Player, transitionInfo, {Position = UDim2.new(0.5, 0, 0.81, 0)})
-	tween:Play()
-	local transitionInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quint)
-	local tween = TweenService:Create(Domain.Playerlist, transitionInfo, {Position = UDim2.new(0.5, 0, 0.81, 0)})
-	tween:Play()
-	local transitionInfo = TweenInfo.new(0.4, Enum.EasingStyle.Quint)
-	local tween = TweenService:Create(Domain.Toasts, transitionInfo, {Position = UDim2.new(0.5, 0, 0.8, 0)})
-	tween:Play()
-
-	local transitionInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quint)
-	local tween = TweenService:Create(Domain.Main.Time, transitionInfo, {Position = UDim2.new(-0.027, 0, 0.109, 0)})
-	tween:Play()
-	local transitionInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quint)
-	local tween = TweenService:Create(Domain.Main.Time.AMPM, transitionInfo, {Position = UDim2.new(-0.023, 0, 0.273, 0)})
-	tween:Play()
-	local transitionInfo = TweenInfo.new(0.4, Enum.EasingStyle.Quint)
-	local tween = TweenService:Create(Domain.Main.Time, transitionInfo, {TextTransparency = 0})
-	tween:Play()
-	local transitionInfo = TweenInfo.new(0.4, Enum.EasingStyle.Quint)
-	local tween = TweenService:Create(Domain.Main.Time.AMPM, transitionInfo, {TextTransparency = 0})
-	tween:Play()
-	if not homeopen and not homedb and not ExecutorAutomatic and workspace.CurrentCamera.FieldOfView ~= 70 then
-		local transitionInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quint)
-		local tween = TweenService:Create(workspace.CurrentCamera, transitionInfo, {FieldOfView = 70})
-		tween:Play()
-	end
-
-	if readfile("CloudzOS Blur.txt") == "true" then
-		blurlightM = nil
-		if not getgenv().Blur then
-			blurlightM = Instance.new("DepthOfFieldEffect",game:GetService("Lighting"))
-			blurlightM.Enabled = true
-			blurlightM.FarIntensity = 0
-			blurlightM.FocusDistance = 51.6
-			blurlightM.InFocusRadius = 50
-			blurlightM.NearIntensity = 1
-			game:GetService("Debris"):AddItem(script,0)
-		end
-		if Domain.Name == "Domain" then
-			neon:BindFrame(Domain.Main.BlurModule, {
-				Transparency = 0.98;
-				BrickColor = BrickColor.new("Institutional white");
-			})
-		end
-		
-	local transitionInfo = TweenInfo.new(0.4, Enum.EasingStyle.Quint)
-	local tween = TweenService:Create(Domain.Main, transitionInfo, {BackgroundTransparency = 0.6})
-	tween:Play()
-	else
-	local transitionInfo = TweenInfo.new(0.4, Enum.EasingStyle.Quint)
-	local tween = TweenService:Create(Domain.Main, transitionInfo, {BackgroundTransparency = 0.3})
-	tween:Play()
-	end
-
-	local transitionInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quint)
-	local tween = TweenService:Create(Domain.Main.UIStroke, transitionInfo, {Transparency = 0})
-	tween:Play()
-	wait(0.05)
-
-	for _, button in ipairs(Domain.Main.Buttons:GetChildren()) do
-		if button.ClassName == "Frame" then
-			local transitionInfo = TweenInfo.new(0.4, Enum.EasingStyle.Quint)
-			local tween = TweenService:Create(button, transitionInfo, {BackgroundTransparency = 0.6})
-			tween:Play()
-			local transitionInfo = TweenInfo.new(0.4, Enum.EasingStyle.Quint)
-			local tween = TweenService:Create(button.Icon, transitionInfo, {ImageTransparency = 0})
-			tween:Play()
-			local transitionInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quint)
-			local tween = TweenService:Create(button, transitionInfo, {Position = UDim2.new(button.Position.X.Scale, 0,0.5, 0)})
-			tween:Play()
-			wait(0.05)
-		end
-	end
-	db = false
-	baropen = true
-end
-
+coroutine.wrap(function()
 game:GetService("UserInputService").InputBegan:Connect(function(input, processed)
 	if not DMNReady then
 		return
 	end
 	if not CheckingForKey then
 		if (input.KeyCode == Enum.KeyCode[Keybind] and processed == false) and not db then
-			if baropen then
-				if plrlistopen then
-					ClosePlayerlist()
-					plrlistopen = false
-				elseif plrconopen then
-					ClosePlayerConfig()
-					plrconopen = false
-				elseif scriptsopen then
-					CloseScripts()
-					scriptsopen = false
-				end
-				CloseMain()
-			else
-				OpenMain()
+			if SmartbarState == "Full Closed" then
+				OpenSmartbar("Open","Full")
+			elseif SmartbarState == "Full Opened" then
+				OpenSmartbar("Close","Full")
+			elseif SmartbarState == "Partial Opened" then
+				OpenSmartbar("Close","Full")
+			elseif SmartbarState == "Partial Closed" then
+				OpenSmartbar("Open","Partial")
 			end
 		end
 	else
@@ -10689,19 +10888,24 @@ game:GetService("UserInputService").InputBegan:Connect(function(input, processed
 			ChangeKeybindS(input.KeyCode)
 		end
 	end
+	wait(1)
 end)
---
 -- Swear Detection
 coroutine.wrap(function()
 	local function containsSwearWord(message)
 		message = string.lower(message)
-		for _, swearWord in pairs(swearWords) do
-		  if string.find(message, swearWord) then
-			return true
-		  end
+		for _, notswearwords in pairs(notswearwords) do
+			if string.find(message, notswearwords) then
+			  return false
+			end
 		end
-		return false
-	  end
+		for _, swearWord in pairs(swearWords) do
+			if string.find(message, swearWord) then
+			  return true
+			end
+		  end
+		  return false
+		end
 	  game.Players.PlayerAdded:Connect(function(player)
 		player.Chatted:Connect(function(message)
 		  if containsSwearWord(message) then
@@ -10710,19 +10914,19 @@ coroutine.wrap(function()
 				
 			else
 			if LocalPlayer:IsFriendsWith(player.UserId) then
-				DomainLibrary:SkySecurityV2({
+				SkyrenLibrary:SkySecurityV2({
 					Title = "CloudzOS",
 					Content = "Toxicity Detected from your friend, "..player.DisplayName.."! : "..message.."",
 					Duration = 10,
 					Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..player.Name,
 					TakeAction = { -- Notification Buttons
-						   Taken = "They have not been muted since they are your friend.",
+						Taken = "They have not been muted since they are your friend.",
 						   Callback = function()
-					   end
+					   	end
 					},
 				})
 			else
-				DomainLibrary:SkySecurityV2({
+				SkyrenLibrary:SkySecurityV2({
 					Title = "CloudzOS",
 					Content = "Toxicity Detected from "..player.Name.."! : "..message.."",
 					Duration = 10,
@@ -10733,21 +10937,52 @@ coroutine.wrap(function()
 							coroutine.wrap(function()
 							wait(15)
 							game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/mute "..player.Name,"All")
-							DomainLibrary:SkySecurityV2({
+							SkyrenLibrary:SkySecurityV2({
 								Title = "CloudzOS",
 								Content = "Successfully muted "..player.Name.."!",
 								Duration = 10,
 								Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..player.Name,
 								TakeAction = { -- Notification Buttons
-									   Taken = player.Name.." has been muted for toxicity",
+									Taken = player.Name.." has been muted for toxicity",
 									   Callback = function()
-								   end
+										for _, GameID in pairs(KaijuParadise) do
+											if GameID == game.PlaceId then
+											setclipboard("@"..player.Name.." ("..player.DisplayName..")")
+											SkyrenLibrary:Prompt({
+												Content = "Would you like to unmute them for more possible evidence?",
+												Duration = 6.5,
+												FriendSystem = false,
+												Image = 11969554982,
+												Actions = {
+												   Ignore = {
+													Name = "No",
+													Icon = 12550268063,
+													OutlineClr = Color3.fromRGB(125, 28, 21),
+													InsideClr = Color3.fromRGB(125, 28, 21),
+														Callback = function()
+														end
+													},
+													Ignore2 = {
+													Name = "Yes",
+													Icon = 12550269116,
+													OutlineClr = Color3.fromRGB(0, 255, 60),
+													InsideClr = Color3.fromRGB(0, 128, 29),
+														Callback = function()
+															game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..player.Name,"All")
+															Toast("Successfully Unmuted "..player.Name.." ("..player.DisplayName..")","GothamBold",Color3.fromRGB(181, 126, 31))
+														end
+													},
+												}
+											})
+											end
+										end
+								   	end
 								},
 							})
 							coroutine.wrap(function()
 							wait(60)
 								game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..player.Name,"All")
-								FastToast("Unmuted "..player.Name.." After they've been muted for 1 minutes!","GothamMedium",Color3.fromRGB(125, 28, 21))
+								FastToast("Unmuted "..player.Name.." After they've been muted for 1 minute!","GothamMedium",Color3.fromRGB(125, 28, 21))
 							end)()
 						end)()
 					   end
@@ -10762,7 +10997,7 @@ coroutine.wrap(function()
 	  player.Chatted:Connect(function(message)
 		  if containsSwearWord(message) then
 				wait(2)
-				DomainLibrary:SkySecurityV2({
+				SkyrenLibrary:SkySecurityV2({
 					Title = "CloudzOS",
 					Content = "Toxicity Detected from "..player.Name.."! : "..message.."",
 					Duration = 10,
@@ -10773,7 +11008,7 @@ coroutine.wrap(function()
 							coroutine.wrap(function()
 							wait(15)
 							game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/mute "..player.Name,"All")
-							DomainLibrary:SkySecurityV2({
+							SkyrenLibrary:SkySecurityV2({
 								Title = "CloudzOS",
 								Content = "Successfully muted "..player.Name.." for saying "..message.."",
 								Duration = 10,
@@ -10781,13 +11016,19 @@ coroutine.wrap(function()
 								TakeAction = { -- Notification Buttons
 									   Taken = player.Name.." has been muted for toxicity (1 minute)",
 									   Callback = function()
+										for _, GameID in pairs(KaijuParadise) do
+											if GameID == game.PlaceId then
+											setclipboard("@"..player.Name.." ("..player.DisplayName..")")
+											FastToast("Copied Username to clipboard!","GothamMedium",Color3.fromRGB(255, 196, 0))
+											end
+										end
 								   end
 								},
 							})
 							coroutine.wrap(function()
 							wait(60)
 								game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..player.Name,"All")
-								FastToast("Unmuted "..player.Name.." After they've been muted for 1 minutes!","GothamMedium",Color3.fromRGB(125, 28, 21))
+								FastToast("Unmuted "..player.Name.." After they've been muted for 1 minute!","GothamMedium",Color3.fromRGB(125, 28, 21))
 							end)()
 						end)()
 					   end
@@ -10822,32 +11063,20 @@ coroutine.wrap(function()
 				return
 			else
 			end
-			DomainLibrary:SkySecurityV2({
+			SkyrenLibrary:SkySecurityV2({
 				Title = "CloudzOS",
-				Content = "Toxicity Detected from "..player.Name.."! : "..message.."",
+				Content = "Chat Spam Detected from "..player.Name.."! : "..message.."",
 				Duration = 10,
 				Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..player.Name,
 				TakeAction = { -- Notification Buttons
-					   Taken = player.Name.." will be muted in 15 seconds for a minute",
+					   Taken = player.Name.." Has been muted for 2 minutes.",
 					   Callback = function()
 						coroutine.wrap(function()
-						wait(15)
 						game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/mute "..player.Name,"All")
-						DomainLibrary:SkySecurityV2({
-							Title = "CloudzOS",
-							Content = "Successfully muted "..player.Name.." for saying "..message.."",
-							Duration = 10,
-							Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..player.Name,
-							TakeAction = { -- Notification Buttons
-								   Taken = player.Name.." has been muted for toxicity (1 minute)",
-								   Callback = function()
-							   end
-							},
-						})
 						coroutine.wrap(function()
-						wait(60)
+						wait(120)
 							game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..player.Name,"All")
-							FastToast("Unmuted "..player.Name.." After they've been muted for 1 minutes!","GothamMedium",Color3.fromRGB(125, 28, 21))
+							FastToast("Unmuted "..player.Name.." After they've been muted for 2 minutes!","GothamMedium",Color3.fromRGB(125, 28, 21))
 						end)()
 					end)()
 				   end
@@ -10865,6 +11094,7 @@ coroutine.wrap(function()
 	end
 end)()
 --
+end)()
 function KPADMINDETECT()
 	game.Players.PlayerAdded:Connect(function(player)
 		if game.CreatorType == Enum.CreatorType.Group then
@@ -10875,7 +11105,7 @@ function KPADMINDETECT()
 						return
 					else
 					end
-					DomainLibrary:SkySecurity({
+					SkyrenLibrary:SkySecurity({
 						Title = "CloudzOS {SkySecurity}",
 						Content = "CloudzOS Has Detected that "..player.Name.." may be an Administrator and has prompted choices for this! (KP)",
 						Duration = 10,
@@ -10918,7 +11148,7 @@ function UNIADMINDETECT()
 						return
 					else
 					end
-					DomainLibrary:SkySecurity({
+					SkyrenLibrary:SkySecurity({
 						Title = "CloudzOS {SkySecurity}",
 						Content = "CloudzOS Has Detected that "..player.Name.." may be an Administrator/"..Role.." and has prompted choices for this!",
 						Duration = 10,
@@ -10960,7 +11190,7 @@ function KPADMINDETECT2()
 						return
 					else
 					end
-					DomainLibrary:SkySecurity({
+					SkyrenLibrary:SkySecurity({
 						Title = "CloudzOS {SkySecurity}",
 						Content = "CloudzOS Has Detected that "..player.Name.." may be an Administrator and has prompted choices for this! (KP)",
 						Duration = 10,
@@ -11001,7 +11231,7 @@ function UNIADMINDETECT2()
 						return
 					else
 					end
-					DomainLibrary:SkySecurity({
+					SkyrenLibrary:SkySecurity({
 						Title = "CloudzOS {SkySecurity}",
 						Content = "CloudzOS Has Detected that "..player.Name.." may be an Administrator and has prompted choices for this!",
 						Duration = 10,
@@ -11041,7 +11271,7 @@ for _, Player in next, game.Players:GetPlayers() do
 			return
 		else
 	end
-DomainLibrary:SkySecurity({
+SkyrenLibrary:SkySecurity({
     Title = "CloudzOS {SkySecurity}",
     Content = "CloudzOS Has Detected that "..Player.Name.." may be an Administrator and has prompted choices for this!",
     Duration = 10,
@@ -11075,7 +11305,7 @@ game.Players.PlayerAdded:Connect(function(Player)
 			return
 		else
 		end
-        DomainLibrary:SkySecurity({
+        SkyrenLibrary:SkySecurity({
             Title = "CloudzOS {SkySecurity}",
             Content = "CloudzOS Has Detected that "..Player.Name.." may be an Administrator and has prompted choices for this!",
             Duration = 10,
@@ -11157,25 +11387,25 @@ game.Players.PlayerAdded:Connect(function(Player)
 					return
 				else
 				end
-				DomainLibrary:SkySecurityV2({
+				SkyrenLibrary:SkySecurityV2({
 					Title = "CloudzOS",
-					Content = "CloudzOS possibly detected <b><i><u>"..Player.Name.."</u></i></b> to be spamming <b><i><u>('"..msgs[3].."')</u></i></b> in chat.",
+					Content = "Chat Spam Detected from "..player.Name.."! : "..message.."",
 					Duration = 10,
-					Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
+					Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..player.Name,
 					TakeAction = { -- Notification Buttons
-						   Taken = "CloudzOS Has muted <b>"..Player.Name.."</b> for 2 Minutes.",
+						   Taken = player.Name.." Has been muted for 2 minutes.",
 						   Callback = function()
-							PlayerMuted = true
-							game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/mute "..Player.Name,"All")
 							coroutine.wrap(function()
-								wait(120)
-								PlayerMuted = false
-								game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..Player.Name,"All")
-								FastToast("Unmuted "..Player.Name.." After they've been muted for 2 minutes!","GothamMedium",Color3.fromRGB(125, 28, 21))
+							game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/mute "..player.Name,"All")
+							coroutine.wrap(function()
+							wait(120)
+								game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/unmute "..player.Name,"All")
+								FastToast("Unmuted "..player.Name.." After they've been muted for 2 minutes!","GothamMedium",Color3.fromRGB(125, 28, 21))
 							end)()
+						end)()
 					   end
 					},
-				}) 
+				})
 				msgs = {} --resets
 			end
 			coroutine.wrap(function() --so wait() doesn't interfere by yielding
@@ -11189,7 +11419,7 @@ game.Players.PlayerAdded:Connect(function(Player)
 	--
 	Domain.Home.Data.data.Players.Text = "Players: <b>"..tostring(#game.Players:GetChildren()).."/"..tostring(game.Players.MaxPlayers).."</b>"
 	if LocalPlayer:IsFriendsWith(Player.UserId) then
-		 DomainLibrary:NotifyV2({
+		 SkyrenLibrary:NotifyV2({
 			Title = "CloudzOS",
 			Content = "Your Friend, "..Player.Name..", has joined your server",
 			Tag = "{Friend System}",
@@ -11212,7 +11442,7 @@ end
 
 game.Players.PlayerRemoving:Connect(function(Player)
     if LocalPlayer:IsFriendsWith(Player.UserId) then
-		DomainLibrary:NotifyV2({
+		SkyrenLibrary:NotifyV2({
 			Title = "CloudzOS",
 			Content = "Your Friend, "..Player.Name..", has left your server",
 			Tag = "{Friend System}",
@@ -11904,19 +12134,21 @@ coroutine.wrap(function()
 end)()
 
 -- NO --
+foundVSC = false
 coroutine.wrap(function()
 while task.wait() do
     pcall(function()
 		local LocalPlayer = game:GetService("Players").LocalPlayer;
         local connection = syn.websocket.connect("ws://localhost:55555/")
 
+		foundVSC = true
         connection:Send("Account Connected: "..LocalPlayer.DisplayName.." ("..LocalPlayer.Name..")")
-        DomainLibrary:Notify({
-            Title = "CloudzOS {DV PLG}",
-            Content = "Visual Studio Code Has Successfully Connected to Synapse X : "..LocalPlayer.DisplayName.." ("..LocalPlayer.Name..")",
-            Duration = 3,
-            Image = 11602461955,
-         })
+		SkyrenLibrary:Prompt({
+			Content = "Connection to Visual Studio Code Successfully Established.",
+			Duration = 5,
+			FriendSystem = false,
+			Image = 11602461955,
+		})
         connection.OnMessage:Connect(function(call) 
             local callback, output = loadstring(call);
             if not callback then
@@ -11927,7 +12159,8 @@ while task.wait() do
             end
         end)
 
-        connection.OnClose:Wait() 
+        connection.OnClose:Wait()
+		foundVSC = false 
     end)
 end
 end)()
@@ -11944,7 +12177,7 @@ ThoseWhoRemain = {488667523, 8287862132}
 -- Be A Parkour Ninja
 if(game.PlaceId == 147848991) then
 	local GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
-	DomainLibrary:RiskAnalysis({
+	SkyrenLibrary:RiskAnalysis({
 		AntiCheat = false,
 		ModTeam = false,
 		Development = false,
@@ -12007,6 +12240,30 @@ end
 --
 
 Deepwoken = {6032399813,6473861193,5735553160,8668476218}
+
+-- functions --
+function checkforResonance(player)
+coroutine.wrap(function()
+player:WaitForChild("Backpack")
+local function removeSpecialChars(str)
+    return string.gsub(str, "[%p%s]", "")
+end
+    for _, item in pairs(player.Backpack:GetChildren()) do
+        if string.find(item.Name, "Resonance") then
+        local itemName = removeSpecialChars(string.gsub(item.Name, "Resonance", ""))
+			SkyrenLibrary:NotifyV2({
+            Title = "Skyren",
+            Content = "Resonance Detected! "..player.Name.." Has "..itemName,
+            Tag = "{Resonance Detection}",
+            Duration = 6.5,
+            Image = 11924758053,
+            Location = "Top",
+        })
+    end
+end
+end)()
+end
+----
 
 for _, GameID in pairs(Deepwoken) do
 	if GameID == game.PlaceId then
@@ -12120,10 +12377,13 @@ for _, GameID in pairs(Deepwoken) do
 		 local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
 		 request(abcdef)
 		end
+
 		DpDiscordSend("**-- "..LocalPlayer.Name.." --**")
+
 		for _, Player in ipairs(game.Players:GetChildren()) do
 			if Player.UserId == LocalPlayer.UserId then
 			else
+			checkforResonance(Player)
 			DpDiscordSend("**"..Player.Name.."** is in "..LocalPlayer.Name.."'s Server")
 			end
 		end
@@ -12131,6 +12391,7 @@ for _, GameID in pairs(Deepwoken) do
 		game.Players.PlayerAdded:Connect(function(Player)
 			if Player.UserId == LocalPlayer.UserId then
 			else
+				checkforResonance(Player)
 			DpDiscordSend("**"..Player.Name.."** Has Joined "..LocalPlayer.Name.."'s Server")
 			end
 		end)
@@ -12190,7 +12451,7 @@ end
 -- Natural Disaster Survival
 if(game.PlaceId == 189707) then
 	local GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
-	DomainLibrary:RiskAnalysis({
+	SkyrenLibrary:RiskAnalysis({
 		AntiCheat = true,
 		ModTeam = true,
 		Development = true,
@@ -12219,7 +12480,7 @@ end
 -- Twisted 
 if(game.PlaceId == 6161235818) then
 	local GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
-	DomainLibrary:RiskAnalysis({
+	SkyrenLibrary:RiskAnalysis({
 		AntiCheat = true,
 		ModTeam = true,
 		Development = true,
@@ -12232,7 +12493,7 @@ end
 -- Innovation Arctic Base
 if(game.PlaceId == 1033860623) then
 	local GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
-	DomainLibrary:RiskAnalysis({
+	SkyrenLibrary:RiskAnalysis({
 		AntiCheat = false,
 		ModTeam = true,
 		Development = false,
@@ -12244,7 +12505,7 @@ end
 -- Da Hood
 if(game.PlaceId == 2788229376) then
 	local GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
-	DomainLibrary:RiskAnalysis({
+	SkyrenLibrary:RiskAnalysis({
 		AntiCheat = true,
 		ModTeam = true,
 		Development = false,
@@ -12256,7 +12517,7 @@ end
 -- Arsenal
 if(game.PlaceId == 286090429) then
 	local GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
-	DomainLibrary:RiskAnalysis({
+	SkyrenLibrary:RiskAnalysis({
 		AntiCheat = true,
 		ModTeam = true,
 		Development = false,
@@ -12268,7 +12529,7 @@ end
 -- Funky Friday
 if(game.PlaceId == 6447798030) then
 	local GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
-	DomainLibrary:RiskAnalysis({
+	SkyrenLibrary:RiskAnalysis({
 		AntiCheat = false,
 		ModTeam = true,
 		Development = false,
@@ -12281,7 +12542,7 @@ end
 for _, GameID in pairs(ThoseWhoRemain) do
 	if GameID == game.PlaceId then
 	local GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
-	DomainLibrary:RiskAnalysis({
+	SkyrenLibrary:RiskAnalysis({
 		AntiCheat = false,
 		ModTeam = true,
 		Development = false,
@@ -12324,7 +12585,7 @@ end
 -- Avatar Customizer
 if(game.PlaceId == 2500382478) then
 	local GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
-	DomainLibrary:RiskAnalysis({
+	SkyrenLibrary:RiskAnalysis({
 		AntiCheat = true,
 		ModTeam = false,
 		Development = false,
@@ -12334,9 +12595,9 @@ if(game.PlaceId == 2500382478) then
 end
 
 -- World of Magic
-if(game.PlaceId == 3272915504) then
+if(game.PlaceId == 12501636321) then
 	local GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
-	DomainLibrary:RiskAnalysis({
+	SkyrenLibrary:RiskAnalysis({
 		AntiCheat = true,
 		ModTeam = false,
 		Development = false,
@@ -12409,15 +12670,15 @@ mouse.KeyDown:Connect(function(key)
         end
     end
 end)
-DomainLibrary:Prompt({
-	Content = "Keybinds",
+SkyrenLibrary:Prompt({
+	Content = "Keybinds for World of Magic",
 	Duration = 6.5,
 	FriendSystem = false,
-	Image = 11677161609,
+	Image = 11677161586,
 	Actions = {
 	   Ignore = {
 		Name = "Y - Handcuffs",
-		Icon = 12333784654,
+		Icon = 12333784627,
 		OutlineClr = Color3.fromRGB(125, 28, 21),
 		InsideClr = Color3.fromRGB(125, 28, 21),
 			Callback = function()
@@ -12432,7 +12693,7 @@ DomainLibrary:Prompt({
 		},
 		Ignore2 = {
 		Name = "L - God mode",
-		Icon = 11914524759,
+		Icon = 11914524730,
 		OutlineClr = Color3.fromRGB(125, 28, 21),
 		InsideClr = Color3.fromRGB(125, 28, 21),
 			Callback = function()
@@ -12455,7 +12716,7 @@ end
 -- BLOXBURG
 if(game.PlaceId == 185655149) then
 	local GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
-	DomainLibrary:RiskAnalysis({
+	SkyrenLibrary:RiskAnalysis({
 		AntiCheat = false,
 		ModTeam = true,
 		Development = false,
@@ -12463,7 +12724,7 @@ if(game.PlaceId == 185655149) then
 		Conclusion = "<b>"..GameName.."'s</b> anti-cheat systems are pretty unknown at the moment although it might somehow be able to detect whenever you work for long periods of times, possibly whenever GUI's are added to the player's CoreGui, or something else. Whatever it is. it managed to ban Mel and their appeal system is VERY strict. be VERY cautious in this game",
  	})
 	wait(3)
-	 DomainLibrary:SkySecurity({
+	 SkyrenLibrary:SkySecurity({
 		Title = "CloudzOS {SkySecurity}",
 		Content = "Based on Information from the Analysis of <b>"..GameName.."'s</b> anti-cheat systems, we have asked if CloudzOS should stay open.",
 		Duration = 10,
@@ -12491,7 +12752,7 @@ end
 for _, GameID in pairs(KaijuParadise) do
 	if GameID == game.PlaceId then
 	local GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
-	DomainLibrary:RiskAnalysis({
+	SkyrenLibrary:RiskAnalysis({
 		AntiCheat = true,
 		ModTeam = true,
 		Development = true,
@@ -12539,7 +12800,7 @@ for _, GameID in pairs(KaijuParadise) do
 			   if transfur then
 			else
 				Toast("CloudzOS has found the Nightcrawler Goggles and has Prompted Choices for it.","GothamBold",Color3.fromRGB(112, 28, 140),7)
-				DomainLibrary:NotifyV2({
+				SkyrenLibrary:NotifyV2({
 					Title = "CloudzOS",
 					Content = "Nightcrawler Goggles Detected! What would you like to do with them?",
 					Tag = "{Cloud Configure}",
@@ -12657,6 +12918,7 @@ coroutine.wrap(function()
 	end)()
 wait(5.5)
 if not ExecutorAutomatic and not firsttime then
+	CloudyFullLoaded = true
 	Toast("Welcome Back to CloudzOS v"..Release.. ", "..LocalPlayer.DisplayName.."!","GothamBlack",Color3.fromRGB(202, 172, 242),6)
 	wait(1)
 	if Sirius then
@@ -12716,30 +12978,40 @@ end)()
 coroutine.wrap(function()
 	while true do
 		wait(0.1)
-		Domain.Idle.Time.Text = tonumber(os.date("%I"))..":"..os.date("%M %p")
-		Domain.Home.Data.data.Time.Text = "Current Time : "..tonumber(os.date("%I"))..":"..os.date("%M")..":"..os.date("%S %p")
-		Domain.Main.Time.Text = tonumber(os.date("%I"))..":"..os.date("%M")
-		Domain.Main.Time.AMPM.Text = os.date("%p")
-		Domain.Main.Time.Text = tonumber(os.date("%I"))..":"..os.date("%M")
-		Domain.Main.Time.AMPM.Text = os.date("%p")
-	end
-end)()
-
-coroutine.wrap(function()
-	local transitionInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quint)
-	local tween = TweenService:Create(Domain.Main.Time.Seconds, transitionInfo, {Transparency = 0})
-	tween:Play()
-	while true do
-		wait(0.5)	
-		if math.floor(tick() % 60) == 59 then
-		local transitionInfo = TweenInfo.new(0.3, Enum.EasingStyle.Linear)
-		local tween = TweenService:Create(Domain.Main.Time.Seconds, transitionInfo, {Size = UDim2.new(0, 35, 0, 2)})
-		tween:Play()
-		wait(0.3)
-		local transitionInfo = TweenInfo.new(59.7, Enum.EasingStyle.Linear)
-		local tween = TweenService:Create(Domain.Main.Time.Seconds, transitionInfo, {Size = UDim2.new(0, 0, 0, 2)})
-		tween:Play()	
-		end
+		Domain.Home.Data.data.Time.Text = "Current Time: "..tonumber(os.date("%I"))..":"..os.date("%M")..":"..os.date("%S %p")
 	end
 end)()
 --
+coroutine.wrap(function()
+	while true do
+		wait(0.1)
+LocalTime = tonumber(os.date("%I"))..":"..os.date("%M")
+if Domain.Main.Time.Text == LocalTime then
+else
+TweenService:Create(Domain.Main.Time, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+wait(0.55)
+Domain.Main.Time.Text = LocalTime
+wait(0.1)
+TweenService:Create(Domain.Main.Time, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0.3}):Play()
+end
+end
+end)()
+----
+coroutine.wrap(function()
+	while true do
+		wait(0.1)
+LocalPM = os.date("%p")
+if Domain.Main.Time.AMPM.Text == LocalPM then
+else
+TweenService:Create(Domain.Main.Time.AMPM, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+wait(0.55)
+Domain.Main.Time.AMPM.Text = LocalPM
+wait(0.1)
+TweenService:Create(Domain.Main.Time.AMPM, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+end
+end
+end)()
+
+-- -- --
+
+print(foundVSC)
