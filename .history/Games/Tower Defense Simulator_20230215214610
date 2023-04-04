@@ -65,8 +65,6 @@ wait(1)
     wait(0.1)
  end
 
- if game.PlaceId == 3260590327 then
-
  local TabL = Window:CreateTab("Lobby", 4483362458)
 
  local Section = TabL:CreateSection("Player Loadout Viewer")
@@ -100,11 +98,11 @@ mouse.Button1Down:Connect(function()
             Gems:Set("Gems: " .. player['Gems']['Value'])
             Level:Set("Level: " .. player['Level']['Value'])
         
-                local args = {
-                    [1] = "Profiles",
-                    [2] = "Download",
-                    [3] = player
-                }
+            local args = {
+                [1] = "Profiles",
+                [2] = "Download",
+                [3] = player
+            }
             
             local returnedPlayer = game:GetService("ReplicatedStorage").RemoteFunction:InvokeServer(unpack(args))
             local troopText = "Troops: "
@@ -135,9 +133,6 @@ local Section = TabL:CreateSection("----")
         MapChange()
     end,
  })
-
-else
- --
 
  local TabG = Window:CreateTab("In-Game", 4483362458)
 
@@ -356,7 +351,7 @@ coroutine.wrap(function()
         end
    end
 end)()
-end
+
 end
 
 GUI()
