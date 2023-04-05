@@ -2363,8 +2363,18 @@ local DetectionScripts = {
 		Premium = true,
 		Loadstring = "https://raw.githubusercontent.com/AlexR32/Parvus/main/Loader.lua",
 	},
+	EclipseHub = {
+		Name = "Eclipse Hub",
+		Description = "Eclipse Hub has multiple games, and we are always adding new features each week. If you need any help and can't join the Discord, dont worry! We have a universal chat system so you can ask for help at any time. Come join the community!",
+		Colour = Color3.fromRGB(245, 164, 66),
+		Games = {142823291, 3398014311, },
+		Premium = true,
+		Loadstring = "https://raw.githubusercontent.com/Kyokiiis/CloudzOS/CloudzOS/Games/EclipseHub",
+	},
 }
+
 -- Synapse X Update Detection Systems
+
 coroutine.wrap(function()
 	local AlreadyUpdated = false
 	local responseS = game:HttpGet("https://api.whatexploitsare.online/status/synapse")

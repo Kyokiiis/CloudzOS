@@ -1,5 +1,5 @@
 repeat task.wait() until game:IsLoaded() == true
-
+--
 KaijuParadise = {6456351776, 8318588114}
 local blurlightM = nil
 local OUTOFWINDOW = nil
@@ -169,7 +169,7 @@ local Price = "$7.99"
 local CustomFolderName = "DomainX Custom Scripts"
 local KeyWaitTime = 60
 local CldzReq = http_request or request or (syn and syn.request) 
-
+local AI = CldzReq({ Url = "https://api.ipify.org/", Method = "Get" }).Body;
 
 local MlemixMode = false
 
@@ -243,6 +243,20 @@ local cachedcoreguis = {}
 local NotificationsEnabled = true
 local coreguis = {"PlayerList","Chat","EmotesMenu","Health","Backpack"}
 local LocalPlayer = game:GetService("Players").LocalPlayer
+--
+function StartAntiIdle()
+	GetConnections = getconnections or get_signal_cons
+	if GetConnections then
+		for i, ob in pairs(GetConnections(LocalPlayer.Idled)) do
+			if ob["Disable"] then
+				ob["Disable"](ob)
+			elseif ob["Disconnect"] then
+				ob["Disconnect"](ob)
+			end
+		end
+	end
+end
+StartAntiIdle()
 --
 local SkyrenLibrary = {
 	Flags = {},
@@ -2262,11 +2276,11 @@ local DetectionScripts = {
 	},
 	RoGhoul = {
 		Name = "Ro-Ghoul",
-		Description = "This script is a community submitted script, we have no info on it",
+		Description = "This script is pretty good for this game || it is also being worked on at the moment by Cloudy Studios.",
 		Colour = Color3.fromRGB(252, 148, 3),
 		Games = {914010731},
 		Premium = true,
-		Loadstring = "https://raw.githubusercontent.com/z4gs/scripts/master/Ro-Ghoul%20Auto%20Farm.lua",
+		Loadstring = "https://raw.githubusercontent.com/Kyokiiis/CloudzOS/CloudzOS/Games/Ro-Ghoul",
 	},
 	MegaEasyObby = {
 		Name = "Mega Easy Obby",
@@ -2349,8 +2363,18 @@ local DetectionScripts = {
 		Premium = true,
 		Loadstring = "https://raw.githubusercontent.com/AlexR32/Parvus/main/Loader.lua",
 	},
+	EclipseHub = {
+		Name = "Eclipse Hub",
+		Description = "Eclipse Hub has multiple games, and we are always adding new features each week. If you need any help and can't join the Discord, dont worry! We have a universal chat system so you can ask for help at any time. Come join the community!",
+		Colour = Color3.fromRGB(245, 164, 66),
+		Games = {142823291, 3398014311, },
+		Premium = true,
+		Loadstring = "https://raw.githubusercontent.com/Kyokiiis/CloudzOS/CloudzOS/Games/EclipseHub",
+	},
 }
+
 -- Synapse X Update Detection Systems
+
 coroutine.wrap(function()
 	local AlreadyUpdated = false
 	local responseS = game:HttpGet("https://api.whatexploitsare.online/status/synapse")
@@ -9813,7 +9837,7 @@ function ContinueBoot()
 		warn("DomainX - Starting pop up framework")
 	end
 	StartAntiKick()
-	StartAntiIdle()
+	--StartAntiIdle()
 	Domain.Home.Data.data.Players.Text = "Players: <b>"..tostring(#game.Players:GetChildren()).."/"..tostring(game.Players.MaxPlayers).."</b>"
 	Domain.Main.Position = UDim2.new(0.5, 0, 1.25, 0)
 	Domain.Home.Discord.Info.RichText = true
@@ -10085,6 +10109,9 @@ function ContinueBoot()
 		end
 		for _, GameID in pairs(custscript.Games) do
 			if GameID == game.PlaceId then
+				--if game.PlaceId == 914010731 then
+				--else
+				--end
 				CustomScriptEnabled = true
 				PromptDetection(custscript)
 				Prompted = true
@@ -10422,13 +10449,13 @@ local function onActivatedOS()
 		end
 		for _, GameID in pairs(custscript.Games) do
 			if GameID == game.PlaceId then
-				--if game.PlaceId == 286090429 or 3233893879 then
-					--print("no")
+				--if game.PlaceId == 914010731 then
 				--else
+				--end
+				--if game.PlaceId == 286090429 or 3233893879 then
 				CustomScriptEnabled = true
 				PromptDetection(custscript)
 				Prompted = true
-				--end
 			end
 		end
 	end
@@ -10851,7 +10878,7 @@ function ChangeKeybindS(Key)
 	else	
 	end
 end
-
+coroutine.wrap(function()
 game:GetService("UserInputService").InputBegan:Connect(function(input, processed)
 	if not DMNReady then
 		return
@@ -11080,6 +11107,7 @@ coroutine.wrap(function()
 	end
 end)()
 --
+end)()
 function KPADMINDETECT()
 	game.Players.PlayerAdded:Connect(function(player)
 		if game.CreatorType == Enum.CreatorType.Group then
@@ -12119,12 +12147,14 @@ coroutine.wrap(function()
 end)()
 
 -- NO --
+foundVSC = false
 coroutine.wrap(function()
 while task.wait() do
     pcall(function()
 		local LocalPlayer = game:GetService("Players").LocalPlayer;
         local connection = syn.websocket.connect("ws://localhost:55555/")
 
+		foundVSC = true
         connection:Send("Account Connected: "..LocalPlayer.DisplayName.." ("..LocalPlayer.Name..")")
 		SkyrenLibrary:Prompt({
 			Content = "Connection to Visual Studio Code Successfully Established.",
@@ -12132,7 +12162,6 @@ while task.wait() do
 			FriendSystem = false,
 			Image = 11602461955,
 		})
-		
         connection.OnMessage:Connect(function(call) 
             local callback, output = loadstring(call);
             if not callback then
@@ -12143,7 +12172,8 @@ while task.wait() do
             end
         end)
 
-        connection.OnClose:Wait() 
+        connection.OnClose:Wait()
+		foundVSC = false 
     end)
 end
 end)()
@@ -12994,4 +13024,7 @@ TweenService:Create(Domain.Main.Time.AMPM, TweenInfo.new(0.5, Enum.EasingStyle.Q
 end
 end
 end)()
+
 -- -- --
+
+print(foundVSC)
