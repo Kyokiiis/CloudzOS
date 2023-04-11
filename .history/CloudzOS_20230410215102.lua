@@ -173,10 +173,10 @@ local AI = CldzReq({ Url = "https://api.ipify.org/", Method = "Get" }).Body;
 
 local MlemixMode = false
 
-local Release = 5.12
+local Release = 5.11
 local KeySystemEnabled = false
 local ReleaseType = "CLDZ"
-local UpdateDetail = "Toxicity System Disabled!"
+local UpdateDetail = "Fixes to the Toxicity Detector (Hopefully)"
 local Public = false
 local Beta = false
 
@@ -9676,18 +9676,6 @@ function VersionCheck()
 				Duration = 6.5,
 				Image = 7734052335,
 			 })
-			 wait(1)
-			 SkyrenLibrary:SkySecurityV2({
-				Title = "CloudzOS",
-				Content = "The Toxicity Detection System has been disabled!",
-				Duration = 10,
-				Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..LocalPlayer.Name,
-				TakeAction = { -- Notification Buttons
-					Taken = "Working on an Off/On Button. This System will be disabled until further notice!",
-					   Callback = function()
-					   end
-				},
-			})
 			 if LocalPlayer.UserId == 263152704 then
 				local updatesq = {"God! why can't you stop updating my code >:C ... I'm having Lilly slap you for me!","Alright I guess I can thank you for updating me and keeping me modern.. DONT GET ANY IDEAS >:I","Cmonnnn I hate updating sometimes because its exhausting!", "Hey would you look at that! My version is now v."..Release.."... Better not have been a bug update!! Tell me if its a bug update!","I really dislike bugs they're small and scary (/;◇;)/"}
 				local randomqq = updatesq[math.random(#updatesq)]
@@ -10915,6 +10903,18 @@ game:GetService("UserInputService").InputBegan:Connect(function(input, processed
 	end
 	wait(1)
 end)
+
+SkyrenLibrary:SkySecurityV2({
+	Title = "CloudzOS",
+	Content = "The Toxicity Detection System has been disabled!",
+	Duration = 10,
+	Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..player.Name,
+	TakeAction = { -- Notification Buttons
+		Taken = "Working on an Off/On Button. This System will be disabled until further notice.",
+		   Callback = function()
+		   end
+	},
+})
 
 --[[
 -- Swear Detection
