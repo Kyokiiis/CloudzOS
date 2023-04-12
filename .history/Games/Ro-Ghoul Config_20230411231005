@@ -1,0 +1,184 @@
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+--\\
+local AlliedFolder = nil
+local Allied = {}
+local players = game:GetService("Players")
+local player = players.LocalPlayer
+local PlayersTable = {}
+
+local mouse = player:GetMouse()
+
+for i, Player in pairs(players:GetChildren()) do
+    coroutine.wrap(function()
+    table.insert(PlayersTable, Player.Name)
+    end)()
+end
+
+--\\
+local Window = Rayfield:CreateWindow({
+    Name = "Ro-Ghoul",
+    LoadingTitle = "Ro-Ghoul Configuration",
+    LoadingSubtitle = "by Cloudy Studios",
+    ConfigurationSaving = {
+       Enabled = false,
+       FolderName = nil, -- Create a custom folder for your hub/game
+       FileName = "Ro-Ghoul"
+    },
+    Discord = {
+       Enabled = false,
+       Invite = "noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ABCD would be ABCD.
+       RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+    },
+    KeySystem = false, -- Set this to true to use our key system
+    KeySettings = {
+       Title = "Sirius Hub",
+       Subtitle = "Key System",
+       Note = "Join the discord (discord.gg/sirius)",
+       FileName = "SiriusKey",
+       SaveKey = true,
+       GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+       Key = "Hello"
+    }
+ })
+
+ local TabL = Window:CreateTab("Information", 4483362458) -- Title, Image
+
+ local Name = TabL:CreateSection("Select a Player or click somebody to start!")
+
+ local Level = TabL:CreateLabel("Level: ")
+ local Physical = TabL:CreateLabel("Physical: ")
+ local Weapon = TabL:CreateLabel("Weapon: ")
+ local Durability = TabL:CreateLabel("Durability: ")
+ local Speed = TabL:CreateLabel("Speed: ")
+ local Allied = TabL:CreateParagraph({Title = "Allied", Content = "People Here"})
+ local AlliedReverse = TabL:CreateParagraph({Title = "Allied2", Content = "People Here"})
+ --
+ 
+ local PlayerListMain = TabL:CreateDropdown({
+    Name = "Select A Player",
+    Options = PlayersTable,
+    CurrentOption = {"List"},
+    MultipleOptions = false,
+    Flag = "Dropdown1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Option)
+        for i, Selected in pairs(Option) do
+            SelectedPlayer = Selected
+        end
+        --
+        local player = game:GetService("Players")[SelectedPlayer]
+            Name:Set("Selected Player: " .. SelectedPlayer .. " | Weapon : " ..player.PlayerFolder.Customization.Weapon.Value)
+             Level:Set("Level: " .. player.PlayerFolder.Stats.Level.Value)
+             Physical:Set("Physical: " .. player.PlayerFolder.Stats.Physical.Value + player.PlayerFolder.Stats.Physical.Inc.Value)
+             Weapon:Set("Weapon: " .. player.PlayerFolder.Stats.Weapon.Value + player.PlayerFolder.Stats.Weapon.Inc.Value)
+             Durability:Set("Durability: " .. player.PlayerFolder.Stats.Durability.Value + player.PlayerFolder.Stats.Durability.Inc.Value)
+             Speed:Set("Speed: " .. player.PlayerFolder.Stats.Speed.Value + player.PlayerFolder.Stats.Speed.Inc.Value)
+            --
+            
+            AlliedFolder = player.PlayerFolder.Allied
+            AlliedT = {}
+            AlliedReversed = {}
+
+            for _, Ally in pairs(AlliedFolder:GetChildren()) do
+            table.insert(AlliedT, Ally.Name)
+            end
+            local AllyString = table.concat(AlliedT, ", ")
+            if AllyString == "" then
+            Allied:Set({Title = "People They Have Allied", Content = "They have allied Nobody :o"})
+            else
+            Allied:Set({Title = "People They Have Allied", Content = AllyString})
+            end
+
+            --\\--\\
+
+            for i, Player in pairs(players:GetChildren()) do
+                coroutine.wrap(function()
+                    Player:WaitForChild("PlayerFolder")
+                    for i, Allied in pairs(Player.PlayerFolder.Allied:GetChildren()) do
+                        if Allied.Name == SelectedPlayer then
+                            table.insert(AlliedReversed, Player.Name)
+                        end
+                    end
+                end)()
+            end
+
+            local AllyStringR = table.concat(AlliedReversed, ", ")
+            if AllyStringR == "" then
+                AlliedReverse:Set({Title = "People That Have Them Allied", Content = "Nobody has allied them :O"})
+            else
+                AlliedReverse:Set({Title = "People That Have Them Allied", Content = AllyStringR})
+            end
+    end,
+ })
+
+ mouse.Button1Down:Connect(function()
+     local model = mouse.Target:FindFirstAncestorOfClass('Model')
+     
+     if model then
+         local clickedPlayer = game.Players:GetPlayerFromCharacter(model)
+         
+         if clickedPlayer then
+             local player = game:GetService("Players")[clickedPlayer.Name]
+             Name:Set("Selected Player: " .. clickedPlayer.Name .. " | Weapon : " ..clickedPlayer.PlayerFolder.Customization.Weapon.Value)
+             Level:Set("Level: " .. player.PlayerFolder.Stats.Level.Value)
+             Physical:Set("Physical: " .. player.PlayerFolder.Stats.Physical.Value + player.PlayerFolder.Stats.Physical.Inc.Value)
+             Weapon:Set("Weapon: " .. player.PlayerFolder.Stats.Weapon.Value + player.PlayerFolder.Stats.Weapon.Inc.Value)
+             Durability:Set("Durability: " .. player.PlayerFolder.Stats.Durability.Value + player.PlayerFolder.Stats.Durability.Inc.Value)
+             Speed:Set("Speed: " .. player.PlayerFolder.Stats.Speed.Value + player.PlayerFolder.Stats.Speed.Inc.Value)
+            --
+            
+            AlliedFolder = player.PlayerFolder.Allied
+            AlliedT = {}
+            AlliedReversed = {}
+
+            for _, Ally in pairs(AlliedFolder:GetChildren()) do
+            table.insert(AlliedT, Ally.Name)
+            end
+            local AllyString = table.concat(AlliedT, ", ")
+            if AllyString == "" then
+            Allied:Set({Title = "People They Have Allied", Content = "They have allied Nobody :o"})
+            else
+            Allied:Set({Title = "People They Have Allied", Content = AllyString})
+            end
+            --\\--\\
+
+            for i, Player in pairs(players:GetChildren()) do
+                coroutine.wrap(function()
+                    Player:WaitForChild("PlayerFolder")
+                    for i, Allied in pairs(Player.PlayerFolder.Allied:GetChildren()) do
+                        if Allied.Name == clickedPlayer.Name then
+                            table.insert(AlliedReversed, Player.Name)
+                        end
+                    end
+                end)()
+            end
+
+            local AllyStringR = table.concat(AlliedReversed, ", ")
+            if AllyStringR == "" then
+                AlliedReverse:Set({Title = "People That Have Them Allied", Content = "Nobody has allied them :O"})
+            else
+                AlliedReverse:Set({Title = "People That Have Them Allied", Content = AllyStringR})
+            end
+        end
+     end
+ end)
+--
+local function onPlayerAdded(player)
+    for i, Player in pairs(players:GetChildren()) do
+        coroutine.wrap(function()
+        table.insert(PlayersTable, Player.Name)
+        end)()
+    end
+    PlayerListMain:Set(PlayersTable)
+end
+local function onPlayerRemoved(player)
+    for i, Player in pairs(players:GetChildren()) do
+        coroutine.wrap(function()
+        table.insert(PlayersTable, Player.Name)
+        end)()
+    end
+    PlayerListMain:Set(PlayersTable)
+end
+
+-- Connect the functions to the Players service
+game.Players.PlayerAdded:Connect(onPlayerAdded)
+game.Players.PlayerRemoving:Connect(onPlayerRemoved)
