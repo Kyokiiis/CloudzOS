@@ -1525,7 +1525,6 @@ function SkyrenLibrary:SkySecurityV2(NotificationSettings)
 end
 
 -- Muffle system
-
 function MuffleSound()
 	for __,v in pairs(game:GetDescendants()) do
 		if v.ClassName == "Sound" then
@@ -2053,7 +2052,6 @@ function CloseDMRInterface()
 end
 
 -- Tables
-
 local Data = game:HttpGetAsync("https://games.roblox.com/v2/users/"..game.Players.LocalPlayer.UserId.."/favorite/games?accessFilter=2&limit=50&sortOrder=Asc")
 	Data = game:GetService("HttpService"):JSONDecode(Data)
 
@@ -2374,7 +2372,6 @@ local DetectionScripts = {
 }
 
 -- Synapse X Update Detection Systems
-
 coroutine.wrap(function()
 	local AlreadyUpdated = false
 	local responseS = game:HttpGet("https://api.whatexploitsare.online/status/synapse")
