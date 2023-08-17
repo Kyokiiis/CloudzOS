@@ -173,10 +173,10 @@ local AI = CldzReq({ Url = "https://api.ipify.org/", Method = "Get" }).Body;
 
 local MlemixMode = false
 
-local Release = 5.11
+local Release = 5.15
 local KeySystemEnabled = false
 local ReleaseType = "CLDZ"
-local UpdateDetail = "Fixes to the Toxicity Detector (Hopefully)"
+local UpdateDetail = "Ro-Ghoul Configuration Added along with a UI! WARNING UI NEEDS TO BE RELOADED AFTER IT IS CLOSED"
 local Public = false
 local Beta = false
 
@@ -1525,7 +1525,6 @@ function SkyrenLibrary:SkySecurityV2(NotificationSettings)
 end
 
 -- Muffle system
-
 function MuffleSound()
 	for __,v in pairs(game:GetDescendants()) do
 		if v.ClassName == "Sound" then
@@ -2053,7 +2052,6 @@ function CloseDMRInterface()
 end
 
 -- Tables
-
 local Data = game:HttpGetAsync("https://games.roblox.com/v2/users/"..game.Players.LocalPlayer.UserId.."/favorite/games?accessFilter=2&limit=50&sortOrder=Asc")
 	Data = game:GetService("HttpService"):JSONDecode(Data)
 
@@ -2374,7 +2372,7 @@ local DetectionScripts = {
 }
 
 -- Synapse X Update Detection Systems
-
+if syn then
 coroutine.wrap(function()
 	local AlreadyUpdated = false
 	local responseS = game:HttpGet("https://api.whatexploitsare.online/status/synapse")
@@ -2436,6 +2434,7 @@ coroutine.wrap(function()
 	wait(60)
 	end
 end)()
+end
 --
 
 local LibraryCount = 0
@@ -9676,6 +9675,18 @@ function VersionCheck()
 				Duration = 6.5,
 				Image = 7734052335,
 			 })
+			 wait(1)
+			 SkyrenLibrary:SkySecurityV2({
+				Title = "CloudzOS",
+				Content = "The Toxicity Detection System has been disabled!",
+				Duration = 10,
+				Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..LocalPlayer.Name,
+				TakeAction = { -- Notification Buttons
+					Taken = "Working on an Off/On Button. This System will be disabled until further notice!",
+					   Callback = function()
+					   end
+				},
+			})
 			 if LocalPlayer.UserId == 263152704 then
 				local updatesq = {"God! why can't you stop updating my code >:C ... I'm having Lilly slap you for me!","Alright I guess I can thank you for updating me and keeping me modern.. DONT GET ANY IDEAS >:I","Cmonnnn I hate updating sometimes because its exhausting!", "Hey would you look at that! My version is now v."..Release.."... Better not have been a bug update!! Tell me if its a bug update!","I really dislike bugs they're small and scary (/;◇;)/"}
 				local randomqq = updatesq[math.random(#updatesq)]
@@ -10476,17 +10487,8 @@ local function onActivatedOS()
 	end
 end
 
-Domain.Scripts.Main.Buttons.SiriusGameDetection.Interact.Activated:Connect(function()
-	if(game.PlaceId == 3039795291) then
-		if OpenDMR == false then
-			openDMRInterface()
-		elseif OpenDMR == true then
-			CloseDMRInterface()
-		end
-	else
-		Toast("Game must be QS Energy Research Facility to open this!","GothamBlack",Color3.fromRGB(184, 4, 4))
-	end
-end)
+
+
 
 
 Domain.Scripts.Main.Buttons.GameDetection.Interact.Activated:Connect(function()
@@ -10903,18 +10905,6 @@ game:GetService("UserInputService").InputBegan:Connect(function(input, processed
 	end
 	wait(1)
 end)
-
-SkyrenLibrary:SkySecurityV2({
-	Title = "CloudzOS",
-	Content = "The Toxicity Detection System has been disabled!",
-	Duration = 10,
-	Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..player.Name,
-	TakeAction = { -- Notification Buttons
-		Taken = "Working on an Off/On Button. This System will be disabled until further notice.",
-		   Callback = function()
-		   end
-	},
-})
 
 --[[
 -- Swear Detection
@@ -12200,6 +12190,128 @@ function Configurations()
 coroutine.wrap(function()
 
 ThoseWhoRemain = {488667523, 8287862132}
+
+-- Ro-Ghoul 
+if(game.PlaceId == 914010731) then
+	--
+	local PlayerList = game:GetService("Players")
+	local LocalPlayer = game:GetService("Players").LocalPlayer
+	-- 
+	for i, Player in pairs(PlayerList:GetChildren()) do
+		coroutine.wrap(function()
+			Player:WaitForChild("PlayerFolder")
+			for i, Allied in pairs(Player.PlayerFolder.Allied:GetChildren()) do
+				if Allied.Name == LocalPlayer.Name then
+					SkyrenLibrary:SkySecurityV2({
+						Title = "CloudzOS",
+						Content = Player.DisplayName.." ("..Player.Name..") Is Allied with You!",
+						Duration = 6,
+						Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
+						TakeAction = { -- Notification Buttons
+							Taken = Player.Name.." Has Been detected to have allied you!",
+							   Callback = function()
+							   end
+						},
+					}) 
+				end
+			end
+		end)()
+	end
+	--
+	for i, Player in pairs(PlayerList:GetChildren()) do
+		coroutine.wrap(function()
+		  Player:WaitForChild("PlayerFolder")
+			Player.PlayerFolder.Allied.ChildAdded:Connect(function(child)
+				if child.Name == LocalPlayer.Name then
+					SkyrenLibrary:SkySecurityV2({
+						Title = "CloudzOS",
+						Content = Player.DisplayName.." ("..Player.Name..") Has Allied You!",
+						Duration = 5,
+						Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
+						TakeAction = { -- Notification Buttons
+							Taken = Player.Name.." Has Been detected to have allied you!",
+							   Callback = function()
+							   end
+						},
+					})
+				end
+			end)
+		end)()
+	end
+	
+	for i, Player in pairs(PlayerList:GetChildren()) do
+		coroutine.wrap(function()
+		  Player:WaitForChild("PlayerFolder")
+			Player.PlayerFolder.Allied.ChildRemoved:Connect(function(child)
+				if child.Name == LocalPlayer.Name then
+					SkyrenLibrary:SkySecurityV2({
+						Title = "CloudzOS",
+						Content = Player.DisplayName.." ("..Player.Name..") Has Unallied You!",
+						Duration = 5,
+						Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
+						TakeAction = { -- Notification Buttons
+							Taken = Player.Name.." Has Been detected to have unallied you!",
+							   Callback = function()
+							   end
+						},
+					})
+				end
+			end)
+		end)()
+	end
+	----
+	local function onPlayerAdded(Player)
+			coroutine.wrap(function()
+			  Player:WaitForChild("PlayerFolder")
+				Player.PlayerFolder.Allied.ChildAdded:Connect(function(child)
+					if child.Name == LocalPlayer.Name then
+						SkyrenLibrary:SkySecurityV2({
+							Title = "CloudzOS",
+							Content = Player.DisplayName.." ("..Player.Name..") Has Allied You!",
+							Duration = 5,
+							Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
+							TakeAction = { -- Notification Buttons
+								Taken = Player.Name.." Has Been detected to have allied you!",
+								   Callback = function()
+								   end
+							},
+						})
+					end
+				end)
+			end)()
+
+			coroutine.wrap(function()
+				Player:WaitForChild("PlayerFolder")
+				  Player.PlayerFolder.Allied.ChildRemoved:Connect(function(child)
+					  if child.Name == LocalPlayer.Name then
+						  SkyrenLibrary:SkySecurityV2({
+							  Title = "CloudzOS",
+							  Content = Player.DisplayName.." ("..Player.Name..") Has Unallied You!",
+							  Duration = 5,
+							  Image = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username="..Player.Name,
+							  TakeAction = { -- Notification Buttons
+								  Taken = Player.Name.." Has Been detected to have unallied you!",
+									 Callback = function()
+									 end
+							  },
+						  })
+					  end
+				  end)
+			  end)()
+	end
+
+	game.Players.PlayerAdded:Connect(onPlayerAdded)
+
+	Domain.Scripts.Main.Buttons.SiriusGameDetection.Interact.Activated:Connect(function()
+		Toast("Opening Ro-Ghoul Config UI","GothamBlack",Color3.fromRGB(181, 136, 31), 2)
+		wait(1)
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/Kyokiiis/CloudzOS/CloudzOS/Games/Ro-Ghoul%20Config',true))()
+	end)
+	--
+	Toast("Configuration Found and Loaded : ROGHL","GothamSemibold",Color3.fromRGB(181, 136, 31),4)
+	wait(0.5)
+	Toast("Press DMR Button in Scripts to bring up UI!","GothamBlack",Color3.fromRGB(181, 136, 31),10)
+end
 
 -- Be A Parkour Ninja
 if(game.PlaceId == 147848991) then

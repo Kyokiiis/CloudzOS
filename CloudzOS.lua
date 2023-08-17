@@ -2372,6 +2372,7 @@ local DetectionScripts = {
 }
 
 -- Synapse X Update Detection Systems
+if syn then
 coroutine.wrap(function()
 	local AlreadyUpdated = false
 	local responseS = game:HttpGet("https://api.whatexploitsare.online/status/synapse")
@@ -2433,6 +2434,7 @@ coroutine.wrap(function()
 	wait(60)
 	end
 end)()
+end
 --
 
 local LibraryCount = 0
@@ -13150,5 +13152,3 @@ end
 end)()
 
 -- -- --
-
-print(foundVSC)
